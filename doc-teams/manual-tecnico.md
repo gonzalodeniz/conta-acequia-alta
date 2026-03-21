@@ -1,21 +1,23 @@
 # Manual tecnico
 
 ## Publico objetivo
-Equipo tecnico, soporte interno y cualquier persona que necesite entender la estructura actual del repositorio.
+Equipo tecnico, soporte interno y cualquier persona que necesite entender la estructura y las limitaciones verificables del repositorio.
 
 ## Alcance
-Este manual documenta la organizacion tecnica visible en el repositorio y las restricciones operativas que se derivan del estado actual.
+Este manual documenta la organizacion tecnica visible en el arbol de trabajo y las restricciones operativas que se derivan de ese estado.
+No inventa una arquitectura de aplicacion si no hay artefactos verificables en el repositorio revisado.
 
-## Estado tecnico actual
-- El repositorio no contiene una aplicacion web desplegable.
-- No hay codigo de backend, frontend, base de datos ni pipeline de despliegue identificado en la rama `main`.
-- El contenido visible se compone principalmente de documentos, scripts de apoyo y reglas operativas de roles.
+## Estado tecnico verificado
+- El repositorio contiene documentacion funcional, reglas de proceso y scripts de apoyo.
+- `product-manager/product-backlog.md` ya no esta vacio y funciona como fuente de trazabilidad funcional.
+- En esta revision no se han encontrado codigo de aplicacion, pruebas automatizadas ni manifiestos de despliegue en el arbol visible.
+- Existe una contradiccion documental pendiente de resolver: el `changelog/2026-03-21.md` describe una entrega tecnica en Python, pero esa base no se observa en el arbol de trabajo actual.
 
 ## Estructura relevante
-- `product-manager/`: vision funcional, prompt de rol y backlog de producto.
-- `doc-teams/`: instrucciones y documentacion de referencia para el equipo de documentacion.
-- `agile-coach/`: acuerdos operativos, metricas y riesgos de coordinacion.
-- `run-codex.sh`: wrapper para ejecutar Codex con el entorno local preparado.
+- `product-manager/`: vision funcional, backlog, historias de usuario, casos de uso y refinamiento.
+- `doc-teams/`: manuales y guias mantenidas por el equipo de documentacion.
+- `agile-coach/`: acuerdos operativos, analisis de proceso y riesgos de coordinacion.
+- `run-codex.sh`: envoltorio para ejecutar Codex con el entorno local preparado.
 - `*_rol-*.sh`: lanzadores de prompts por rol.
 
 ## Scripts de operacion local
@@ -23,7 +25,7 @@ Este manual documenta la organizacion tecnica visible en el repositorio y las re
 El script espera:
 - Un fichero `.env` en la raiz del repositorio.
 - Una variable `GITHUB_PAT` disponible tras cargar `.env`.
-- Un entorno virtual en `.venv/bin/activate`.
+- Un entorno virtual Python en `.venv/bin/activate`.
 
 Si falta alguno de esos elementos, el script detiene la ejecucion con un mensaje explicito.
 
@@ -40,16 +42,17 @@ Cada lanzador:
 - Invoca `run-codex.sh` con el modelo definido para ese rol.
 
 ## Requisitos tecnicos inferidos
-Los siguientes requisitos se deducen del contenido de los scripts, no de una aplicacion productiva ya instalada:
+Los siguientes requisitos se deducen de los scripts visibles, no de una aplicacion productiva ya instalada:
 - Bash compatible con `set -euo pipefail`.
 - `codex` disponible en el `PATH`.
 - Un entorno virtual Python ya creado.
 - Un token personal de GitHub en `GITHUB_PAT`.
 
-## Contradicciones o huecos detectados
-- La vision del producto describe una aplicacion web para gestion contable, pero el repositorio visible no incluye esa implementacion.
-- `README.md` y `Makefile` aparecen vacios en la revision del repositorio, asi que no existe una guia tecnica de arranque del producto.
-- `product-manager/product-backlog.md` esta vacio, por lo que falta trazabilidad funcional hacia desarrollo.
+## Dependencias tecnicas abiertas
+- Falta una base ejecutable visible para documentar backend, frontend o persistencia real.
+- Falta una referencia de pruebas tecnicas que permita describir comandos de validacion de aplicacion.
+- Falta sincronizar el relato del `changelog` con el arbol de trabajo para decidir que version del producto es la vigente.
 
 ## Recomendacion tecnica
-Antes de documentar instalacion, despliegue o soporte de usuario final, conviene que desarrollo entregue una base ejecutable y que QA la valide. Hasta entonces, la documentacion tecnica debe tratar este repositorio como un armazon documental y operacional, no como un sistema en produccion.
+Antes de documentar instalacion, despliegue o soporte de usuario final, conviene disponer de una base ejecutable integrada en `main` y validada por QA.
+Hasta entonces, la documentacion tecnica debe tratar este repositorio como un armazon documental y operacional.

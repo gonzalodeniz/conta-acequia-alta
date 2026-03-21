@@ -4,12 +4,14 @@
 Administracion del proyecto, coordinacion operativa y responsables de mantenimiento documental.
 
 ## Alcance
-Este manual describe como se gobierna el repositorio desde el punto de vista operativo y documental.
+Este manual describe como se gobierna el repositorio desde el punto de vista documental y operativo.
+No sustituye instrucciones de explotacion de una aplicacion, porque en el arbol visible no se ha podido verificar una plataforma desplegable completa.
 
 ## Estado actual
 - El proyecto mantiene una estructura por roles.
 - La actividad documental y de coordinacion se registra sobre `main`.
-- Los cambios documentales requieren commit en espanol y subida al remoto.
+- Los cambios documentales requieren `git add`, `git commit` en espanol y `git push`.
+- El backlog funcional ya esta poblado, asi que la trazabilidad entre producto y documentacion puede seguirse sin partir de un vacio inicial.
 
 ## Reglas operativas relevantes
 ### Rama y versionado
@@ -25,18 +27,18 @@ Este manual describe como se gobierna el repositorio desde el punto de vista ope
 ### Trazabilidad
 - La documentacion funcional proviene de `product-manager/`.
 - La documentacion tecnica debe alinearse con el comportamiento real o con las limitaciones verificadas del repositorio.
-- Cualquier contradiccion entre vision, documento e implementacion debe quedar explicitada.
+- Cualquier contradiccion entre vision, backlog, documento y estado del arbol debe quedar explicitada.
 
 ## Tareas de administracion recomendadas
-1. Revisar si la documentacion existente sigue alineada con la vision del producto.
-2. Confirmar si ya existe una entrega tecnica validada en `main` antes de describirla como vigente.
-3. Verificar que los artefactos de producto tengan suficiente contexto para no generar documentacion ambigua.
-4. Mantener visibles las dependencias abiertas y las limitaciones conocidas.
+1. Revisar si la documentacion existente sigue alineada con la vision del producto y con el backlog vigente.
+2. Confirmar si la entrega tecnica revisada ya esta fusionada en `main` antes de documentarla como vigente.
+3. Verificar que cualquier dependencia abierta quede visible para evitar manuales ambiguos.
+4. Mantener rastreadas las contradicciones entre el changelog y el arbol de trabajo cuando aparezcan.
 
 ## Riesgos actuales
-- Existe una brecha entre la vision del producto y el estado visible del repositorio.
-- El backlog de producto no esta poblado, lo que dificulta la priorizacion documental y la trazabilidad.
-- La ausencia de una aplicacion ejecutable limita la profundidad de los manuales de operacion.
+- Existe una brecha entre la vision del producto, el relato de `changelog/` y el estado verificable del arbol de trabajo.
+- La ausencia de una aplicacion ejecutable visible limita la profundidad de los manuales de operacion.
+- Si no se resuelve la discrepancia documental, puede documentarse como vigente algo que todavia no esta comprobado en `main`.
 
 ## Criterio administrativo
-Mientras no exista una entrega funcional validada, la administracion debe tratar este repositorio como un espacio de coordinacion documental y operativa, no como una plataforma lista para explotacion de usuarios finales.
+Mientras no exista una entrega funcional validada e integrada, la administracion debe tratar este repositorio como un espacio de coordinacion documental y operativa, no como una plataforma lista para explotacion de usuarios finales.

@@ -4,7 +4,8 @@
 Equipo tecnico y personas encargadas de preparar el entorno de trabajo del repositorio.
 
 ## Estado de cobertura
-Esta guia documenta la preparacion del entorno para usar los scripts de soporte del repositorio. No documenta la instalacion de una aplicacion web porque esa implementacion no esta presente en la revision actual.
+Esta guia documenta la preparacion del entorno para usar los scripts de soporte del repositorio.
+No documenta la instalacion de una aplicacion web porque en el arbol de trabajo actual no se ha podido verificar una base desplegable completa.
 
 ## Prerrequisitos
 - Bash.
@@ -21,6 +22,7 @@ Esta guia documenta la preparacion del entorno para usar los scripts de soporte 
 4. Crear el entorno virtual en `.venv/`.
 5. Activar el entorno virtual.
 6. Verificar que `codex` responde correctamente.
+7. Ejecutar `./run-codex.sh` o el lanzador de rol correspondiente para confirmar que la orquestacion local arranca sin errores.
 
 ## Verificacion minima
 Ejecuta `run-codex.sh` para comprobar que:
@@ -33,10 +35,7 @@ Si falta cualquiera de esos elementos, el script informa del problema y termina.
 ## Dependencias abiertas
 - No existe un fichero `requirements.txt` en la raiz que describa dependencias Python del proyecto.
 - No hay una guia de instalacion de la aplicacion final porque la aplicacion no esta presente en el arbol visible.
+- Si mas adelante se incorpora codigo Python ejecutable, esta guia debera ampliarse con dependencias reales y un procedimiento de instalacion reproducible.
 
 ## Nota operativa
-Si en el futuro se incorpora una aplicacion real, esta guia debera ampliarse con:
-- Dependencias de sistema.
-- Dependencias de Python o JavaScript.
-- Procedimientos de migracion o provision de datos.
-- Pruebas de verificacion postinstalacion.
+Mientras el repositorio siga siendo principalmente documental, esta guia debe entenderse como preparacion del entorno de trabajo, no como instalacion de producto.
