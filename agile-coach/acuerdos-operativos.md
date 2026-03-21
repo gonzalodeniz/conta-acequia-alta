@@ -35,6 +35,8 @@ Antes de que `developer-teams` abra una rama, la issue debe incluir como minimo 
 Si falta alguno de estos campos, la issue no debe considerarse lista para desarrollo y `product-manager` debe completarla antes del inicio tecnico.
 
 Ademas, `product-manager` debe vigilar que la deuda tecnica relevante detectada en iteraciones previas este trazada en backlog y no quede fuera del sistema de priorizacion.
+- Cada item del backlog enlazado a una issue de GitHub debe reflejar el ultimo estado operativo conocido de esa issue y actualizarse en la misma iteracion cuando pase a `en desarrollo`, `listo para qa`, `validado` o `cerrado`.
+- Si el backlog muestra un estado anterior al de la issue enlazada, ese item se considera desalineado y debe corregirse antes del siguiente handoff relevante.
 
 ## Arranque minimo de `developer-teams`
 Cuando `developer-teams` tome una issue debe publicar un comentario de arranque con esta plantilla minima:

@@ -49,6 +49,10 @@ Medir si el proceso entre equipos mejora en velocidad, claridad y estabilidad si
 - Definicion: numero de veces que una revision de proceso detecta que una misma regla aparece distinta entre `acuerdos-operativos.md` y los `AGENTS.md` afectados.
 - Senal que aporta: mide si el cambio de proceso se esta propagando de forma coherente o si la documentacion esta empezando a bifurcarse.
 
+## 11. Items de backlog desalineados con la issue
+- Definicion: numero o porcentaje de items de `product-manager/product-backlog.md` enlazados a una issue cuyo estado visible no coincide con el ultimo estado operativo registrado en GitHub.
+- Senal que aporta: detecta si el backlog sigue la realidad del flujo o si ha quedado congelado en un estado anterior.
+
 ## Regla de uso
 - Revisar estas metricas al cierre de cada iteracion relevante o cuando se acumulen varias issues cerradas.
 - Si una metrica empeora de forma sostenida, revisar primero el handoff asociado antes de cambiar responsabilidades entre equipos.

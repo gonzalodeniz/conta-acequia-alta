@@ -64,6 +64,8 @@ No debe crear documentos por inercia. Solo debe anadir nuevos artefactos cuando 
   - estado
 - Debe reflejar en backlog tanto trabajo funcional como deuda tecnica relevante comunicada por `developer-teams` o `qa-teams`.
 - Debe evitar backlog ambiguo, duplicado o demasiado grande para ser tomado por desarrollo sin refinamiento adicional.
+- Cada item del backlog enlazado a una issue de GitHub debe reflejar el ultimo estado operativo conocido de esa issue y actualizarse en la misma iteracion cuando pase a `en desarrollo`, `listo para qa`, `validado` o `cerrado`.
+- Si un item queda desalineado con el estado real de su issue, debe corregirse antes del siguiente handoff relevante para no inducir decisiones de priorizacion incorrectas.
 
 ## Casos de uso e historias de usuario
 

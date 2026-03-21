@@ -24,6 +24,7 @@ Estandarizar estos estados operativos en comentarios y handoffs:
 ### Riesgos y dependencias
 - Requiere que todos los roles reutilicen la misma nomenclatura.
 - Conviene mantenerlo simple y no convertirlo en burocracia adicional.
+- Si el backlog persistente no refleja el mismo estado que la issue, la mejora pierde parte de su valor y conviene sincronizar ambos artefactos en la misma iteracion.
 
 ## Mejora 2: fijar un paquete minimo de handoff a QA
 ### Problema detectado
@@ -366,3 +367,22 @@ Exigir que cada entrada de `changelog/` se firme con el nombre del rol explicita
 ### Riesgos y dependencias
 - Si la firma no coincide con el rol real, la trazabilidad diaria vuelve a degradarse.
 - Conviene tratar cualquier firma generica como una desviacion del proceso y no como un caso valido.
+
+## Mejora 18: sincronizar el backlog persistente con el ciclo de vida de la issue
+### Problema detectado
+El backlog ya no esta vacio, pero puede mostrar un estado desfasado respecto a la issue vinculada cuando esta cambia a `en desarrollo`, `listo para qa`, `validado` o `cerrado`.
+
+### Propuesta
+Exigir que `product-manager` actualice en la misma iteracion el item del backlog enlazado a cada issue cuando cambie su estado operativo visible. El backlog debe reflejar al menos el ultimo estado operativo conocido y no quedarse congelado en `listo para issue` o `refinamiento pendiente` una vez la issue ha avanzado.
+
+### Impacto esperado
+- Evita que el backlog muestre una fotografia historica en lugar del estado real del trabajo.
+- Mejora la priorizacion de nuevas tareas y el seguimiento de trabajo ya empezado.
+- Reduce la confusion entre backlog, issue y estado administrativo de cierre.
+
+### Tradeoffs
+- Añade una sincronizacion manual mas al ciclo de cierre de cada issue.
+
+### Riesgos y dependencias
+- Si el backlog no se actualiza al mismo tiempo que la issue, volvera la desalineacion y perdera valor como cola de priorizacion.
+- Requiere disciplina de `product-manager` cuando una issue pasa por `validado` o `cerrado`.

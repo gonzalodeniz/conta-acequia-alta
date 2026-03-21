@@ -53,10 +53,10 @@ Registrar los riesgos de coordinacion que siguen activos tras los ajustes de pro
 - Impacto: la documentacion oficial puede describir un comportamiento todavia no integrado y crear incoherencia entre manuales, backlog visible y producto real.
 - Mitigacion acordada: activar a `doc-teams` solo cuando la entrega validada ya este fusionada en `main` y reforzar la prioridad de merge tras QA.
 
-## Riesgo 11: backlog persistente vacio o sin priorizacion visible
-- Senal observable: `product-manager/product-backlog.md` esta vacio o sin items con prioridad mientras ya existen necesidades de trabajo activas.
-- Impacto: no hay una cola de priorizacion compartida y el triaje real se desplaza fuera de los artefactos del repositorio.
-- Mitigacion acordada: mantener un backlog vivo, priorizado y trazable antes de iniciar nueva implementacion tecnica.
+## Riesgo 11: backlog persistente desactualizado o sin priorizacion visible
+- Senal observable: `product-manager/product-backlog.md` contiene items, pero sus estados o referencias no reflejan el ultimo estado operativo real de las issues enlazadas.
+- Impacto: la priorizacion compartida sigue existiendo, pero se apoya en una fotografia desfasada del trabajo y pierde utilidad para triaje o cierre.
+- Mitigacion acordada: mantener un backlog vivo, priorizado, trazable y sincronizado con el ultimo estado operativo visible de cada issue enlazada.
 
 ## Riesgo 12: entradas de `changelog` firmadas con etiquetas no vinculadas a un rol
 - Senal observable: firmas como `codex` o nombres de herramienta en lugar del nombre del rol activado explicitamente.
@@ -67,3 +67,8 @@ Registrar los riesgos de coordinacion que siguen activos tras los ajustes de pro
 - Senal observable: una regla de handoff, un estado operativo o una plantilla literal cambia en un documento pero no en los `AGENTS.md` afectados o en `acuerdos-operativos.md`.
 - Impacto: cada equipo puede acabar siguiendo una version distinta de la misma regla, lo que incrementa retrabajo, preguntas de aclaracion y riesgo de ejecutar flujos incompatibles entre si.
 - Mitigacion acordada: tratar `acuerdos-operativos.md` como referencia canonica y exigir que cualquier cambio operativo se propague en la misma iteracion a los `AGENTS.md` afectados y al `changelog/`.
+
+## Riesgo 14: backlog visible desalineado respecto al ciclo de vida de la issue
+- Senal observable: la issue ya paso a `en desarrollo`, `listo para qa`, `validado` o `cerrado`, pero el item correspondiente del backlog conserva un estado anterior.
+- Impacto: `product-manager`, `developer-teams` y `qa-teams` leen estados distintos segun el artefacto consultado, lo que complica la priorizacion y la lectura rapida del flujo.
+- Mitigacion acordada: sincronizar el item de backlog en la misma iteracion en que la issue cambie de estado operativo visible.
