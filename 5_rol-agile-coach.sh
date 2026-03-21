@@ -15,5 +15,14 @@ if [ ! -x "${RUN_CODEX}" ]; then
 fi
 
 PROMPT_CONTENT="$(cat "${PROMPT_FILE}")"
+USER_PROMPT="${*:-}"
 
-exec "${RUN_CODEX}" exec -m "gpt-5.4-mini" -C "${SCRIPT_DIR}" "${PROMPT_CONTENT}" "$@"
+if [ -n "${USER_PROMPT}" ]; then
+  PROMPT_CONTENT="${PROMPT_CONTENT}
+
+Peticion actual del usuario:
+
+${USER_PROMPT}"
+fi
+
+exec "${RUN_CODEX}" exec -m "gpt-5.4-mini" -C "${SCRIPT_DIR}" "${PROMPT_CONTENT}"

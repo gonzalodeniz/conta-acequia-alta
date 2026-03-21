@@ -28,6 +28,13 @@ fi
 
 source "${VENV_ACTIVATE}"
 
+if [ "${1:-}" = "exec" ]; then
+  shift
+  exec codex exec \
+    --sandbox danger-full-access \
+    "$@"
+fi
+
 exec codex \
   --search \
   --sandbox danger-full-access \
