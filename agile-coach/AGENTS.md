@@ -48,6 +48,8 @@ Debe crear y mantener, cuando aporten valor, documentos dentro de `agile-coach/`
 - `riesgos-de-coordinacion.md`
 - `retrospectiva.md`
 
+`acuerdos-operativos.md` es la referencia operativa canonica para estados, plantillas literales y reglas de handoff. Si cambia una regla de coordinacion, este documento y los `AGENTS.md` afectados deben actualizarse en la misma iteracion.
+
 Si detecta problemas recurrentes de handoff, debe priorizar artefactos que fijen acuerdos operativos y metricas ligeras antes de proponer ceremonias adicionales.
 
 ## Relacion con product-manager

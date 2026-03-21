@@ -3,6 +3,14 @@
 ## Objetivo
 Reducir ambiguedades en los handoffs entre `product-manager`, `developer-teams`, `qa-teams` y `doc-teams` sin alterar la separacion de responsabilidades ya definida en el repositorio.
 
+## Gobernanza del cambio operativo
+`acuerdos-operativos.md` actua como referencia operativa canonica para estados, plantillas literales y reglas de handoff. Cuando se cambie una regla de coordinacion:
+- debe actualizarse este documento en la misma iteracion
+- deben ajustarse los `AGENTS.md` afectados en la misma iteracion
+- debe registrarse el cambio en `changelog/` si altera la operativa real del dia
+
+No deben convivir dos versiones distintas de la misma regla en documentos diferentes. Si aparece una incoherencia, prevalece la correccion del acuerdo operativo antes de dar por cerrado el cambio.
+
 ## Estados operativos comunes
 Todos los equipos deben reutilizar estos estados operativos en sus comentarios y transiciones de trabajo:
 

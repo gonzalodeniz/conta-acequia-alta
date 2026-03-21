@@ -96,6 +96,7 @@ La contabilidad de la comunidad se gestiona actualmente de forma manual, mediant
 - No mezclar decisiones de producto con decisiones tecnicas sin dejar claras las dependencias.
 - Tratar la calidad interna del codigo como parte del flujo normal de entrega, incluyendo revision de codigo, cumplimiento de buenas practicas, optimizacion razonable y refactorizacion preventiva cuando el cambio lo requiera.
 - Priorizar documentos y entregables accionables frente a texto ambiguo o decorativo.
+- Mantener `agile-coach/acuerdos-operativos.md` como referencia operativa canonica para estados, plantillas literales y secuencia de handoff. Cuando una regla de proceso cambie, la actualizacion debe reflejarse tambien en los `AGENTS.md` afectados en la misma iteracion para evitar deriva documental.
 - Hacer explicitos supuestos, riesgos, dependencias y preguntas abiertas.
 - Mantener `main` como rama de referencia para trabajo funcional, documental y de coordinacion no tecnica.
 - Si cualquier rol cambia temporalmente de rama para ejecutar una tarea permitida por sus instrucciones, el ultimo paso operativo al finalizar debe ser volver a la rama `main`.

@@ -45,6 +45,10 @@ Medir si el proceso entre equipos mejora en velocidad, claridad y estabilidad si
 - Definicion: numero o porcentaje de issues abiertas cuyo cuerpo no refleja el mismo `Estado operativo:` que la ultima transicion operativa registrada en comentarios.
 - Senal que aporta: detecta perdida de fiabilidad del backlog visible y deriva entre fuente resumida y flujo real.
 
+## 10. Tasa de divergencia documental
+- Definicion: numero de veces que una revision de proceso detecta que una misma regla aparece distinta entre `acuerdos-operativos.md` y los `AGENTS.md` afectados.
+- Senal que aporta: mide si el cambio de proceso se esta propagando de forma coherente o si la documentacion esta empezando a bifurcarse.
+
 ## Regla de uso
 - Revisar estas metricas al cierre de cada iteracion relevante o cuando se acumulen varias issues cerradas.
 - Si una metrica empeora de forma sostenida, revisar primero el handoff asociado antes de cambiar responsabilidades entre equipos.

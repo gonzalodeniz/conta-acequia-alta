@@ -62,3 +62,8 @@ Registrar los riesgos de coordinacion que siguen activos tras los ajustes de pro
 - Senal observable: firmas como `codex` o nombres de herramienta en lugar del nombre del rol activado explicitamente.
 - Impacto: se debilita la auditabilidad diaria y cuesta atribuir cada cambio de proceso a su responsable operativo.
 - Mitigacion acordada: firmar siempre con el rol correspondiente y tratar cualquier etiqueta generica como desviacion del proceso.
+
+## Riesgo 13: deriva entre documentos de proceso
+- Senal observable: una regla de handoff, un estado operativo o una plantilla literal cambia en un documento pero no en los `AGENTS.md` afectados o en `acuerdos-operativos.md`.
+- Impacto: cada equipo puede acabar siguiendo una version distinta de la misma regla, lo que incrementa retrabajo, preguntas de aclaracion y riesgo de ejecutar flujos incompatibles entre si.
+- Mitigacion acordada: tratar `acuerdos-operativos.md` como referencia canonica y exigir que cualquier cambio operativo se propague en la misma iteracion a los `AGENTS.md` afectados y al `changelog/`.
