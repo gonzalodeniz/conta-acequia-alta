@@ -4,7 +4,7 @@
 - Backlog relacionado: PB-001
 - Historia relacionada: HU-001
 - Actor principal: Administrador de la comunidad
-- Objetivo: Registrar un gasto o ingreso con la informacion minima necesaria para su control posterior.
+- Objetivo: Registrar un gasto o ingreso con la informacion minima necesaria para su control posterior y clasificarlo con la cuenta adecuada del Plan General de Contabilidad de Espana.
 - Disparador: El administrador necesita anotar un nuevo movimiento economico.
 - Precondiciones:
   - El administrador dispone de acceso de gestion.
@@ -12,12 +12,15 @@
 - Flujo principal:
   1. El administrador inicia el alta de un movimiento.
   2. El sistema solicita fecha, concepto, categoria, tipo e importe.
-  3. El administrador completa los datos y confirma el registro.
-  4. El sistema valida los campos obligatorios.
-  5. El sistema guarda el movimiento y confirma el alta.
+  3. El sistema muestra ayuda para seleccionar la cuenta contable correcta con referencia al Plan General de Contabilidad de Espana.
+  4. El sistema prioriza cuentas sencillas de gastos e ingresos y cuentas operativas habituales de la comunidad, como banco, caja, proveedores y acreedores.
+  5. El administrador completa los datos, selecciona la cuenta y confirma el registro.
+  6. El sistema valida los campos obligatorios.
+  7. El sistema guarda el movimiento y confirma el alta.
 - Flujos alternativos:
   - Si falta un dato obligatorio, el sistema rechaza el registro e indica que campo debe completarse.
   - Si el importe no cumple la validacion funcional acordada, el sistema no guarda el movimiento.
+  - Si el administrador necesita una cuenta no habitual, el sistema mantiene la referencia al Plan General de Contabilidad sin priorizar cuentas de amortizacion.
 - Postcondiciones:
   - El movimiento queda registrado y disponible para consulta.
   - La contabilidad del periodo incorpora el nuevo movimiento.

@@ -7,7 +7,7 @@ Aplicación web para llevar la contabilidad de una comunidad de vecinos, que per
 Actualmente se lleva la contabilidad de la comunidad de vecinos de manera manual, utilizando hojas de cálculo o métodos tradicionales que son propensos a errores, falta de actualización en tiempo real y dificultades para compartir información entre los administradores y los vecinos. Esto genera confusión, retrasos en la toma de decisiones y una falta de transparencia en la gestión financiera de la comunidad.
 
 ## 3. La Solución
-La aplicación web de contabilidad para la comunidad de vecinos ofrece una solución digital integral que automatiza y centraliza la gestión financiera. Permite a los administradores ingresar y categorizar gastos e ingresos, generar presupuestos, emitir reportes financieros claros y compartir información en tiempo real con los vecinos. La plataforma mejora la eficiencia, reduce errores y fomenta la transparencia en la gestión contable de la comunidad.
+La aplicación web de contabilidad para la comunidad de vecinos ofrece una solución digital integral que automatiza y centraliza la gestión financiera. Permite a los administradores ingresar y categorizar gastos e ingresos, generar presupuestos, emitir reportes financieros claros y compartir información en tiempo real con los vecinos. La plataforma mejora la eficiencia, reduce errores y fomenta la transparencia en la gestión contable de la comunidad. La clasificación contable de los movimientos se apoyará en el Plan General de Contabilidad de España, con una ayuda guiada para seleccionar cuentas habituales de una comunidad de vecinos y reducir errores de imputación.
 
 
 ## 4. Público Objetivo
@@ -15,6 +15,7 @@ El público objetivo de esta aplicación son los administradores de fincas y los
 
 ## 5. Características Clave del Producto
 - **Gestión de Gastos e Ingresos:** Permite a los administradores registrar y categorizar todos los gastos e ingresos de la comunidad.
+- **Ayuda de clasificacion contable:** Asiste al administrador en la seleccion de la cuenta correcta del Plan General de Contabilidad de Espana, priorizando cuentas sencillas de gastos, ingresos y cuentas operativas habituales como banco, caja, proveedores y acreedores.
 - **Cierre del libro de cuentas anual:** Facilita el proceso de cierre contable al final del año, generando reportes financieros detallados.
 - **Visualización de asientos contables:** Ofrece una interfaz intuitiva para visualizar y analizar los asientos contables registrados.
 - **Generación de reportes financieros:** Permite generar reportes claros y detallados sobre la situación financiera de la comunidad, facilitando la toma de decisiones informadas.
@@ -28,3 +29,7 @@ El público objetivo de esta aplicación son los administradores de fincas y los
 - **Satisfacción del usuario:** Realizar encuestas para medir la satisfacción de los usuarios con la aplicación y su experiencia general.
 - **Reducción de errores contables:** Evaluar la disminución de errores en la contabilidad en comparación con métodos manuales anteriores.
 - **Tiempo de gestión contable:** Medir la reducción del tiempo dedicado a la gestión contable gracias a la automatización y centralización de la información.
+
+## 7. Restricciones funcionales explicitadas
+- La contabilidad objetivo del producto no utilizara cuentas de amortizacion en el alcance funcional actual.
+- La ayuda de seleccion de cuentas debe simplificar el uso del Plan General de Contabilidad y evitar exponer como opcion prioritaria cuentas no habituales para una comunidad de vecinos.

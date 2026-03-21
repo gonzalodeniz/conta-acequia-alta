@@ -12,7 +12,7 @@ La vision vigente define una aplicacion web para gestionar la contabilidad de un
 ## Backlog priorizado
 
 ### PB-001 - Registrar gastos e ingresos de la comunidad
-- Descripcion: Permitir que el administrador registre movimientos economicos con fecha, concepto, importe, tipo de movimiento e identificacion minima para su seguimiento.
+- Descripcion: Permitir que el administrador registre movimientos economicos con fecha, concepto, importe, tipo de movimiento e identificacion minima para su seguimiento, usando como referencia el Plan General de Contabilidad de Espana con ayuda guiada para seleccionar la cuenta correcta.
 - Prioridad: Alta
 - Valor de negocio: Alto. Sin registro fiable de movimientos no existe base contable para el resto del producto.
 - Historia de usuario: HU-001
@@ -21,6 +21,9 @@ La vision vigente define una aplicacion web para gestionar la contabilidad de un
 - Criterios de aceptacion:
   - El administrador puede crear un gasto indicando fecha, concepto, categoria e importe.
   - El administrador puede crear un ingreso indicando fecha, concepto, categoria e importe.
+  - El sistema solicita o muestra la cuenta contable asociada al movimiento usando como referencia el Plan General de Contabilidad de Espana.
+  - El sistema ofrece ayuda para seleccionar la cuenta correcta y prioriza cuentas sencillas de gastos e ingresos junto con cuentas habituales para comunidades de vecinos, como banco, caja, proveedores y acreedores.
+  - La ayuda de seleccion no prioriza ni sugiere cuentas de amortizacion en este alcance funcional.
   - Cada movimiento queda identificado de forma unica y visible para su consulta posterior.
   - No se permite guardar movimientos sin los campos minimos obligatorios definidos por negocio.
   - El sistema diferencia claramente entre gasto e ingreso en el registro.
@@ -127,6 +130,7 @@ La vision vigente define una aplicacion web para gestionar la contabilidad de un
 - Falta definir el formato funcional minimo aceptado para la importacion de movimientos.
 - Falta acordar que informacion financiera puede ver un vecino cuando existan datos sensibles o incidencias de conciliacion.
 - Falta concretar si el cierre anual requiere solo visualizacion consolidada o tambien bloqueo operativo del ejercicio.
+- Falta concretar la lista inicial de cuentas del Plan General de Contabilidad que se sugeriran por defecto en el alta de movimientos para comunidades de vecinos.
 
 ## Riesgos de producto
 - Existe una brecha entre la vision del producto y la ausencia de una base funcional implementada en `main`.
@@ -137,3 +141,4 @@ La vision vigente define una aplicacion web para gestionar la contabilidad de un
 - Se considera obligatorio soportar presupuestos en el MVP o se posponen a una fase posterior del roadmap?
 - El acceso de vecinos debe permitir ver el detalle de cada asiento o solo resumenes y reportes aprobados?
 - La importacion inicial debe admitir una sola plantilla oficial o varias fuentes equivalentes?
+- Que listado inicial de cuentas del Plan General de Contabilidad se considera canonico para la ayuda de alta de movimientos en una comunidad de vecinos?

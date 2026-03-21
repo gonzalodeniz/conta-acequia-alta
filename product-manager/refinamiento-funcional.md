@@ -10,6 +10,7 @@ Reducir ambiguedad antes de crear o priorizar nuevas issues para `developer-team
   - Alcance funcional acotado.
   - Sin dependencias previas.
   - Criterios de aceptacion verificables.
+  - Incluye uso del Plan General de Contabilidad de Espana con ayuda guiada para cuentas habituales de comunidad de vecinos.
 - PB-002 - Consultar el libro de asientos contables
   - Dependencia directa de PB-001.
   - Flujo de consulta bien definido.
@@ -33,6 +34,9 @@ Reducir ambiguedad antes de crear o priorizar nuevas issues para `developer-team
 - El MVP inicial se centra en base contable, consulta del libro y resumen financiero.
 - La transparencia para vecinos se apoya sobre informacion ya consolidada y no sobre edicion distribuida.
 - La importacion, el cierre anual y las notificaciones quedan despues del flujo contable principal.
+- La seleccion de cuenta contable en el alta de movimientos se apoyara en el Plan General de Contabilidad de Espana.
+- La ayuda de seleccion priorizara cuentas sencillas de gastos e ingresos y cuentas populares para la operativa de una comunidad de vecinos, como banco, caja, proveedores y acreedores.
+- Las cuentas de amortizacion quedan fuera del alcance funcional actual.
 
 ## Dependencias abiertas
 - Regla de visibilidad para vecinos:
@@ -41,6 +45,8 @@ Reducir ambiguedad antes de crear o priorizar nuevas issues para `developer-team
   - La vision del producto los menciona, pero no existe refinamiento suficiente para tratarlos como item listo para desarrollo.
 - Importacion:
   - Pendiente acordar la estructura minima del fichero fuente.
+- Ayuda de cuentas PGC:
+  - Pendiente concretar el listado inicial de cuentas sugeridas por defecto y si se presentaran por tipo de movimiento, por frecuencia o por ambos criterios.
 
 ## Riesgos
 - Si se crea una issue de acceso de vecinos sin cerrar la regla de visibilidad, QA no podra validar el alcance con seguridad.

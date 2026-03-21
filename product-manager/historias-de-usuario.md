@@ -8,9 +8,12 @@
 ## HU-001 - Registro de movimientos contables
 - Backlog relacionado: PB-001
 - Caso de uso relacionado: CU-001
-- Historia: Como administrador de la comunidad quiero registrar gastos e ingresos para mantener la contabilidad actualizada y fiable.
+- Historia: Como administrador de la comunidad quiero registrar gastos e ingresos con ayuda para elegir la cuenta correcta del Plan General de Contabilidad de Espana para mantener la contabilidad actualizada, fiable y facil de clasificar.
 - Criterios de aceptacion:
   - Puedo registrar un movimiento indicando fecha, concepto, categoria, tipo e importe.
+  - El sistema me ayuda a seleccionar la cuenta contable correcta usando el Plan General de Contabilidad de Espana como referencia.
+  - La ayuda me sugiere primero cuentas sencillas de gastos e ingresos y cuentas habituales de la comunidad, como banco, caja, proveedores y acreedores.
+  - No se me presentan cuentas de amortizacion como opcion sugerida en este alcance.
   - El sistema distingue si el movimiento es gasto o ingreso.
   - No puedo guardar un movimiento si falta algun dato obligatorio.
   - Al registrar un movimiento, este queda disponible para consulta posterior.
