@@ -1,5 +1,8 @@
 # Preguntas frecuentes
 
+## Por donde empiezo a leer el repositorio?
+Empieza por `README.md`, luego revisa `product-manager/vision-product.md` y `product-manager/product-backlog.md`. A partir de ahi, entra en los manuales de `doc-teams/` segun si buscas informacion de usuario, tecnica o administracion.
+
 ## Esta listo el producto para usuarios finales?
 No hay evidencia en el arbol de trabajo de una aplicacion web operativa. La vision del producto esta definida, pero la base ejecutable no es verificable aqui.
 
