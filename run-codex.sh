@@ -3,6 +3,9 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ENV_FILE="${SCRIPT_DIR}/.env"
+VENV_ACTIVATE="${SCRIPT_DIR}/.venv/bin/activate"
+
+cd "${SCRIPT_DIR}"
 
 if [ ! -f "${ENV_FILE}" ]; then
   echo "No existe .env en el directorio actual"
@@ -18,6 +21,15 @@ if [ -z "${GITHUB_PAT:-}" ]; then
   exit 1
 fi
 
-source "${SCRIPT_DIR}/.venv/bin/activate"
+if [ ! -f "${VENV_ACTIVATE}" ]; then
+  echo "No existe ${VENV_ACTIVATE}"
+  exit 1
+fi
 
-exec codex "$@"
+source "${VENV_ACTIVATE}"
+
+exec codex \
+  --search \
+  --sandbox danger-full-access \
+  --ask-for-approval never \
+  "$@"
