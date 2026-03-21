@@ -4,6 +4,8 @@
 - El repositorio ya dispone de backlog funcional y de issues operativas en curso, por lo que el problema principal ya no es la ausencia de cola sino su sincronizacion con el estado real de cada issue.
 - `product-manager/product-backlog.md` esta poblado, pero sigue siendo sensible a desalineaciones manuales cuando las issues avanzan a `en desarrollo`, `listo para qa`, `validado` o `cerrado`.
 - En `changelog/2026-03-21.md` aparecio una entrada firmada como `codex`, que no refleja un rol operativo activado de forma explicita.
+- La issue `#1` esta en `validado` pero sigue abierta en GitHub sin comentario administrativo de cierre o bloqueo visible.
+- El item `PB-001` del backlog persistente sigue mostrandose como `listo para issue`, aunque su issue enlazada ya paso por validacion funcional.
 - El flujo entre `product-manager`, `developer-teams`, `qa-teams` y `doc-teams` ya esta bastante cerrado, pero varias reglas siguen repartidas entre `AGENTS.md` raiz, los `AGENTS.md` de rol y los artefactos de `agile-coach/`.
 
 ## Hallazgos principales
@@ -11,6 +13,7 @@
 ### 1. El backlog persistente sigue sin actuar como fuente de verdad viva
 - Evidencia observada: el backlog ya existe, pero sus items enlazados a issues dependen de actualizacion manual y pueden quedarse atras respecto al ultimo estado operativo visible en GitHub.
 - Impacto: la priorizacion real puede apoyarse en una fotografia desfasada del trabajo, especialmente tras validacion o cierre administrativo.
+- Evidencia adicional observada: `PB-001` sigue en `listo para issue` mientras su issue enlazada ya esta `validado`.
 - Lectura operativa: el flujo tiene reglas de backlog, pero necesita una sincronizacion explicita con el ciclo de vida de la issue para seguir siendo una referencia cotidiana fiable.
 
 ### 2. La firma del `changelog` debe asociarse siempre a un rol activado
@@ -33,6 +36,11 @@
 - Impacto: la desalineacion entre backlog y flujo operativo puede pasar desapercibida aunque el resto de la trazabilidad documental este correcta.
 - Lectura operativa: conviene medir si el backlog sigue la misma realidad que GitHub y no se queda congelado en estados previos.
 
+### 6. La validacion puede quedar abierta sin checkpoint administrativo visible
+- Evidencia observada: la issue `#1` ya esta `validado` pero sigue abierta sin un comentario administrativo de `product-manager` que aclare bloqueo, siguiente responsable y siguiente paso operativo.
+- Impacto: otros equipos leen una entrega aceptada pero no saben si el siguiente paso es integracion, espera documental o cierre administrativo.
+- Lectura operativa: el flujo ya define el checkpoint, pero hace falta vigilar la latencia entre validacion y cierre visible para que la issue no quede en limbo.
+
 ## Propuestas de mejora
 
 ### A. Introducir un checkpoint minimo de backlog vivo
@@ -53,6 +61,12 @@
 ### D. Añadir una metrica ligera de divergencia documental
 - Medir cuantas veces una revision de proceso detecta que una misma regla aparece distinta entre `acuerdos-operativos.md` y los `AGENTS.md` afectados.
 - Beneficio: permite saber si la operativa esta bifurcandose antes de que el problema llegue a los handoffs del dia a dia.
+
+### E. Vigilar la latencia entre `validado` y el checkpoint administrativo
+- Medir el tiempo entre el comentario de `qa-teams` con `Estado operativo: validado` y el comentario administrativo de `product-manager` cuando la issue permanece abierta.
+- Beneficio: hace visible el limbo post-validacion y permite detectar si el atasco esta en integracion, cierre o simple falta de actualizacion documental.
+- Tradeoffs: añade una metrica mas al seguimiento operativo, aunque de lectura sencilla.
+- Riesgos y dependencias: requiere que `product-manager` mantenga el comentario administrativo y la sincronizacion de estado sin retrasos innecesarios.
 
 ## Tradeoffs
 - El control operativo gana disciplina, pero tambien exige que `product-manager` y los demas roles cuiden un poco mas el mantenimiento del backlog y de las firmas.

@@ -53,6 +53,10 @@ Medir si el proceso entre equipos mejora en velocidad, claridad y estabilidad si
 - Definicion: numero o porcentaje de items de `product-manager/product-backlog.md` enlazados a una issue cuyo estado visible no coincide con el ultimo estado operativo registrado en GitHub.
 - Senal que aporta: detecta si el backlog sigue la realidad del flujo o si ha quedado congelado en un estado anterior.
 
+## 12. Tiempo hasta checkpoint administrativo tras `validado`
+- Definicion: tiempo desde el comentario de `qa-teams` con `Estado operativo: validado` hasta el comentario administrativo de `product-manager` cuando la issue permanece abierta.
+- Senal que aporta: detecta cuanto tiempo pasa una issue aceptada en limbo antes de que quede claro si sigue abierta por integracion, dependencia o mero cierre administrativo.
+
 ## Regla de uso
 - Revisar estas metricas al cierre de cada iteracion relevante o cuando se acumulen varias issues cerradas.
 - Si una metrica empeora de forma sostenida, revisar primero el handoff asociado antes de cambiar responsabilidades entre equipos.

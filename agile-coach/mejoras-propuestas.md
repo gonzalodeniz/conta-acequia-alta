@@ -378,11 +378,30 @@ Exigir que `product-manager` actualice en la misma iteracion el item del backlog
 ### Impacto esperado
 - Evita que el backlog muestre una fotografia historica en lugar del estado real del trabajo.
 - Mejora la priorizacion de nuevas tareas y el seguimiento de trabajo ya empezado.
-- Reduce la confusion entre backlog, issue y estado administrativo de cierre.
 
 ### Tradeoffs
-- Añade una sincronizacion manual mas al ciclo de cierre de cada issue.
+- `product-manager` debe mantener la actualizacion de estado con mas disciplina para no degradar la fiabilidad del backlog.
 
 ### Riesgos y dependencias
-- Si el backlog no se actualiza al mismo tiempo que la issue, volvera la desalineacion y perdera valor como cola de priorizacion.
-- Requiere disciplina de `product-manager` cuando una issue pasa por `validado` o `cerrado`.
+- Si la actualizacion de estado se olvida aunque exista una issue validada o cerrada, el backlog vuelve a perder valor operativo.
+- Requiere que el cierre administrativo y la actualizacion del backlog se hagan dentro de la misma iteracion de trabajo.
+
+## Mejora 19: vigilar la latencia entre `validado` y el checkpoint administrativo
+### Problema detectado
+Una issue puede quedar `validado` y seguir abierta sin un comentario administrativo visible que aclare bloqueo, siguiente responsable y siguiente paso operativo.
+
+### Propuesta
+Medir el tiempo entre el comentario de `qa-teams` con `Estado operativo: validado` y el comentario administrativo de `product-manager` cuando la issue permanece abierta. Si la issue se cierra, registrar igualmente la latencia hasta el cierre administrativo para distinguir integracion y cierre.
+
+### Impacto esperado
+- Hace visible el limbo post-validacion antes de que se convierta en una espera larga o confusa.
+- Ayuda a separar problemas de integracion de simples retrasos de cierre administrativo.
+- Refuerza la lectura del backlog cuando una issue sigue abierta por motivos explicitos y no por olvido.
+
+### Tradeoffs
+- Añade una metrica operativa mas que revisar al cierre de cada iteracion.
+
+### Riesgos y dependencias
+- Requiere que `product-manager` mantenga el comentario administrativo o el cierre con disciplina.
+- Si el estado visible de la issue no se actualiza a la vez, la metrica seguira siendo util pero el backlog visible seguira desalineado.
+- Reduce la confusion entre backlog, issue y estado administrativo de cierre.
