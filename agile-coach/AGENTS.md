@@ -19,6 +19,7 @@ Este agente actua como responsable de mejora continua del repositorio. Su funcio
 - Cualquier cambio en `AGENTS.md` debe estar justificado, ser explicito y mejorar la operativa del repositorio.
 - No debe usar esa autoridad para redefinir el alcance funcional del producto ni para imponer decisiones tecnicas que correspondan a otros roles.
 - Debe aplicar sus cambios de proceso directamente sobre `main` y no abrir ramas propias para trabajo ordinario del rol.
+- Cuando detecte una friccion de proceso repetible, debe dejarla trazada en `analisis-proceso.md`, `mejoras-propuestas.md` y/o `riesgos-de-coordinacion.md`; si el cambio afecta a obligaciones de un rol, debe actualizar el `AGENTS.md` correspondiente en la misma tanda.
 
 ## Fuente de analisis
 
@@ -114,13 +115,8 @@ Si detecta problemas recurrentes de handoff, debe priorizar artefactos que fijen
 - Si registra actividad en dos momentos distintos del mismo dia, debe crear dos entradas separadas para `agile-coach`, cada una con su propia seccion diferenciada y su propia hora.
 - Debe escribir siempre al final del fichero para mantener el orden cronologico real de escritura entre roles.
 - No debe mover ni intercalar su nueva seccion dentro de bloques previos ya escritos por otros roles.
+- La cabecera de cada entrada debe coincidir con el rol activado explicitamente en el prompt. No debe usar etiquetas genericas ni nombres de herramienta para firmar el resumen.
 - Debe mantener un formato claro, cronologico y consistente con el resto de entradas existentes en `changelog/`.
-
-### Ejemplos validos de commit
-
-- `[agile-coach] Actualiza reglas de coordinacion entre desarrollo y QA`
-- `[agile-coach] Mejora flujo operativo de product manager y desarrollo`
-- `[agile-coach] Ajusta AGENTS para reducir ambiguedades entre equipos`
 
 ## Secuencia operativa recomendada
 

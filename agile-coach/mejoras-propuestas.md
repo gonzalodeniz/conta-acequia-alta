@@ -213,7 +213,7 @@ Definir y mantener una referencia estable de formato para `changelog/`, ya sea m
 
 ### Impacto esperado
 - Reduce contradicciones entre ejemplo historico y norma vigente.
-- Facilita que todos los roles registren entradas homogoneas sin reinterpretar excepciones.
+- Facilita que todos los roles registren entradas homogeneas sin reinterpretar excepciones.
 - Mejora la utilidad del `changelog/` como evidencia operativa y fuente de auditoria ligera.
 
 ### Tradeoffs
@@ -328,3 +328,41 @@ Si alguna condicion falla, QA debe cerrar la revision como `Estado operativo: no
 ### Riesgos y dependencias
 - Si QA aplica la regla de forma mecanica sin describir bien el bloqueo, desarrollo no tendra feedback accionable.
 - Requiere que `developer-teams` siga tratando la sincronizacion con `main` como paso previo real y no solo declarado.
+
+## Mejora 16: exigir un backlog vivo minimo antes de abrir nueva implementacion
+### Problema detectado
+`product-manager/product-backlog.md` puede quedar vacio o sin items priorizados aun cuando el flujo espera que el backlog sea la base de triaje y priorizacion.
+
+### Propuesta
+Antes de mover una issue a desarrollo, `product-manager` debe verificar que exista al menos un item priorizado y trazable en el backlog, y que toda issue activa quede vinculada a ese backlog.
+
+### Impacto esperado
+- Reduce arranques sin fuente de verdad funcional.
+- Mejora la priorizacion entre issues nuevas y re-trabajo.
+- Evita que desarrollo dependa de interpretacion oral o de memoria operativa.
+
+### Tradeoffs
+- `product-manager` debe mantener el backlog con un minimo de higiene continua.
+
+### Riesgos y dependencias
+- Si el backlog se convierte en un inventario sin priorizacion real, la mejora pierde valor.
+- Requiere que `developer-teams` frene el inicio cuando no exista esa base funcional.
+
+## Mejora 17: impedir firmas de `changelog` que no correspondan a un rol activado
+### Problema detectado
+Una entrada de `changelog` firmada con una etiqueta generica o de herramienta rompe la trazabilidad por rol.
+
+### Propuesta
+Exigir que cada entrada de `changelog/` se firme con el nombre del rol explicitamente activado en el prompt, y no con etiquetas genericas ni de herramienta.
+
+### Impacto esperado
+- Mejora la auditabilidad y la lectura historica del repositorio.
+- Permite detectar rapidamente quien produjo cada actualizacion de proceso.
+- Reduce ambiguedad cuando varias personas o agentes intervienen sobre `main`.
+
+### Tradeoffs
+- Introduce una validacion adicional muy pequeña al cerrar la tarea.
+
+### Riesgos y dependencias
+- Si la firma no coincide con el rol real, la trazabilidad diaria vuelve a degradarse.
+- Conviene tratar cualquier firma generica como una desviacion del proceso y no como un caso valido.

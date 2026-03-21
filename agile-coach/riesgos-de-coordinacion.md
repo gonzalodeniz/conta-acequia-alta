@@ -52,3 +52,13 @@ Registrar los riesgos de coordinacion que siguen activos tras los ajustes de pro
 - Senal observable: una issue queda `validado` con `Impacto documental: si`, pero la rama tecnica sigue abierta o la capacidad aun no existe en `main`.
 - Impacto: la documentacion oficial puede describir un comportamiento todavia no integrado y crear incoherencia entre manuales, backlog visible y producto real.
 - Mitigacion acordada: activar a `doc-teams` solo cuando la entrega validada ya este fusionada en `main` y reforzar la prioridad de merge tras QA.
+
+## Riesgo 11: backlog persistente vacio o sin priorizacion visible
+- Senal observable: `product-manager/product-backlog.md` esta vacio o sin items con prioridad mientras ya existen necesidades de trabajo activas.
+- Impacto: no hay una cola de priorizacion compartida y el triaje real se desplaza fuera de los artefactos del repositorio.
+- Mitigacion acordada: mantener un backlog vivo, priorizado y trazable antes de iniciar nueva implementacion tecnica.
+
+## Riesgo 12: entradas de `changelog` firmadas con etiquetas no vinculadas a un rol
+- Senal observable: firmas como `codex` o nombres de herramienta en lugar del nombre del rol activado explicitamente.
+- Impacto: se debilita la auditabilidad diaria y cuesta atribuir cada cambio de proceso a su responsable operativo.
+- Mitigacion acordada: firmar siempre con el rol correspondiente y tratar cualquier etiqueta generica como desviacion del proceso.
