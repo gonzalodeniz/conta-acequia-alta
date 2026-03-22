@@ -4,38 +4,36 @@
 Equipo tecnico y personas encargadas de preparar el entorno de trabajo del repositorio.
 
 ## Estado de cobertura
-Esta guia documenta la preparacion del entorno para usar los scripts de soporte del repositorio.
-No documenta la instalacion de una aplicacion web porque en el arbol de trabajo actual no se ha podido verificar una base desplegable completa.
+Esta guia documenta la instalacion local de la entrega minima actual.
+No describe instalacion de produccion porque todavia no hay una estrategia de despliegue final verificada.
 
 ## Prerrequisitos
-- Bash.
+- Python 3 disponible como `python3`.
 - `git`.
-- `codex` instalado y accesible en el `PATH`.
-- Entorno virtual Python en `.venv/`.
-- Fichero `.env` en la raiz del repositorio.
-- Variable `GITHUB_PAT` definida dentro de `.env`.
+- Bash.
+- Opcionalmente, un entorno virtual Python para aislar la ejecucion.
 
-## Preparacion del entorno
+## Instalacion local
 1. Clonar el repositorio.
-2. Crear el fichero `.env` en la raiz si no existe.
-3. Definir `GITHUB_PAT` en `.env`.
-4. Crear el entorno virtual en `.venv/`.
-5. Activar el entorno virtual.
-6. Verificar que `codex` responde correctamente.
-7. Ejecutar `./run-codex.sh` o el lanzador de rol correspondiente para confirmar que la orquestacion local arranca sin errores.
+2. Crear y activar un entorno virtual si se desea aislar la ejecucion.
+3. Instalar dependencias con `pip install -r requirements.txt`.
+4. Verificar que no hay dependencias externas pendientes, porque el fichero actual no declara paquetes adicionales.
+5. Ejecutar la suite tecnica con `make test`.
+6. Arrancar la aplicacion con `make run` o `python3 app.py`.
 
 ## Verificacion minima
-Ejecuta `run-codex.sh` para comprobar que:
-- El fichero `.env` existe.
-- `GITHUB_PAT` se carga sin errores.
-- El entorno virtual esta disponible.
+Ejecuta `make test` para comprobar que:
+- La logica de servicio valida correctamente movimientos validos e invalidos.
+- La vista web responde con estado vacio, alta correcta y errores de validacion.
 
-Si falta cualquiera de esos elementos, el script informa del problema y termina.
+Ejecuta `make run` para comprobar que:
+- La aplicacion levanta un servidor WSGI local.
+- El servicio responde en `http://127.0.0.1:8000`.
 
 ## Dependencias abiertas
-- No existe un fichero `requirements.txt` en la raiz que describa dependencias Python del proyecto.
-- No hay una guia de instalacion de la aplicacion final porque la aplicacion no esta presente en el arbol visible.
-- Si mas adelante se incorpora codigo Python ejecutable, esta guia debera ampliarse con dependencias reales y un procedimiento de instalacion reproducible.
+- No existe una infraestructura de produccion documentada para desplegar la aplicacion.
+- El fichero `requirements.txt` no contiene dependencias externas por ahora; si en el futuro se añaden, esta guia debera actualizarse.
+- La instalacion aqui descrita es la minima necesaria para trabajar con la entrega actual, no una guia de producto final.
 
 ## Nota operativa
-Mientras el repositorio siga siendo principalmente documental, esta guia debe entenderse como preparacion del entorno de trabajo, no como instalacion de producto.
+Mientras el repositorio siga evolucionando, esta guia debe mantenerse sincronizada con los comandos reales de arranque y pruebas.

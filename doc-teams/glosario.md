@@ -3,6 +3,18 @@
 ## `main`
 Rama de referencia del repositorio. Para `doc-teams`, la documentacion se actualiza directamente sobre esta rama.
 
+## `WSGI`
+Interfaz estandar de Python usada por la aplicacion minima del repositorio para atender peticiones web locales.
+
+## `app.py`
+Punto de entrada de la aplicacion minima. Arranca un servidor local en `127.0.0.1:8000`.
+
+## `data/movimientos.json`
+Fichero JSON donde la entrega actual persiste los movimientos contables registrados.
+
+## `Movimiento`
+Entidad funcional que representa un gasto o ingreso con identificador, fecha, concepto, categoria, tipo e importe.
+
 ## `product-manager`
 Rol responsable de la vision funcional, el backlog y la definicion de producto.
 
@@ -34,7 +46,7 @@ Fichero local con variables de entorno para ejecutar los scripts de soporte.
 Entorno virtual Python esperado por `run-codex.sh`.
 
 ## Backlog
-Lista priorizada de trabajo funcional o tecnico. En el estado actual, `product-manager/product-backlog.md` esta poblado y actua como fuente de trazabilidad.
+Lista priorizada de trabajo funcional o tecnico. En el estado actual, `product-manager/product-backlog.md` esta poblado y actua como fuente de trazabilidad funcional.
 
 ## Vision del producto
 Descripcion de alto nivel del objetivo de negocio y del problema que resuelve la aplicacion.

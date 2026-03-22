@@ -5,13 +5,14 @@ Administracion del proyecto, coordinacion operativa y responsables de mantenimie
 
 ## Alcance
 Este manual describe como se gobierna el repositorio desde el punto de vista documental y operativo.
-No sustituye instrucciones de explotacion de una aplicacion, porque en el arbol visible no se ha podido verificar una plataforma desplegable completa.
+Tambien resume las precauciones minimas para administrar una base de datos local y no confundir una entrega minima con una instalacion de produccion.
 
 ## Estado actual
 - El proyecto mantiene una estructura por roles.
 - La actividad documental y de coordinacion se registra sobre `main`.
 - Los cambios documentales requieren `git add`, `git commit` en espanol y `git push`.
-- El backlog funcional ya esta poblado, asi que la trazabilidad entre producto y documentacion puede seguirse sin partir de un vacio inicial.
+- Existe una aplicacion minima con persistencia en `data/movimientos.json`.
+- El backlog funcional ya esta poblado, por lo que la trazabilidad entre producto y documentacion puede seguirse sin partir de un vacio inicial.
 
 ## Reglas operativas relevantes
 ### Rama y versionado
@@ -34,11 +35,13 @@ No sustituye instrucciones de explotacion de una aplicacion, porque en el arbol 
 2. Confirmar si la entrega tecnica revisada ya esta fusionada en `main` antes de documentarla como vigente.
 3. Verificar que cualquier dependencia abierta quede visible para evitar manuales ambiguos.
 4. Mantener rastreadas las contradicciones entre el changelog y el arbol de trabajo cuando aparezcan.
+5. Hacer copia de seguridad de `data/movimientos.json` antes de borrar o reponer el entorno, porque ahi se guardan los movimientos.
+6. Restaurar `data/movimientos.json` desde respaldo si se necesita conservar datos historicos.
 
 ## Riesgos actuales
-- Existe una brecha entre la vision del producto, el relato de `changelog/` y el estado verificable del arbol de trabajo.
-- La ausencia de una aplicacion ejecutable visible limita la profundidad de los manuales de operacion.
+- Existe una brecha entre la vision del producto, el backlog completo y la entrega minima actualmente implementada.
+- La persistencia local en un unico fichero hace que la perdida de `data/movimientos.json` implique perdida de datos si no hay copia previa.
 - Si no se resuelve la discrepancia documental, puede documentarse como vigente algo que todavia no esta comprobado en `main`.
 
 ## Criterio administrativo
-Mientras no exista una entrega funcional validada e integrada, la administracion debe tratar este repositorio como un espacio de coordinacion documental y operativa, no como una plataforma lista para explotacion de usuarios finales.
+Mientras no exista una entrega completa validada e integrada, la administracion debe tratar este repositorio como un espacio de coordinacion documental y operativa, no como una plataforma lista para explotacion completa de usuarios finales.
