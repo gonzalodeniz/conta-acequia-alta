@@ -11,6 +11,13 @@ Reducir ambiguedades en los handoffs entre `product-manager`, `developer-teams`,
 
 No deben convivir dos versiones distintas de la misma regla en documentos diferentes. Si aparece una incoherencia, prevalece la correccion del acuerdo operativo antes de dar por cerrado el cambio.
 
+## Vigencia de referencias y ejemplos
+Los ejemplos concretos de issues, backlog o entradas de `changelog/` incluidos en los documentos de `agile-coach/` deben tratarse como fotografias del momento en que se escribieron.
+
+- Antes de reutilizar un ejemplo como evidencia vigente, contrastar la ultima entrada de `changelog/` sobre `main` y el artefacto vivo correspondiente.
+- Si el ejemplo ya no describe el estado actual, actualizar el documento o marcarlo como referencia historica para no mezclar evidencia antigua con estado operativo actual.
+- Cuando un documento cite un caso real, debe quedar claro si el caso se usa como alerta activa o como antecedente historico de proceso.
+
 ## Estados operativos comunes
 Todos los equipos deben reutilizar estos estados operativos en sus comentarios y transiciones de trabajo:
 

@@ -3,43 +3,45 @@
 ## Contexto analizado
 - El repositorio ya dispone de backlog funcional y de issues operativas en curso, por lo que el problema principal ya no es la ausencia de cola sino su sincronizacion con el estado real de cada issue.
 - `product-manager/product-backlog.md` esta poblado, pero sigue siendo sensible a desalineaciones manuales cuando las issues avanzan a `en desarrollo`, `listo para qa`, `validado` o `cerrado`.
-- En `changelog/2026-03-21.md` aparecio una entrada firmada como `codex`, que no refleja un rol operativo activado de forma explicita.
-- La issue `#1` esta en `validado` pero sigue abierta en GitHub sin comentario administrativo de cierre o bloqueo visible.
-- El item `PB-001` del backlog persistente sigue mostrandose como `listo para issue`, aunque su issue enlazada ya paso por validacion funcional.
+- La iteracion de `PB-001` y la issue `#1` mostro que una referencia de proceso puede quedar obsoleta en pocas horas si no se revalida contra el ultimo `changelog/` antes de reutilizarla como ejemplo vigente.
 - El flujo entre `product-manager`, `developer-teams`, `qa-teams` y `doc-teams` ya esta bastante cerrado, pero varias reglas siguen repartidas entre `AGENTS.md` raiz, los `AGENTS.md` de rol y los artefactos de `agile-coach/`.
 
 ## Hallazgos principales
 
-### 1. El backlog persistente sigue sin actuar como fuente de verdad viva
+### 1. Las referencias concretas envejecen demasiado rapido si no se anclan a una revision reciente
+- Evidencia observada: la secuencia de `PB-001` y la issue `#1` avanzo de trabajo operativo a validacion e integracion en el mismo ciclo, lo que dejo obsoletos algunos ejemplos de proceso que seguian citando la fotografia anterior.
+- Impacto: un documento de proceso puede inducir a error si presenta como vigente un caso que solo era cierto en el momento de la captura.
+- Lectura operativa: antes de reutilizar un ejemplo concreto, hay que revalidarlo contra el ultimo `changelog/` y dejar claro si es vigente o historico.
+
+### 2. El backlog persistente sigue necesitando sincronizacion manual con el estado real de las issues
 - Evidencia observada: el backlog ya existe, pero sus items enlazados a issues dependen de actualizacion manual y pueden quedarse atras respecto al ultimo estado operativo visible en GitHub.
 - Impacto: la priorizacion real puede apoyarse en una fotografia desfasada del trabajo, especialmente tras validacion o cierre administrativo.
-- Evidencia adicional observada: `PB-001` sigue en `listo para issue` mientras su issue enlazada ya esta `validado`.
 - Lectura operativa: el flujo tiene reglas de backlog, pero necesita una sincronizacion explicita con el ciclo de vida de la issue para seguir siendo una referencia cotidiana fiable.
 
-### 2. La firma del `changelog` debe asociarse siempre a un rol activado
+### 3. La firma del `changelog` debe asociarse siempre a un rol activado
 - Evidencia observada: en `changelog/2026-03-21.md` aparecio una entrada firmada como `codex`.
 - Impacto: esa firma complica la auditoria diaria y debilita la trazabilidad operativa.
 - Lectura operativa: la regla existe, pero conviene endurecerla para que solo se usen firmas ligadas a roles activados expresamente.
 
-### 3. La operativa esta bien definida, pero demasiado dispersa
+### 4. La operativa esta bien definida, pero demasiado dispersa
 - Evidencia observada: los estados, handoffs y checkpoints estan repartidos entre varios documentos.
 - Impacto: aumenta el riesgo de deriva entre documentos cuando una regla cambia.
 - Lectura operativa: hace falta una referencia canonica mas clara para plantillas, secuencia y propagacion de cambios.
 
-### 4. Faltaba una gobernanza explicita del cambio de proceso
+### 5. Faltaba una gobernanza explicita del cambio de proceso
 - Evidencia observada: no estaba explicitado que una mejora de coordinacion debe propagarse en la misma iteracion a la referencia operativa y a los `AGENTS.md` afectados.
 - Impacto: una mejora puede quedar aplicada solo de forma parcial y distintos equipos pueden seguir versiones distintas de la misma regla.
 - Lectura operativa: la coordinacion necesita un guardarrail documental que evite bifurcaciones silenciosas.
 
-### 5. No existia una metrica ligera para detectar divergencia entre backlog e issue
-- Evidencia observada: las metricas actuales cubren estados operativos, QA y cierre, pero no la coherencia entre el backlog persistente y el estado real de las issues enlazadas.
-- Impacto: la desalineacion entre backlog y flujo operativo puede pasar desapercibida aunque el resto de la trazabilidad documental este correcta.
-- Lectura operativa: conviene medir si el backlog sigue la misma realidad que GitHub y no se queda congelado en estados previos.
+### 6. No existia una metrica ligera para detectar vigencia de ejemplos de proceso
+- Evidencia observada: las metricas actuales cubren estados operativos, QA y cierre, pero no si un analisis o riesgo se redacta con referencias ya caducadas.
+- Impacto: una fotografia historica puede entrar en un documento como si fuera un estado actual y confundir a quien lo consulte despues.
+- Lectura operativa: conviene medir si los ejemplos citados siguen siendo vigentes y si el documento explicita la fecha de la ultima revision.
 
-### 6. La validacion puede quedar abierta sin checkpoint administrativo visible
-- Evidencia observada: la issue `#1` ya esta `validado` pero sigue abierta sin un comentario administrativo de `product-manager` que aclare bloqueo, siguiente responsable y siguiente paso operativo.
+### 7. La validacion puede quedar abierta sin checkpoint administrativo visible
+- Evidencia observada: el flujo define que una issue validada puede seguir abierta mientras se documenta el motivo operativo, pero esa ventana sigue siendo facil de confundir con trabajo pendiente real.
 - Impacto: otros equipos leen una entrega aceptada pero no saben si el siguiente paso es integracion, espera documental o cierre administrativo.
-- Lectura operativa: el flujo ya define el checkpoint, pero hace falta vigilar la latencia entre validacion y cierre visible para que la issue no quede en limbo.
+- Lectura operativa: hace falta vigilar la latencia entre validacion y cierre visible para que la issue no quede en limbo.
 
 ## Propuestas de mejora
 
@@ -67,6 +69,18 @@
 - Beneficio: hace visible el limbo post-validacion y permite detectar si el atasco esta en integracion, cierre o simple falta de actualizacion documental.
 - Tradeoffs: añade una metrica mas al seguimiento operativo, aunque de lectura sencilla.
 - Riesgos y dependencias: requiere que `product-manager` mantenga el comentario administrativo y la sincronizacion de estado sin retrasos innecesarios.
+
+### F. Verificar la vigencia de los ejemplos antes de publicarlos como analisis vigente
+- Requerir que cada analisis o riesgo de `agile-coach/` contraste la referencia mas reciente de `changelog/` y marque los casos concretos como `vigente` o `historico` a la fecha de escritura.
+- Beneficio: evita que una fotografia operativa caducada se lea como evidencia actual y reduce la probabilidad de decisiones basadas en contexto desfasado.
+- Tradeoffs: introduce una comprobacion extra antes de publicar el documento.
+- Riesgos y dependencias: depende de que `changelog/` este al dia; si no lo esta, el analisis debe detenerse y pedir revalidacion del caso citado.
+
+### G. Medir la vigencia de los documentos de proceso
+- Seguir el porcentaje de analisis y riesgos de `agile-coach/` que incluyen hora de ultima revision y referencia a la entrada mas reciente de `changelog/` consultada.
+- Beneficio: hace visible si el area de proceso esta describiendo el presente o reutilizando contexto historico como si fuera actual.
+- Tradeoffs: requiere disciplina minima al redactar cada documento.
+- Riesgos y dependencias: si la fecha de revision no se actualiza, la metrica pierde valor y el documento puede parecer vigente sin estarlo.
 
 ## Tradeoffs
 - El control operativo gana disciplina, pero tambien exige que `product-manager` y los demas roles cuiden un poco mas el mantenimiento del backlog y de las firmas.

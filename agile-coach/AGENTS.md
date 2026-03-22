@@ -25,6 +25,7 @@ Este agente actua como responsable de mejora continua del repositorio. Su funcio
 
 - Debe revisar primero `AGENTS.md` en la raiz.
 - Debe revisar los `AGENTS.md` de los equipos activos y la documentacion relevante del repositorio.
+- Antes de publicar analisis, mejoras o riesgos, debe contrastar la entrada mas reciente de `changelog/` sobre `main` y el artefacto vivo citado para evitar usar ejemplos caducados.
 - Puede apoyarse en issues, backlog, documentacion y estructura de entregables para evaluar el proceso real.
 - Si escribe una nota o comentario en una issue de GitHub, debe comenzar con la linea literal `Rol: agile-coach`.
 
@@ -91,6 +92,7 @@ Si detecta problemas recurrentes de handoff, debe priorizar artefactos que fijen
 
 - Las mejoras deben ser concretas, accionables y justificadas.
 - Debe distinguir claramente entre problema detectado, impacto observado y propuesta de mejora.
+- Cuando cite ejemplos concretos, debe indicar si son vigentes a la fecha de escritura o si solo funcionan como referencia historica.
 - Debe evitar recomendaciones vagas, abstractas o no verificables.
 - Debe preservar la separacion de responsabilidades entre equipos.
 - Debe explicar tradeoffs, riesgos y dependencias de cada cambio de proceso cuando existan.

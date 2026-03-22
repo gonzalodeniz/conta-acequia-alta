@@ -7,7 +7,7 @@ Registrar los riesgos de coordinacion que siguen activos tras los ajustes de pro
 - Senal observable: issue abierta con validacion de QA pero sin comentario estructurado de bloqueo, responsable siguiente y paso operativo.
 - Impacto: distorsiona la lectura del backlog abierto y oculta si el atasco es real o solo administrativo.
 - Mitigacion acordada: comentario obligatorio de `product-manager` con `Bloqueo actual:`, `Siguiente responsable:`, `Siguiente paso operativo:` y `Estado de integracion:`.
-- Ejemplo actualmente visible: la issue `#1` esta `validado` y sigue abierta, por lo que el checkpoint administrativo no es solo teorico.
+- Ejemplo historico util: la secuencia de `PB-001`/issue `#1` demostro que una entrega puede pasar de valida a integrada en poco tiempo y volver obsoletos los ejemplos de proceso si no se revalidan contra el ultimo `changelog/`.
 
 ## Riesgo 2: deriva en el formato de handoff entre iteraciones
 - Senal observable: comentarios de entrega o revision con el estado operativo incrustado en texto libre o con claves distintas entre issues.
@@ -58,7 +58,7 @@ Registrar los riesgos de coordinacion que siguen activos tras los ajustes de pro
 - Senal observable: `product-manager/product-backlog.md` contiene items, pero sus estados o referencias no reflejan el ultimo estado operativo real de las issues enlazadas.
 - Impacto: la priorizacion compartida sigue existiendo, pero se apoya en una fotografia desfasada del trabajo y pierde utilidad para triaje o cierre.
 - Mitigacion acordada: mantener un backlog vivo, priorizado, trazable y sincronizado con el ultimo estado operativo visible de cada issue enlazada.
-- Ejemplo actualmente visible: `PB-001` sigue mostrandose como `listo para issue` mientras su issue enlazada ya paso a `validado`.
+- Ejemplo historico util: `PB-001` ayudo a detectar la necesidad de sincronizar el item del backlog con el ultimo estado de la issue enlazada en la misma iteracion.
 
 ## Riesgo 12: entradas de `changelog` firmadas con etiquetas no vinculadas a un rol
 - Senal observable: firmas como `codex` o nombres de herramienta en lugar del nombre del rol activado explicitamente.
@@ -74,3 +74,8 @@ Registrar los riesgos de coordinacion que siguen activos tras los ajustes de pro
 - Senal observable: la issue ya paso a `en desarrollo`, `listo para qa`, `validado` o `cerrado`, pero el item correspondiente del backlog conserva un estado anterior.
 - Impacto: `product-manager`, `developer-teams` y `qa-teams` leen estados distintos segun el artefacto consultado, lo que complica la priorizacion y la lectura rapida del flujo.
 - Mitigacion acordada: sincronizar el item de backlog en la misma iteracion en que la issue cambie de estado operativo visible.
+
+## Riesgo 15: ejemplos de proceso tratados como vigentes sin revalidacion
+- Senal observable: un analisis, mejora o riesgo cita una issue, un backlog item o un estado operativo concreto sin verificar la entrada mas reciente de `changelog/` sobre `main`.
+- Impacto: una fotografia historica puede ser leida como si fuera estado actual y orientar mal la priorizacion o el cierre administrativo.
+- Mitigacion acordada: anclar cada documento de `agile-coach/` a una hora de escritura y contrastar la referencia viva antes de publicar ejemplos concretos como evidencia vigente.

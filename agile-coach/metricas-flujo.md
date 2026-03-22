@@ -57,6 +57,10 @@ Medir si el proceso entre equipos mejora en velocidad, claridad y estabilidad si
 - Definicion: tiempo desde el comentario de `qa-teams` con `Estado operativo: validado` hasta el comentario administrativo de `product-manager` cuando la issue permanece abierta.
 - Senal que aporta: detecta cuanto tiempo pasa una issue aceptada en limbo antes de que quede claro si sigue abierta por integracion, dependencia o mero cierre administrativo.
 
+## 13. Vigencia de referencias de proceso
+- Definicion: porcentaje de documentos de `agile-coach/` que incluyen hora de ultima revision y referencia a la entrada mas reciente de `changelog/` consultada antes de publicar un analisis, riesgo o mejora.
+- Senal que aporta: detecta cuando un documento usa ejemplos caducados como si fueran estado vigente y ayuda a vigilar la frescura de los artefactos de coordinacion.
+
 ## Regla de uso
 - Revisar estas metricas al cierre de cada iteracion relevante o cuando se acumulen varias issues cerradas.
 - Si una metrica empeora de forma sostenida, revisar primero el handoff asociado antes de cambiar responsabilidades entre equipos.

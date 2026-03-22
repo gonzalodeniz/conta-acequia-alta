@@ -405,3 +405,22 @@ Medir el tiempo entre el comentario de `qa-teams` con `Estado operativo: validad
 - Requiere que `product-manager` mantenga el comentario administrativo o el cierre con disciplina.
 - Si el estado visible de la issue no se actualiza a la vez, la metrica seguira siendo util pero el backlog visible seguira desalineado.
 - Reduce la confusion entre backlog, issue y estado administrativo de cierre.
+
+## Mejora 20: verificar la vigencia de los ejemplos antes de publicar analisis de proceso
+### Problema detectado
+Los documentos de `agile-coach/` pueden seguir citando como vigentes ejemplos que ya cambiaron en el mismo ciclo de trabajo, especialmente cuando una issue pasa de validacion a integracion y cierre en pocas horas.
+
+### Propuesta
+Antes de publicar un analisis, riesgo o mejora, contrastar la referencia mas reciente de `changelog/` sobre `main` y etiquetar cada ejemplo concreto como `vigente` o `historico` a la fecha de escritura. Si el ejemplo ya no coincide con el estado actual, actualizar el documento o sustituirlo por una referencia historica claramente marcada.
+
+### Impacto esperado
+- Evita que una fotografia operativa caducada se lea como evidencia actual.
+- Reduce la probabilidad de tomar decisiones basadas en ejemplos ya superados por la realidad del flujo.
+- Mejora la confianza en `agile-coach/` como documento vivo y no como archivo de estados antiguos.
+
+### Tradeoffs
+- Añade una comprobacion extra antes de escribir o actualizar el analisis.
+
+### Riesgos y dependencias
+- Depende de que `changelog/` se mantenga al dia y de que los ejemplos se revaliden contra la fuente viva correcta.
+- Si el ejemplo no se puede revalidar, el documento debe detenerse o dejar explicito que usa solo evidencia historica.
