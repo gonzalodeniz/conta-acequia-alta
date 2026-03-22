@@ -24,6 +24,7 @@ Establecer el minimo funcional y operativo que una issue debe cumplir para consi
 ## Para cierre administrativo por `product-manager`
 - Existe validacion explicita de `qa-teams`.
 - La issue mantiene trazabilidad con backlog, historia y caso de uso.
+- El item correspondiente del backlog persistente refleja el mismo estado operativo visible en la issue.
 - Si la integracion en `main` ya se realizo, `product-manager` puede cerrar la issue actualizando su cuerpo a `Estado operativo: cerrado`.
 - Si la issue sigue abierta tras `validado`, debe existir comentario administrativo con `Bloqueo actual:`, `Siguiente responsable:`, `Siguiente paso operativo:` y `Estado de integracion:`.
 - Si la entrega tiene impacto documental y ya fue integrada en `main`, debe quedar visible que `doc-teams` es siguiente consumidor del resultado.

@@ -84,3 +84,15 @@
   - Los recordatorios visibles para vecinos no permiten acciones de gestion.
   - El estado de cada recordatorio es comprensible.
   - Los recordatorios no alteran los datos contables.
+
+## HU-008 - Presupuesto anual de la comunidad
+- Backlog relacionado: PB-008
+- Caso de uso relacionado: CU-008
+- Historia: Como administrador de la comunidad quiero definir un presupuesto anual de ingresos y gastos para planificar el ejercicio y contrastar despues la ejecucion economica real.
+- Criterios de aceptacion:
+  - Puedo crear un presupuesto para un ejercicio anual concreto.
+  - Puedo registrar partidas previstas de ingreso y de gasto.
+  - En cada partida veo al menos concepto, tipo e importe previsto.
+  - Puedo consultar total previsto de ingresos, total previsto de gastos y saldo presupuestado.
+  - El presupuesto queda identificado por ejercicio y disponible para consulta posterior.
+  - Si un ejercicio no tiene presupuesto, el sistema me lo comunica con claridad.

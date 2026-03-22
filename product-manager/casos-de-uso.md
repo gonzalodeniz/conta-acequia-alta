@@ -136,3 +136,24 @@
   - Si faltan datos obligatorios, el sistema rechaza el recordatorio.
 - Postcondiciones:
   - El recordatorio queda disponible para su seguimiento segun el alcance definido por negocio.
+
+## CU-008 - Definir presupuesto anual
+- Backlog relacionado: PB-008
+- Historia relacionada: HU-008
+- Actor principal: Administrador de la comunidad
+- Objetivo: Definir el presupuesto anual de la comunidad para planificar ingresos y gastos del ejercicio.
+- Disparador: El administrador necesita preparar o revisar el presupuesto del nuevo ejercicio.
+- Precondiciones:
+  - El administrador dispone de acceso de gestion.
+  - El sistema soporta la definicion de presupuestos por ejercicio.
+- Flujo principal:
+  1. El administrador inicia la creacion del presupuesto de un ejercicio anual.
+  2. El sistema solicita el ejercicio y las partidas previstas.
+  3. El administrador registra partidas diferenciando ingresos y gastos con concepto e importe previsto.
+  4. El sistema consolida los importes del presupuesto.
+  5. El sistema guarda el presupuesto y lo deja disponible para consulta posterior.
+- Flujos alternativos:
+  - Si falta el ejercicio o una partida obligatoria, el sistema rechaza el guardado e indica el dato pendiente.
+  - Si el ejercicio consultado no tiene presupuesto registrado, el sistema lo informa claramente.
+- Postcondiciones:
+  - El presupuesto anual queda identificado por ejercicio y preparado para su consulta.

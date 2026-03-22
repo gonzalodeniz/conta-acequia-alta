@@ -1,7 +1,7 @@
 # Product Backlog
 
 ## Contexto
-La vision vigente define una aplicacion web para gestionar la contabilidad de una comunidad de vecinos con foco en transparencia, control economico y soporte al cierre anual. A fecha de 2026-03-21 el repositorio no contiene una aplicacion funcional validada ni un backlog previo poblado, por lo que este documento inicializa la fuente de verdad operativa para `product-manager`.
+La vision vigente define una aplicacion web para gestionar la contabilidad de una comunidad de vecinos con foco en transparencia, control economico, presupuestos y soporte al cierre anual. A fecha de 2026-03-22 existe una primera entrega validada para el registro de movimientos (`PB-001`), pero todavia no esta integrada en `main`, por lo que el backlog debe mantener visibles tanto el avance funcional como los bloqueos operativos de integracion.
 
 ## Criterios de priorizacion
 - Valor de negocio inmediato para administradores y vecinos.
@@ -28,7 +28,7 @@ La vision vigente define una aplicacion web para gestionar la contabilidad de un
   - No se permite guardar movimientos sin los campos minimos obligatorios definidos por negocio.
   - El sistema diferencia claramente entre gasto e ingreso en el registro.
 - Dependencias: Ninguna
-- Estado: listo para issue
+- Estado: validado
 
 ### PB-002 - Consultar el libro de asientos contables
 - Descripcion: Permitir revisar el historial de movimientos registrados en un libro ordenado y filtrable por periodo y tipo de movimiento.
@@ -44,7 +44,7 @@ La vision vigente define una aplicacion web para gestionar la contabilidad de un
   - El libro muestra como minimo fecha, concepto, categoria, tipo e importe de cada movimiento.
   - Si no existen movimientos en el periodo consultado, el sistema lo comunica sin ambiguedad.
 - Dependencias: PB-001
-- Estado: listo para issue
+- Estado: nuevo
 
 ### PB-003 - Visualizar resumen financiero del periodo
 - Descripcion: Ofrecer un resumen consolidado con total de ingresos, total de gastos y saldo para un periodo seleccionable.
@@ -60,7 +60,7 @@ La vision vigente define una aplicacion web para gestionar la contabilidad de un
   - El sistema permite al menos consultar el periodo mensual y anual.
   - Si no hay movimientos en el periodo, el resumen devuelve importes a cero y un mensaje claro.
 - Dependencias: PB-001
-- Estado: listo para issue
+- Estado: nuevo
 
 ### PB-004 - Permitir acceso de solo lectura para vecinos
 - Descripcion: Habilitar que un vecino consulte la informacion economica publicada sin capacidad de modificar datos.
@@ -68,7 +68,7 @@ La vision vigente define una aplicacion web para gestionar la contabilidad de un
 - Valor de negocio: Alto. Es la pieza principal de transparencia para el usuario no administrador.
 - Historia de usuario: HU-004
 - Caso de uso: CU-004
-- Issue GitHub: pendiente de crear tras cerrar regla de visibilidad para vecinos
+- Issue GitHub: no creada; pendiente cerrar regla de visibilidad para vecinos
 - Criterios de aceptacion:
   - Un vecino puede acceder a la informacion financiera disponible para consulta.
   - Un vecino no puede crear, editar ni borrar movimientos.
@@ -76,7 +76,24 @@ La vision vigente define una aplicacion web para gestionar la contabilidad de un
   - El sistema diferencia claramente el alcance de consulta del vecino frente al del administrador.
   - Si un vecino intenta acceder a una accion de gestion, el sistema lo bloquea de forma explicita.
 - Dependencias: PB-002, PB-003
-- Estado: listo para issue
+- Estado: refinamiento pendiente
+
+### PB-008 - Gestionar presupuestos anuales de la comunidad
+- Descripcion: Permitir que el administrador defina y consulte un presupuesto anual con partidas previstas de ingresos y gastos para compararlo despues con la ejecucion real de la comunidad.
+- Prioridad: Media
+- Valor de negocio: Alto. Traduce a plan economico una capacidad explicitamente mencionada en la vision y facilita la toma de decisiones antes del cierre anual.
+- Historia de usuario: HU-008
+- Caso de uso: CU-008
+- Issue GitHub: #4
+- Criterios de aceptacion:
+  - El administrador puede crear un presupuesto para un ejercicio anual concreto.
+  - El presupuesto permite registrar partidas previstas diferenciando ingresos y gastos.
+  - El sistema muestra para cada partida al menos concepto, tipo e importe previsto.
+  - El administrador puede consultar el total presupuestado de ingresos, gastos y saldo previsto del ejercicio.
+  - El presupuesto queda identificado por ejercicio y disponible para consulta posterior.
+  - El sistema comunica de forma clara cuando un ejercicio todavia no tiene presupuesto definido.
+- Dependencias: PB-001, PB-003
+- Estado: nuevo
 
 ### PB-005 - Importar movimientos desde una hoja de calculo
 - Descripcion: Permitir una carga inicial de movimientos historicos desde un formato tabular acordado para acelerar la adopcion.
@@ -130,11 +147,13 @@ La vision vigente define una aplicacion web para gestionar la contabilidad de un
 - Falta definir el formato funcional minimo aceptado para la importacion de movimientos.
 - Falta acordar que informacion financiera puede ver un vecino cuando existan datos sensibles o incidencias de conciliacion.
 - Falta concretar si el cierre anual requiere solo visualizacion consolidada o tambien bloqueo operativo del ejercicio.
+- Falta definir si el presupuesto anual necesitara versionado por revisiones o si el MVP aceptara un unico presupuesto vigente por ejercicio.
 - Falta concretar la lista inicial de cuentas del Plan General de Contabilidad que se sugeriran por defecto en el alta de movimientos para comunidades de vecinos.
 
 ## Riesgos de producto
-- Existe una brecha entre la vision del producto y la ausencia de una base funcional implementada en `main`.
+- Existe una brecha entre la validacion funcional de `PB-001` y su falta de integracion en `main`, lo que retrasa el consumo documental y el encadenado de nuevas entregas.
 - Si se intenta abordar importacion, vecinos y cierre anual sin entregar antes el registro de movimientos y la consulta del libro, aumentara la ambiguedad de validacion.
+- Si no se incorpora presupuestos al backlog ejecutable, la vision quedara parcialmente traducida y se perdera trazabilidad de una capacidad de negocio ya comprometida.
 - La falta de decisiones sobre permisos y datos visibles para vecinos puede generar retrabajo en historias posteriores.
 
 ## Preguntas abiertas
@@ -142,3 +161,4 @@ La vision vigente define una aplicacion web para gestionar la contabilidad de un
 - El acceso de vecinos debe permitir ver el detalle de cada asiento o solo resumenes y reportes aprobados?
 - La importacion inicial debe admitir una sola plantilla oficial o varias fuentes equivalentes?
 - Que listado inicial de cuentas del Plan General de Contabilidad se considera canonico para la ayuda de alta de movimientos en una comunidad de vecinos?
+- El presupuesto anual necesita permitir ajustes posteriores sobre el mismo ejercicio o basta con una primera version editable sin historico en el alcance actual?

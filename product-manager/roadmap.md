@@ -28,13 +28,14 @@ Traducir la vision del producto a una secuencia de entregas manejable para `deve
 - Riesgo principal: No definir con precision que informacion es visible para el vecino.
 
 ## Fase 3 - Migracion y cierre operativo
-- Backlog incluido: PB-005, PB-006
-- Objetivo: Facilitar puesta en marcha con datos historicos y preparar la operativa anual.
+- Backlog incluido: PB-005, PB-006, PB-008
+- Objetivo: Facilitar puesta en marcha con datos historicos y preparar la planificacion y el cierre anual.
 - Resultado esperado:
   - Importacion inicial desde hoja de calculo.
+  - Presupuesto anual consultable por ejercicio.
   - Revision funcional del cierre anual.
 - Dependencias clave: PB-001, PB-002, PB-003
-- Riesgo principal: Elevar complejidad del MVP si no se acota la importacion y el cierre anual.
+- Riesgo principal: Elevar complejidad del MVP si no se acotan importacion, presupuestos y cierre anual.
 
 ## Fase 4 - Comunicacion proactiva
 - Backlog incluido: PB-007
@@ -46,6 +47,6 @@ Traducir la vision del producto a una secuencia de entregas manejable para `deve
 - Riesgo principal: Introducir notificaciones antes de consolidar el flujo contable principal.
 
 ## Dependencias abiertas
-- Definir el alcance funcional exacto de presupuestos, ya que la vision los menciona pero no existe todavia backlog refinado especifico.
 - Confirmar si el cierre anual requiere una salida formal exportable o solo una consulta consolidada.
 - Definir politica de visibilidad para vecinos antes de ejecutar PB-004.
+- Confirmar si el presupuesto anual necesita versionado de revisiones en el alcance inicial o si basta con una version vigente por ejercicio.
