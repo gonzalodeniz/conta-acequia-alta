@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "identificador": "MOV-577BEAB8",
+    "fecha": "2026-03-01",
+    "concepto": "agua",
+    "categoria": "agua",
+    "tipo": "gasto",
+    "importe": "10.00"
+  }
+]
