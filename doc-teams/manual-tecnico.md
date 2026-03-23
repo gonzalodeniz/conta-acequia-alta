@@ -35,6 +35,9 @@ No inventa arquitectura ni dependencias externas que no esten respaldadas por lo
 6. La vista renderiza la lista de movimientos en orden inverso de insercion.
 
 ## Comandos utiles
+- `python3 -m venv .venv`: crea el entorno virtual de trabajo en la raiz del repositorio.
+- `source .venv/bin/activate`: activa el entorno virtual en Bash o Zsh antes de instalar o ejecutar comandos.
+- `python -m pip install --upgrade pip`: actualiza `pip` dentro del entorno antes de instalar dependencias.
 - `make run`: arranca la aplicacion local con el servidor WSGI de la libreria estandar.
 - `make test`: ejecuta la suite de `unittest`.
 - `python3 app.py`: alternativa directa para iniciar la aplicacion.

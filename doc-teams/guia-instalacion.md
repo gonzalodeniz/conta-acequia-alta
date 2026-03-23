@@ -11,15 +11,19 @@ No describe instalacion de produccion porque todavia no hay una estrategia de de
 - Python 3 disponible como `python3`.
 - `git`.
 - Bash.
-- Opcionalmente, un entorno virtual Python para aislar la ejecucion.
+- Un entorno virtual Python es obligatorio para aislar la ejecucion.
 
 ## Instalacion local
 1. Clonar el repositorio.
-2. Crear y activar un entorno virtual si se desea aislar la ejecucion.
-3. Instalar dependencias con `pip install -r requirements.txt`.
-4. Verificar que no hay dependencias externas pendientes, porque el fichero actual no declara paquetes adicionales.
-5. Ejecutar la suite tecnica con `make test`.
-6. Arrancar la aplicacion con `make run` o `python3 app.py`.
+2. Crear el entorno virtual en la raiz del repositorio con `python3 -m venv .venv`.
+3. Activarlo antes de instalar o ejecutar nada:
+   - Bash o Zsh: `source .venv/bin/activate`
+   - Si usas otro shell, aplica el comando equivalente de activacion.
+4. Actualizar `pip` dentro del entorno con `python -m pip install --upgrade pip`.
+5. Instalar dependencias con `pip install -r requirements.txt`.
+6. Verificar que no hay dependencias externas pendientes, porque el fichero actual no declara paquetes adicionales.
+7. Ejecutar la suite tecnica con `make test`.
+8. Arrancar la aplicacion con `make run` o `python3 app.py`.
 
 ## Verificacion minima
 Ejecuta `make test` para comprobar que:
@@ -33,6 +37,7 @@ Ejecuta `make run` para comprobar que:
 ## Dependencias abiertas
 - No existe una infraestructura de produccion documentada para desplegar la aplicacion.
 - El fichero `requirements.txt` no contiene dependencias externas por ahora; si en el futuro se añaden, esta guia debera actualizarse.
+- El entorno virtual descrito aqui es obligatorio para trabajar con la entrega actual, aunque no haya dependencias externas declaradas.
 - La instalacion aqui descrita es la minima necesaria para trabajar con la entrega actual, no una guia de producto final.
 
 ## Nota operativa
