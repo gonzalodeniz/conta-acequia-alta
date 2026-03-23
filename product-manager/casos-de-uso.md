@@ -4,7 +4,7 @@
 - Backlog relacionado: PB-001
 - Historia relacionada: HU-001
 - Actor principal: Administrador de la comunidad
-- Objetivo: Registrar un gasto o ingreso con la informacion minima necesaria para su control posterior y clasificarlo con la cuenta adecuada del Plan General de Contabilidad de Espana.
+- Objetivo: Registrar un gasto o ingreso con la informacion minima necesaria para su control posterior.
 - Disparador: El administrador necesita anotar un nuevo movimiento economico.
 - Precondiciones:
   - El administrador dispone de acceso de gestion.
@@ -12,18 +12,35 @@
 - Flujo principal:
   1. El administrador inicia el alta de un movimiento.
   2. El sistema solicita fecha, concepto, categoria, tipo e importe.
-  3. El sistema muestra ayuda para seleccionar la cuenta contable correcta con referencia al Plan General de Contabilidad de Espana.
-  4. El sistema prioriza cuentas sencillas de gastos e ingresos y cuentas operativas habituales de la comunidad, como banco, caja, proveedores y acreedores.
-  5. El administrador completa los datos, selecciona la cuenta y confirma el registro.
-  6. El sistema valida los campos obligatorios.
-  7. El sistema guarda el movimiento y confirma el alta.
+  3. El administrador completa los datos y confirma el registro.
+  4. El sistema valida los campos obligatorios.
+  5. El sistema guarda el movimiento y confirma el alta.
 - Flujos alternativos:
   - Si falta un dato obligatorio, el sistema rechaza el registro e indica que campo debe completarse.
   - Si el importe no cumple la validacion funcional acordada, el sistema no guarda el movimiento.
-  - Si el administrador necesita una cuenta no habitual, el sistema mantiene la referencia al Plan General de Contabilidad sin priorizar cuentas de amortizacion.
 - Postcondiciones:
   - El movimiento queda registrado y disponible para consulta.
   - La contabilidad del periodo incorpora el nuevo movimiento.
+
+## CU-009 - Clasificar un movimiento con ayuda guiada
+- Backlog relacionado: PB-009
+- Historia relacionada: HU-009
+- Actor principal: Administrador de la comunidad
+- Objetivo: Asociar una cuenta contable adecuada a un movimiento usando una ayuda simplificada del Plan General de Contabilidad de Espana.
+- Disparador: El administrador registra o revisa un movimiento y necesita clasificarlo correctamente.
+- Precondiciones:
+  - Existe un movimiento registrable o ya registrado dentro del alcance funcional.
+  - El sistema dispone de una lista inicial de cuentas sugeridas para comunidades de vecinos.
+- Flujo principal:
+  1. El administrador inicia el registro o revision de un movimiento.
+  2. El sistema muestra sugerencias de cuentas segun el tipo de movimiento.
+  3. El administrador revisa las opciones y selecciona una cuenta.
+  4. El sistema asocia la cuenta elegida al movimiento y la deja visible para consulta posterior.
+- Flujos alternativos:
+  - Si ninguna sugerencia encaja, el sistema permite elegir otra opcion admitida dentro del alcance funcional.
+  - Si el movimiento no tiene todavia tipo definido, el sistema solicita completarlo antes de sugerir cuentas.
+- Postcondiciones:
+  - El movimiento queda clasificado con una cuenta contable visible y trazable.
 
 ## CU-002 - Consultar libro de asientos
 - Backlog relacionado: PB-002
@@ -72,11 +89,12 @@
   - El vecino accede con un alcance funcional de consulta.
 - Flujo principal:
   1. El vecino accede a la seccion de consulta economica.
-  2. El sistema muestra el contenido visible para vecinos.
-  3. El vecino revisa resumenes y, si aplica, el historial publicado.
+  2. El sistema muestra el resumen economico mensual y anual disponible.
+  3. El sistema muestra el listado de movimientos visibles para la comunidad en modo solo lectura.
+  4. El vecino revisa la informacion economica sin opciones de gestion.
 - Flujos alternativos:
   - Si el vecino intenta realizar una accion de gestion, el sistema la bloquea y lo informa.
-  - Si todavia no hay informacion publicada, el sistema muestra una respuesta clara sin opciones de edicion.
+  - Si todavia no hay informacion economica disponible, el sistema muestra una respuesta clara sin opciones de edicion.
 - Postcondiciones:
   - El vecino ha podido revisar informacion economica sin alterar datos.
 
@@ -87,7 +105,7 @@
 - Objetivo: Incorporar datos historicos desde una hoja de calculo para acelerar la puesta en marcha.
 - Disparador: El administrador dispone de un fichero historico y necesita migrarlo.
 - Precondiciones:
-  - Existe una plantilla o formato funcional de importacion acordado.
+  - Existe una plantilla oficial de importacion con columnas obligatorias `fecha`, `tipo`, `concepto`, `categoria` e `importe`, y `referencia_externa` opcional.
   - El administrador dispone de acceso de gestion.
 - Flujo principal:
   1. El administrador inicia el proceso de importacion.
@@ -96,7 +114,7 @@
   4. El sistema importa los movimientos validos.
   5. El sistema presenta un resumen del resultado.
 - Flujos alternativos:
-  - Si el fichero no cumple el formato esperado, el sistema rechaza la importacion y explica el problema.
+  - Si el fichero no cumple la plantilla esperada, el sistema rechaza la importacion y explica el problema.
   - Si hay filas invalidas, el sistema solo incorpora las validas y reporta las rechazadas.
 - Postcondiciones:
   - Los movimientos validos importados quedan disponibles en el libro y en los resumenes.
@@ -113,9 +131,10 @@
   1. El administrador selecciona el ejercicio anual.
   2. El sistema consolida los movimientos del ejercicio.
   3. El sistema muestra ingresos, gastos y saldo final.
-  4. El administrador revisa los datos para su comunicacion posterior.
+  4. El sistema identifica los meses del ejercicio sin movimientos o con posibles vacios de registro.
+  5. El administrador revisa los datos para su comunicacion posterior.
 - Flujos alternativos:
-  - Si hay periodos sin registros, el sistema los identifica como advertencia funcional.
+  - Si hay periodos sin registros, el sistema los identifica como advertencia funcional sin bloquear una correccion posterior.
 - Postcondiciones:
   - El ejercicio anual queda revisado con trazabilidad hacia sus movimientos.
 

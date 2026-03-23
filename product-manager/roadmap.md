@@ -4,11 +4,11 @@
 Traducir la vision del producto a una secuencia de entregas manejable para `developer-teams` y verificable por `qa-teams`, priorizando primero la base contable del producto.
 
 ## Supuestos
-- El producto se encuentra en fase de definicion funcional y no existe una entrega validada en `main`.
+- `PB-001` ya esta validado e integrado en `main`, por lo que el roadmap debe construirse sobre una base contable minima ya disponible.
 - `developer-teams` trabajara una issue cada vez.
 - El roadmap expresa prioridad funcional, no compromiso tecnico de fechas cerradas.
 
-## Fase 1 - Base contable del MVP
+## Fase 1 - Base contable operativa
 - Backlog incluido: PB-001, PB-002, PB-003
 - Objetivo: Conseguir que la comunidad pueda registrar movimientos y consultar su impacto economico basico.
 - Resultado esperado:
@@ -18,12 +18,22 @@ Traducir la vision del producto a una secuencia de entregas manejable para `deve
 - Dependencias clave: Ninguna externa visible a nivel de producto.
 - Riesgo principal: Intentar introducir capacidades accesorias antes de que exista una base contable fiable.
 
+## Fase 1.1 - Clasificacion contable asistida
+- Backlog incluido: PB-009
+- Objetivo: Completar la traduccion de la vision contable inicial con ayuda guiada para clasificar movimientos segun el Plan General de Contabilidad de Espana.
+- Resultado esperado:
+  - Sugerencias de cuentas contables habituales para comunidades de vecinos.
+  - Trazabilidad entre el movimiento registrado y la cuenta elegida.
+  - Exclusiones de amortizacion mantenidas en el alcance inicial.
+- Dependencias clave: PB-001
+- Riesgo principal: Mantener durante demasiado tiempo un registro de movimientos sin clasificacion asistida puede degradar la calidad contable y alejar el producto de su vision.
+
 ## Fase 2 - Transparencia para vecinos
 - Backlog incluido: PB-004
 - Objetivo: Habilitar consulta de informacion economica sin capacidad de modificacion.
 - Resultado esperado:
   - Acceso de solo lectura para vecinos.
-  - Reglas de visibilidad claras para informacion publicada.
+  - Resumen economico y listado de movimientos visibles para la comunidad.
 - Dependencias clave: PB-002, PB-003
 - Riesgo principal: No definir con precision que informacion es visible para el vecino.
 
@@ -47,6 +57,6 @@ Traducir la vision del producto a una secuencia de entregas manejable para `deve
 - Riesgo principal: Introducir notificaciones antes de consolidar el flujo contable principal.
 
 ## Dependencias abiertas
-- Confirmar si el cierre anual requiere una salida formal exportable o solo una consulta consolidada.
-- Definir politica de visibilidad para vecinos antes de ejecutar PB-004.
+- Confirmar si el cierre anual requerira en una fase posterior una salida formal exportable ademas de la consulta consolidada del MVP.
 - Confirmar si el presupuesto anual necesita versionado de revisiones en el alcance inicial o si basta con una version vigente por ejercicio.
+- Confirmar la lista inicial de cuentas sugeridas para `PB-009`.

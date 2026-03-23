@@ -1,7 +1,7 @@
 # Product Backlog
 
 ## Contexto
-La vision vigente define una aplicacion web para gestionar la contabilidad de una comunidad de vecinos con foco en transparencia, control economico, presupuestos y soporte al cierre anual. A fecha de 2026-03-22 existe una primera entrega validada para el registro de movimientos (`PB-001`), pero todavia no esta integrada en `main`, por lo que el backlog debe mantener visibles tanto el avance funcional como los bloqueos operativos de integracion.
+La vision vigente define una aplicacion web para gestionar la contabilidad de una comunidad de vecinos con foco en transparencia, control economico, presupuestos y soporte al cierre anual. A fecha de 2026-03-23 la primera entrega del registro basico de movimientos (`PB-001`) ya fue validada por `qa-teams` e integrada en `main`, pero sigue existiendo un hueco funcional frente a la vision: la ayuda guiada de clasificacion contable basada en el Plan General de Contabilidad todavia no esta trazada como entrega independiente y debe mantenerse visible en backlog.
 
 ## Criterios de priorizacion
 - Valor de negocio inmediato para administradores y vecinos.
@@ -12,7 +12,7 @@ La vision vigente define una aplicacion web para gestionar la contabilidad de un
 ## Backlog priorizado
 
 ### PB-001 - Registrar gastos e ingresos de la comunidad
-- Descripcion: Permitir que el administrador registre movimientos economicos con fecha, concepto, importe, tipo de movimiento e identificacion minima para su seguimiento, usando como referencia el Plan General de Contabilidad de Espana con ayuda guiada para seleccionar la cuenta correcta.
+- Descripcion: Permitir que el administrador registre movimientos economicos con fecha, concepto, importe, tipo de movimiento e identificacion minima para su seguimiento.
 - Prioridad: Alta
 - Valor de negocio: Alto. Sin registro fiable de movimientos no existe base contable para el resto del producto.
 - Historia de usuario: HU-001
@@ -21,14 +21,28 @@ La vision vigente define una aplicacion web para gestionar la contabilidad de un
 - Criterios de aceptacion:
   - El administrador puede crear un gasto indicando fecha, concepto, categoria e importe.
   - El administrador puede crear un ingreso indicando fecha, concepto, categoria e importe.
-  - El sistema solicita o muestra la cuenta contable asociada al movimiento usando como referencia el Plan General de Contabilidad de Espana.
-  - El sistema ofrece ayuda para seleccionar la cuenta correcta y prioriza cuentas sencillas de gastos e ingresos junto con cuentas habituales para comunidades de vecinos, como banco, caja, proveedores y acreedores.
-  - La ayuda de seleccion no prioriza ni sugiere cuentas de amortizacion en este alcance funcional.
   - Cada movimiento queda identificado de forma unica y visible para su consulta posterior.
   - No se permite guardar movimientos sin los campos minimos obligatorios definidos por negocio.
   - El sistema diferencia claramente entre gasto e ingreso en el registro.
 - Dependencias: Ninguna
-- Estado: validado
+- Estado: cerrado
+
+### PB-009 - Guiar la clasificacion contable con PGC simplificado
+- Descripcion: Permitir que el administrador reciba ayuda funcional para asociar una cuenta contable adecuada del Plan General de Contabilidad de Espana al registrar un movimiento, priorizando cuentas habituales de una comunidad de vecinos y manteniendo fuera del foco las cuentas de amortizacion.
+- Prioridad: Alta
+- Valor de negocio: Alto. Cierra la brecha entre la vision del producto y la entrega actual de registro basico, reduciendo errores de imputacion y mejorando la calidad de la informacion contable.
+- Historia de usuario: HU-009
+- Caso de uso: CU-009
+- Issue GitHub: #6
+- Criterios de aceptacion:
+  - El administrador recibe ayuda para clasificar un movimiento con una cuenta del Plan General de Contabilidad de Espana.
+  - La ayuda prioriza una lista inicial de cuentas habituales para comunidades de vecinos, incluyendo al menos banco, caja, proveedores, acreedores, suministros y reparaciones.
+  - La ayuda diferencia sugerencias segun el tipo de movimiento, como gasto o ingreso.
+  - El administrador puede confirmar una cuenta sugerida o elegir otra opcion permitida dentro del alcance funcional definido.
+  - La ayuda no prioriza ni sugiere cuentas de amortizacion en el alcance actual.
+  - La cuenta asociada al movimiento queda visible para su consulta posterior.
+- Dependencias: PB-001
+- Estado: nuevo
 
 ### PB-002 - Consultar el libro de asientos contables
 - Descripcion: Permitir revisar el historial de movimientos registrados en un libro ordenado y filtrable por periodo y tipo de movimiento.
@@ -63,20 +77,21 @@ La vision vigente define una aplicacion web para gestionar la contabilidad de un
 - Estado: nuevo
 
 ### PB-004 - Permitir acceso de solo lectura para vecinos
-- Descripcion: Habilitar que un vecino consulte la informacion economica publicada sin capacidad de modificar datos.
+- Descripcion: Habilitar que un vecino consulte informacion economica de la comunidad en modo solo lectura, con un alcance visible y verificable por negocio.
 - Prioridad: Alta
 - Valor de negocio: Alto. Es la pieza principal de transparencia para el usuario no administrador.
 - Historia de usuario: HU-004
 - Caso de uso: CU-004
-- Issue GitHub: no creada; pendiente cerrar regla de visibilidad para vecinos
+- Issue GitHub: #7
 - Criterios de aceptacion:
-  - Un vecino puede acceder a la informacion financiera disponible para consulta.
+  - Un vecino puede consultar un resumen economico mensual y anual en modo solo lectura.
+  - Un vecino puede consultar el listado de movimientos visibles para la comunidad mostrando al menos fecha, concepto, categoria, tipo e importe.
   - Un vecino no puede crear, editar ni borrar movimientos.
-  - El vecino puede consultar al menos resumenes y libro de asientos publicados.
   - El sistema diferencia claramente el alcance de consulta del vecino frente al del administrador.
   - Si un vecino intenta acceder a una accion de gestion, el sistema lo bloquea de forma explicita.
+  - Si todavia no existe informacion economica disponible, el sistema lo comunica con un mensaje claro sin exponer acciones de gestion.
 - Dependencias: PB-002, PB-003
-- Estado: refinamiento pendiente
+- Estado: nuevo
 
 ### PB-008 - Gestionar presupuestos anuales de la comunidad
 - Descripcion: Permitir que el administrador defina y consulte un presupuesto anual con partidas previstas de ingresos y gastos para compararlo despues con la ejecucion real de la comunidad.
@@ -101,31 +116,32 @@ La vision vigente define una aplicacion web para gestionar la contabilidad de un
 - Valor de negocio: Alto. Reduce barrera de entrada y evita migraciones manuales lentas.
 - Historia de usuario: HU-005
 - Caso de uso: CU-005
-- Issue GitHub: no creada; falta refinamiento funcional
+- Issue GitHub: #8
 - Criterios de aceptacion:
-  - El administrador puede cargar un fichero con movimientos historicos usando un formato previamente definido.
-  - El sistema valida los campos minimos requeridos antes de importar.
+  - El administrador puede cargar una plantilla oficial de importacion con las columnas `fecha`, `tipo`, `concepto`, `categoria` e `importe`, y una columna opcional `referencia_externa`.
+  - El sistema valida los campos minimos requeridos antes de importar y rechaza filas cuyo `tipo` no sea gasto o ingreso.
   - El sistema informa cuantas filas se importan correctamente y cuales fallan.
   - Las filas invalidas quedan identificadas con el motivo funcional del rechazo.
   - Los movimientos importados pasan a ser consultables en el libro de asientos y en el resumen financiero.
 - Dependencias: PB-001, PB-002
-- Estado: refinamiento pendiente
+- Estado: nuevo
 
 ### PB-006 - Preparar el cierre contable anual
-- Descripcion: Facilitar una vista o proceso que permita revisar el ejercicio anual cerrado con sus totales y reportes asociados.
+- Descripcion: Facilitar una revision funcional del ejercicio anual con sus totales y trazabilidad, sin incluir bloqueo tecnico del ejercicio en esta primera iteracion.
 - Prioridad: Media
 - Valor de negocio: Alto. Responde a una necesidad clave de gestion formal de la comunidad.
 - Historia de usuario: HU-006
 - Caso de uso: CU-006
-- Issue GitHub: no creada; falta refinamiento funcional
+- Issue GitHub: #9
 - Criterios de aceptacion:
   - El administrador puede seleccionar un ejercicio anual para revisar su cierre.
   - El sistema muestra el total anual de ingresos, gastos y saldo final del ejercicio.
-  - El cierre identifica si existen periodos sin movimientos o posibles vacios de registro.
-  - El resultado del cierre puede usarse como base para compartir informacion con vecinos.
+  - El cierre identifica los meses del ejercicio sin movimientos o con posibles vacios de registro.
+  - El cierre ofrece una vista de detalle o trazabilidad suficiente para llegar a los movimientos que componen el ejercicio.
+  - El resultado del cierre puede usarse como base para compartir informacion con vecinos, sin bloquear nuevas correcciones contables en esta primera version.
   - El ejercicio cerrado conserva trazabilidad con los movimientos que lo componen.
 - Dependencias: PB-002, PB-003
-- Estado: refinamiento pendiente
+- Estado: nuevo
 
 ### PB-007 - Enviar notificaciones y recordatorios operativos
 - Descripcion: Notificar hitos relevantes como fechas de pago, reuniones o revisiones de cierre para mejorar seguimiento y comunicacion.
@@ -144,21 +160,19 @@ La vision vigente define una aplicacion web para gestionar la contabilidad de un
 - Estado: refinamiento pendiente
 
 ## Dependencias abiertas de producto
-- Falta definir el formato funcional minimo aceptado para la importacion de movimientos.
-- Falta acordar que informacion financiera puede ver un vecino cuando existan datos sensibles o incidencias de conciliacion.
-- Falta concretar si el cierre anual requiere solo visualizacion consolidada o tambien bloqueo operativo del ejercicio.
-- Falta definir si el presupuesto anual necesitara versionado por revisiones o si el MVP aceptara un unico presupuesto vigente por ejercicio.
-- Falta concretar la lista inicial de cuentas del Plan General de Contabilidad que se sugeriran por defecto en el alta de movimientos para comunidades de vecinos.
+- Falta concretar la lista inicial canonica de cuentas del Plan General de Contabilidad que se sugeriran por defecto en `PB-009`.
+- Falta decidir si el presupuesto anual necesitara versionado por revisiones o si el MVP aceptara un unico presupuesto vigente por ejercicio.
+- Falta definir si el acceso de vecinos debe incluir todos los movimientos visibles o solo los marcados como consolidados cuando el producto introduzca estados de revision.
 
 ## Riesgos de producto
-- Existe una brecha entre la validacion funcional de `PB-001` y su falta de integracion en `main`, lo que retrasa el consumo documental y el encadenado de nuevas entregas.
+- Existe una brecha entre la vision y la entrega real de `PB-001`: el registro basico ya esta integrado, pero la clasificacion contable asistida sigue pendiente y puede inducir una falsa sensacion de cobertura funcional completa.
 - Si se intenta abordar importacion, vecinos y cierre anual sin entregar antes el registro de movimientos y la consulta del libro, aumentara la ambiguedad de validacion.
 - Si no se incorpora presupuestos al backlog ejecutable, la vision quedara parcialmente traducida y se perdera trazabilidad de una capacidad de negocio ya comprometida.
-- La falta de decisiones sobre permisos y datos visibles para vecinos puede generar retrabajo en historias posteriores.
+- Si se deja sin cerrar la politica inicial de visibilidad para vecinos, `developer-teams` y `qa-teams` pueden interpretar alcances distintos sobre `PB-004`.
 
 ## Preguntas abiertas
 - Se considera obligatorio soportar presupuestos en el MVP o se posponen a una fase posterior del roadmap?
-- El acceso de vecinos debe permitir ver el detalle de cada asiento o solo resumenes y reportes aprobados?
-- La importacion inicial debe admitir una sola plantilla oficial o varias fuentes equivalentes?
-- Que listado inicial de cuentas del Plan General de Contabilidad se considera canonico para la ayuda de alta de movimientos en una comunidad de vecinos?
+- El acceso de vecinos debera evolucionar en el futuro hacia una publicacion selectiva de movimientos cuando existan estados de conciliacion o incidencias sensibles?
+- La importacion inicial debera admitir varias fuentes equivalentes ademas de la plantilla oficial?
+- Que listado inicial de cuentas del Plan General de Contabilidad se considera canonico para la ayuda de clasificacion de `PB-009`?
 - El presupuesto anual necesita permitir ajustes posteriores sobre el mismo ejercicio o basta con una primera version editable sin historico en el alcance actual?
