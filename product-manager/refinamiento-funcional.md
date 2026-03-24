@@ -44,7 +44,8 @@ Reducir ambiguedad antes de crear o priorizar nuevas issues para `developer-team
 - El cierre anual inicial sera una consulta consolidada con trazabilidad y deteccion de meses sin movimientos, sin bloqueo del ejercicio.
 - La importacion, el cierre anual y las notificaciones quedan despues del flujo contable principal.
 - La clasificacion contable asistida se separa del registro basico ya entregado y pasa a `PB-009` para corregir la brecha con la vision.
-- La ayuda de seleccion de `PB-009` priorizara cuentas sencillas de gastos e ingresos y cuentas populares para la operativa de una comunidad de vecinos, como banco, caja, proveedores, acreedores, suministros y reparaciones.
+- La ayuda de seleccion de `PB-009` priorizara una lista canonica inicial con `570 Caja`, `572 Bancos e instituciones de credito c/c vista`, `400 Proveedores`, `410 Acreedores por prestaciones de servicios`, `623 Servicios de profesionales independientes`, `628 Suministros`, `629 Otros servicios`, `705 Prestaciones de servicios` y `740 Subvenciones, donaciones y legados a la explotacion`.
+- La ayuda de `PB-009` se guiara por tipo de movimiento: para gastos se priorizaran `400`, `410`, `623`, `628` y `629`; para ingresos se priorizaran `705` y `740`; `570` y `572` podran presentarse como cuentas operativas de apoyo cuando el movimiento afecte tesoreria.
 - Las cuentas de amortizacion quedan fuera del alcance funcional actual.
 
 ## Dependencias abiertas
@@ -53,7 +54,8 @@ Reducir ambiguedad antes de crear o priorizar nuevas issues para `developer-team
 - Importacion:
   - Pendiente decidir si, ademas de la plantilla oficial, se aceptaran fuentes equivalentes.
 - Ayuda de cuentas PGC:
-  - Pendiente concretar el listado inicial de cuentas sugeridas por defecto y si se presentaran por tipo de movimiento, por frecuencia o por ambos criterios.
+  - Resuelto el listado canonico inicial y la prioridad por tipo de movimiento para `PB-009`.
+  - Pendiente decidir si una fase posterior necesitara ampliar la ayuda hacia familias adicionales de cuentas habituales sin convertirla en navegacion completa por el PGC.
 - Cierre anual:
   - Pendiente decidir si en una fase posterior se necesitara exportacion formal o una marca funcional de cierre revisado.
 
@@ -66,5 +68,5 @@ Reducir ambiguedad antes de crear o priorizar nuevas issues para `developer-team
 1. Priorizar `#2` y `#3` como siguiente tramo del flujo base del MVP.
 2. Mantener `#4` como trazabilidad ejecutable de `PB-008`.
 3. Mantener visibles `#6`, `#7`, `#8` y `#9` para que `developer-teams` tome trabajo ya refinado cuando el flujo lo permita.
-4. Resolver la lista inicial de cuentas sugeridas para `PB-009` antes del handoff funcional de esa issue.
+4. Mantener `#6` listo para desarrollo con la lista canonica inicial de cuentas ya fijada en `requisitos-funcionales.md`.
 5. Mantener `PB-007` fuera de ejecucion hasta cerrar canales, destinatarios y eventos obligatorios.

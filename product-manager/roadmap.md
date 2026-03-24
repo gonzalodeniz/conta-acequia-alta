@@ -59,4 +59,3 @@ Traducir la vision del producto a una secuencia de entregas manejable para `deve
 ## Dependencias abiertas
 - Confirmar si el cierre anual requerira en una fase posterior una salida formal exportable ademas de la consulta consolidada del MVP.
 - Confirmar si el presupuesto anual necesita versionado de revisiones en el alcance inicial o si basta con una version vigente por ejercicio.
-- Confirmar la lista inicial de cuentas sugeridas para `PB-009`.

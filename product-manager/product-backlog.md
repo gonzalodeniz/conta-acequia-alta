@@ -1,7 +1,7 @@
 # Product Backlog
 
 ## Contexto
-La vision vigente define una aplicacion web para gestionar la contabilidad de una comunidad de vecinos con foco en transparencia, control economico, presupuestos y soporte al cierre anual. A fecha de 2026-03-23 la primera entrega del registro basico de movimientos (`PB-001`) ya fue validada por `qa-teams` e integrada en `main`, pero sigue existiendo un hueco funcional frente a la vision: la ayuda guiada de clasificacion contable basada en el Plan General de Contabilidad todavia no esta trazada como entrega independiente y debe mantenerse visible en backlog.
+La vision vigente define una aplicacion web para gestionar la contabilidad de una comunidad de vecinos con foco en transparencia, control economico, presupuestos y soporte al cierre anual. A fecha de 2026-03-24 la primera entrega del registro basico de movimientos (`PB-001`) ya fue validada por `qa-teams` e integrada en `main`, pero sigue existiendo un hueco funcional frente a la vision: la ayuda guiada de clasificacion contable basada en el Plan General de Contabilidad todavia no esta entregada y debe mantenerse visible en backlog con refinamiento suficiente para ejecucion.
 
 ## Criterios de priorizacion
 - Valor de negocio inmediato para administradores y vecinos.
@@ -36,7 +36,7 @@ La vision vigente define una aplicacion web para gestionar la contabilidad de un
 - Issue GitHub: #6
 - Criterios de aceptacion:
   - El administrador recibe ayuda para clasificar un movimiento con una cuenta del Plan General de Contabilidad de Espana.
-  - La ayuda prioriza una lista inicial de cuentas habituales para comunidades de vecinos, incluyendo al menos banco, caja, proveedores, acreedores, suministros y reparaciones.
+  - La ayuda prioriza una lista inicial canonica de cuentas habituales para comunidades de vecinos con estas referencias: `570 Caja`, `572 Bancos e instituciones de credito c/c vista`, `400 Proveedores`, `410 Acreedores por prestaciones de servicios`, `623 Servicios de profesionales independientes`, `628 Suministros`, `629 Otros servicios`, `705 Prestaciones de servicios` y `740 Subvenciones, donaciones y legados a la explotacion`.
   - La ayuda diferencia sugerencias segun el tipo de movimiento, como gasto o ingreso.
   - El administrador puede confirmar una cuenta sugerida o elegir otra opcion permitida dentro del alcance funcional definido.
   - La ayuda no prioriza ni sugiere cuentas de amortizacion en el alcance actual.
@@ -160,7 +160,6 @@ La vision vigente define una aplicacion web para gestionar la contabilidad de un
 - Estado: refinamiento pendiente
 
 ## Dependencias abiertas de producto
-- Falta concretar la lista inicial canonica de cuentas del Plan General de Contabilidad que se sugeriran por defecto en `PB-009`.
 - Falta decidir si el presupuesto anual necesitara versionado por revisiones o si el MVP aceptara un unico presupuesto vigente por ejercicio.
 - Falta definir si el acceso de vecinos debe incluir todos los movimientos visibles o solo los marcados como consolidados cuando el producto introduzca estados de revision.
 
@@ -169,10 +168,10 @@ La vision vigente define una aplicacion web para gestionar la contabilidad de un
 - Si se intenta abordar importacion, vecinos y cierre anual sin entregar antes el registro de movimientos y la consulta del libro, aumentara la ambiguedad de validacion.
 - Si no se incorpora presupuestos al backlog ejecutable, la vision quedara parcialmente traducida y se perdera trazabilidad de una capacidad de negocio ya comprometida.
 - Si se deja sin cerrar la politica inicial de visibilidad para vecinos, `developer-teams` y `qa-teams` pueden interpretar alcances distintos sobre `PB-004`.
+- Si `PB-009` se implementa sin respetar la lista canonica inicial y la separacion por tipo de movimiento, la ayuda PGC puede resultar incoherente entre altas similares y reducir su valor como guia funcional.
 
 ## Preguntas abiertas
 - Se considera obligatorio soportar presupuestos en el MVP o se posponen a una fase posterior del roadmap?
 - El acceso de vecinos debera evolucionar en el futuro hacia una publicacion selectiva de movimientos cuando existan estados de conciliacion o incidencias sensibles?
 - La importacion inicial debera admitir varias fuentes equivalentes ademas de la plantilla oficial?
-- Que listado inicial de cuentas del Plan General de Contabilidad se considera canonico para la ayuda de clasificacion de `PB-009`?
 - El presupuesto anual necesita permitir ajustes posteriores sobre el mismo ejercicio o basta con una primera version editable sin historico en el alcance actual?
