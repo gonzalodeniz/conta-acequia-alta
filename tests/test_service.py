@@ -33,7 +33,9 @@ class MovimientoServiceTests(unittest.TestCase):
         assert movimiento is not None
         self.assertTrue(movimiento.identificador.startswith("MOV-"))
         self.assertEqual(movimiento.importe, Decimal("125.50"))
-        self.assertEqual(len(self.service.listar_movimientos()), 1)
+        movimientos, listing_errors = self.service.listar_movimientos()
+        self.assertEqual(listing_errors, [])
+        self.assertEqual(len(movimientos), 1)
 
     def test_rechaza_campos_obligatorios_vacios(self) -> None:
         movimiento, errors = self.service.crear_movimiento(
@@ -62,6 +64,46 @@ class MovimientoServiceTests(unittest.TestCase):
 
         self.assertIsNone(movimiento)
         self.assertEqual({error.field for error in errors}, {"tipo", "importe"})
+
+    def test_lista_movimientos_en_orden_cronologico_y_filtra_por_rango(self) -> None:
+        for payload in (
+            {
+                "fecha": "2026-03-25",
+                "concepto": "Seguro",
+                "categoria": "Servicios",
+                "tipo": "gasto",
+                "importe": "80.00",
+            },
+            {
+                "fecha": "2026-03-21",
+                "concepto": "Cuota ordinaria",
+                "categoria": "Recibos",
+                "tipo": "ingreso",
+                "importe": "40.00",
+            },
+            {
+                "fecha": "2026-03-23",
+                "concepto": "Limpieza",
+                "categoria": "Mantenimiento",
+                "tipo": "gasto",
+                "importe": "20.00",
+            },
+        ):
+            _, errors = self.service.crear_movimiento(payload)
+            self.assertEqual(errors, [])
+
+        movimientos, errors = self.service.listar_movimientos("2026-03-22", "2026-03-25")
+
+        self.assertEqual(errors, [])
+        self.assertEqual([movimiento.fecha for movimiento in movimientos], ["2026-03-23", "2026-03-25"])
+        self.assertEqual([movimiento.concepto for movimiento in movimientos], ["Limpieza", "Seguro"])
+
+    def test_informa_error_si_el_rango_de_fechas_es_invalido(self) -> None:
+        movimientos, errors = self.service.listar_movimientos("2026-03-30", "2026-03-01")
+
+        self.assertEqual(movimientos, [])
+        self.assertEqual(len(errors), 1)
+        self.assertEqual(errors[0].field, "fecha_hasta")
 
 
 if __name__ == "__main__":

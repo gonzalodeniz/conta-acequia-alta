@@ -18,12 +18,13 @@ def create_app(data_file: Path | None = None) -> Callable:
     def app(environ: dict, start_response: Callable) -> list[bytes]:
         method = environ["REQUEST_METHOD"]
         if method == "GET":
-            return _render_page(start_response, service)
+            filter_data = _parse_form_data(environ.get("QUERY_STRING", ""))
+            return _render_page(start_response, service, filter_data=filter_data)
 
         if method == "POST":
             size = int(environ.get("CONTENT_LENGTH") or "0")
             raw_body = environ["wsgi.input"].read(size).decode("utf-8")
-            form_data = {key: values[0] for key, values in parse_qs(raw_body).items()}
+            form_data = _parse_form_data(raw_body)
             movimiento, errors = service.crear_movimiento(form_data)
             return _render_page(
                 start_response,
@@ -47,13 +48,18 @@ def _render_page(
     start_response: Callable,
     service: MovimientoService,
     form_data: dict[str, str] | None = None,
+    filter_data: dict[str, str] | None = None,
     errors: list[ValidationError] | None = None,
     success_message: str | None = None,
 ) -> list[bytes]:
     form_data = form_data or {}
-    errors = errors or []
-    error_map = {error.field: error.message for error in errors}
-    movimientos = service.listar_movimientos()
+    filter_data = filter_data or {}
+    form_errors = errors or []
+    movimientos, filter_errors = service.listar_movimientos(
+        filter_data.get("fecha_desde", "").strip(),
+        filter_data.get("fecha_hasta", "").strip(),
+    )
+    error_map = {error.field: error.message for error in form_errors + filter_errors}
     start_response("200 OK", [("Content-Type", "text/html; charset=utf-8")])
     html = f"""<!DOCTYPE html>
 <html lang="es">
@@ -128,6 +134,17 @@ def _render_page(
         border-radius: 12px;
         margin-bottom: 16px;
       }}
+      .filters {{
+        display: grid;
+        gap: 16px;
+        margin-bottom: 20px;
+      }}
+      .actions {{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: end;
+      }}
       .success {{
         background: #e6f5ee;
         color: var(--income);
@@ -166,6 +183,10 @@ def _render_page(
         border: 1px dashed var(--line);
         border-radius: 12px;
       }}
+      .empty strong {{
+        display: block;
+        margin-bottom: 6px;
+      }}
     </style>
   </head>
   <body>
@@ -187,8 +208,19 @@ def _render_page(
           </form>
         </div>
         <div class="panel">
-          <h2>Ultimos movimientos registrados</h2>
-          {_render_movimientos(movimientos)}
+          <h2>Libro de asientos contables</h2>
+          <p>Consulta todos los movimientos registrados y filtra por rango de fechas cuando lo necesites.</p>
+          <form method="get" class="filters">
+            <div class="grid">
+              {_render_input("fecha_desde", "Desde", "date", filter_data, error_map)}
+              {_render_input("fecha_hasta", "Hasta", "date", filter_data, error_map)}
+            </div>
+            <div class="actions">
+              <button type="submit">Filtrar libro</button>
+              <a href="/" style="color: var(--accent); font-weight: 700;">Limpiar filtros</a>
+            </div>
+          </form>
+          {_render_movimientos(movimientos, bool(filter_data.get("fecha_desde") or filter_data.get("fecha_hasta")))}
         </div>
       </section>
     </main>
@@ -236,8 +268,13 @@ def _render_select(form_data: dict[str, str], error_map: dict[str, str]) -> str:
     )
 
 
-def _render_movimientos(movimientos: list) -> str:
+def _render_movimientos(movimientos: list, filtered: bool) -> str:
     if not movimientos:
+        if filtered:
+            return (
+                '<div class="empty"><strong>No hay movimientos en el rango indicado.</strong>'
+                "Ajusta las fechas para ampliar la consulta del libro.</div>"
+            )
         return '<div class="empty">Todavia no hay movimientos registrados.</div>'
 
     items = []
@@ -255,3 +292,7 @@ def _render_movimientos(movimientos: list) -> str:
             f"</li>"
         )
     return f'<ul class="movimientos">{"".join(items)}</ul>'
+
+
+def _parse_form_data(raw_data: str) -> dict[str, str]:
+    return {key: values[0] for key, values in parse_qs(raw_data).items()}

@@ -37,8 +37,21 @@ class MovimientoService:
         self._repository.add(movimiento)
         return movimiento, []
 
-    def listar_movimientos(self) -> list[Movimiento]:
-        return list(reversed(self._repository.list_all()))
+    def listar_movimientos(
+        self,
+        fecha_desde: str = "",
+        fecha_hasta: str = "",
+    ) -> tuple[list[Movimiento], list[ValidationError]]:
+        errors = self._validate_range(fecha_desde, fecha_hasta)
+        if errors:
+            return [], errors
+
+        movimientos = self._sort_movimientos(self._repository.list_all())
+        if fecha_desde:
+            movimientos = [movimiento for movimiento in movimientos if movimiento.fecha >= fecha_desde]
+        if fecha_hasta:
+            movimientos = [movimiento for movimiento in movimientos if movimiento.fecha <= fecha_hasta]
+        return movimientos, []
 
     def _validate(self, payload: dict[str, str]) -> list[ValidationError]:
         errors: list[ValidationError] = []
@@ -68,3 +81,22 @@ class MovimientoService:
                 errors.append(ValidationError("importe", "El importe debe ser un numero valido."))
 
         return errors
+
+    def _validate_range(self, fecha_desde: str, fecha_hasta: str) -> list[ValidationError]:
+        errors: list[ValidationError] = []
+        for field, value in (("fecha_desde", fecha_desde), ("fecha_hasta", fecha_hasta)):
+            if not value:
+                continue
+            try:
+                date.fromisoformat(value)
+            except ValueError:
+                errors.append(ValidationError(field, "La fecha debe usar el formato AAAA-MM-DD."))
+
+        if not errors and fecha_desde and fecha_hasta and fecha_desde > fecha_hasta:
+            errors.append(
+                ValidationError("fecha_hasta", "La fecha final debe ser igual o posterior a la fecha inicial.")
+            )
+        return errors
+
+    def _sort_movimientos(self, movimientos: list[Movimiento]) -> list[Movimiento]:
+        return sorted(movimientos, key=lambda movimiento: (movimiento.fecha, movimiento.identificador))
