@@ -1,5 +1,9 @@
 # Analisis de proceso
 
+Fecha de escritura: 2026-03-24 23:01:17 UTC
+Changelog consultado: changelog/2026-03-24.md
+Vigencia de ejemplos: vigente
+
 ## Contexto analizado
 - El repositorio ya dispone de backlog funcional y de issues operativas en curso, por lo que el problema principal ya no es la ausencia de cola sino su sincronizacion con el estado real de cada issue.
 - `product-manager/product-backlog.md` esta poblado, pero sigue siendo sensible a desalineaciones manuales cuando las issues avanzan a `en desarrollo`, `listo para qa`, `validado` o `cerrado`.
@@ -43,6 +47,11 @@
 - Impacto: otros equipos leen una entrega aceptada pero no saben si el siguiente paso es integracion, espera documental o cierre administrativo.
 - Lectura operativa: hace falta vigilar la latencia entre validacion y cierre visible para que la issue no quede en limbo.
 
+### 8. El backlog mezcla estado operativo con estado de refinamiento
+- Evidencia observada: en `product-manager/product-backlog.md` los items enlazados a issue usan `Estado operativo:`, mientras que el item pendiente de refinamiento `PB-007` usa `Estado de backlog: refinamiento pendiente`.
+- Impacto: un lector del backlog puede interpretar que todos los estados tienen la misma semantica, cuando en realidad unos describen el ciclo de vida de una issue y otros solo la madurez de una iniciativa aun no operable.
+- Lectura operativa: conviene separar el campo que refleja ejecucion real del campo que refleja priorizacion o refinamiento para no mezclar cola de trabajo con cola de definicion.
+
 ## Propuestas de mejora
 
 ### A. Introducir un checkpoint minimo de backlog vivo
@@ -81,6 +90,12 @@
 - Beneficio: hace visible si el area de proceso esta describiendo el presente o reutilizando contexto historico como si fuera actual.
 - Tradeoffs: requiere disciplina minima al redactar cada documento.
 - Riesgos y dependencias: si la fecha de revision no se actualiza, la metrica pierde valor y el documento puede parecer vigente sin estarlo.
+
+### H. Separar el estado operativo del backlog del estado de refinamiento
+- Usar `Estado operativo:` para items enlazados a issue y `Estado de backlog:` para items aun en refinamiento o sin issue.
+- Beneficio: reduce ambiguedad entre trabajo ejecutable y priorizacion interna, y simplifica la lectura del backlog para `product-manager`, `developer-teams` y `qa-teams`.
+- Tradeoffs: exige actualizar la estructura de `product-manager/product-backlog.md` y mantenerla coherente en cada iteracion.
+- Riesgos y dependencias: si se vuelve a mezclar la semantica de ambos campos, reaparecera la ambiguedad y la mejora perdera valor operativo.
 
 ## Tradeoffs
 - El control operativo gana disciplina, pero tambien exige que `product-manager` y los demas roles cuiden un poco mas el mantenimiento del backlog y de las firmas.

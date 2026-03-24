@@ -3,6 +3,8 @@
 ## Contexto
 La vision vigente define una aplicacion web para gestionar la contabilidad de una comunidad de vecinos con foco en transparencia, control economico, presupuestos y soporte al cierre anual. A fecha de 2026-03-24 la primera entrega del registro basico de movimientos (`PB-001`) ya fue validada por `qa-teams` e integrada en `main`, pero sigue existiendo un hueco funcional frente a la vision: la ayuda guiada de clasificacion contable basada en el Plan General de Contabilidad todavia no esta entregada y debe mantenerse visible en backlog con refinamiento suficiente para ejecucion.
 
+Los items enlazados a una issue usan `Estado operativo:` para reflejar el ultimo estado visible del flujo. Los items aun en refinamiento o sin issue usan `Estado de backlog:` para su situacion de priorizacion.
+
 ## Criterios de priorizacion
 - Valor de negocio inmediato para administradores y vecinos.
 - Reduccion de riesgo funcional y de ambiguedad para `developer-teams`.
@@ -25,7 +27,7 @@ La vision vigente define una aplicacion web para gestionar la contabilidad de un
   - No se permite guardar movimientos sin los campos minimos obligatorios definidos por negocio.
   - El sistema diferencia claramente entre gasto e ingreso en el registro.
 - Dependencias: Ninguna
-- Estado: cerrado
+- Estado operativo: cerrado
 
 ### PB-009 - Guiar la clasificacion contable con PGC simplificado
 - Descripcion: Permitir que el administrador reciba ayuda funcional para asociar una cuenta contable adecuada del Plan General de Contabilidad de Espana al registrar un movimiento, priorizando cuentas habituales de una comunidad de vecinos y manteniendo fuera del foco las cuentas de amortizacion.
@@ -42,7 +44,7 @@ La vision vigente define una aplicacion web para gestionar la contabilidad de un
   - La ayuda no prioriza ni sugiere cuentas de amortizacion en el alcance actual.
   - La cuenta asociada al movimiento queda visible para su consulta posterior.
 - Dependencias: PB-001
-- Estado: nuevo
+- Estado operativo: nuevo
 
 ### PB-002 - Consultar el libro de asientos contables
 - Descripcion: Permitir revisar el historial de movimientos registrados en un libro ordenado y filtrable por periodo y tipo de movimiento.
@@ -58,7 +60,7 @@ La vision vigente define una aplicacion web para gestionar la contabilidad de un
   - El libro muestra como minimo fecha, concepto, categoria, tipo e importe de cada movimiento.
   - Si no existen movimientos en el periodo consultado, el sistema lo comunica sin ambiguedad.
 - Dependencias: PB-001
-- Estado: nuevo
+- Estado operativo: nuevo
 
 ### PB-003 - Visualizar resumen financiero del periodo
 - Descripcion: Ofrecer un resumen consolidado con total de ingresos, total de gastos y saldo para un periodo seleccionable.
@@ -74,7 +76,7 @@ La vision vigente define una aplicacion web para gestionar la contabilidad de un
   - El sistema permite al menos consultar el periodo mensual y anual.
   - Si no hay movimientos en el periodo, el resumen devuelve importes a cero y un mensaje claro.
 - Dependencias: PB-001
-- Estado: nuevo
+- Estado operativo: nuevo
 
 ### PB-004 - Permitir acceso de solo lectura para vecinos
 - Descripcion: Habilitar que un vecino consulte informacion economica de la comunidad en modo solo lectura, con un alcance visible y verificable por negocio.
@@ -91,7 +93,7 @@ La vision vigente define una aplicacion web para gestionar la contabilidad de un
   - Si un vecino intenta acceder a una accion de gestion, el sistema lo bloquea de forma explicita.
   - Si todavia no existe informacion economica disponible, el sistema lo comunica con un mensaje claro sin exponer acciones de gestion.
 - Dependencias: PB-002, PB-003
-- Estado: nuevo
+- Estado operativo: nuevo
 
 ### PB-008 - Gestionar presupuestos anuales de la comunidad
 - Descripcion: Permitir que el administrador defina y consulte un presupuesto anual con partidas previstas de ingresos y gastos para compararlo despues con la ejecucion real de la comunidad.
@@ -108,7 +110,7 @@ La vision vigente define una aplicacion web para gestionar la contabilidad de un
   - El presupuesto queda identificado por ejercicio y disponible para consulta posterior.
   - El sistema comunica de forma clara cuando un ejercicio todavia no tiene presupuesto definido.
 - Dependencias: PB-001, PB-003
-- Estado: nuevo
+- Estado operativo: nuevo
 
 ### PB-005 - Importar movimientos desde una hoja de calculo
 - Descripcion: Permitir una carga inicial de movimientos historicos desde un formato tabular acordado para acelerar la adopcion.
@@ -124,7 +126,7 @@ La vision vigente define una aplicacion web para gestionar la contabilidad de un
   - Las filas invalidas quedan identificadas con el motivo funcional del rechazo.
   - Los movimientos importados pasan a ser consultables en el libro de asientos y en el resumen financiero.
 - Dependencias: PB-001, PB-002
-- Estado: nuevo
+- Estado operativo: nuevo
 
 ### PB-006 - Preparar el cierre contable anual
 - Descripcion: Facilitar una revision funcional del ejercicio anual con sus totales y trazabilidad, sin incluir bloqueo tecnico del ejercicio en esta primera iteracion.
@@ -141,7 +143,7 @@ La vision vigente define una aplicacion web para gestionar la contabilidad de un
   - El resultado del cierre puede usarse como base para compartir informacion con vecinos, sin bloquear nuevas correcciones contables en esta primera version.
   - El ejercicio cerrado conserva trazabilidad con los movimientos que lo componen.
 - Dependencias: PB-002, PB-003
-- Estado: nuevo
+- Estado operativo: nuevo
 
 ### PB-007 - Enviar notificaciones y recordatorios operativos
 - Descripcion: Notificar hitos relevantes como fechas de pago, reuniones o revisiones de cierre para mejorar seguimiento y comunicacion.
@@ -157,7 +159,7 @@ La vision vigente define una aplicacion web para gestionar la contabilidad de un
   - El administrador puede consultar el estado de cada recordatorio configurado.
   - Las notificaciones no alteran la informacion contable registrada.
 - Dependencias: PB-004
-- Estado: refinamiento pendiente
+- Estado de backlog: refinamiento pendiente
 
 ## Dependencias abiertas de producto
 - Falta decidir si el presupuesto anual necesitara versionado por revisiones o si el MVP aceptara un unico presupuesto vigente por ejercicio.

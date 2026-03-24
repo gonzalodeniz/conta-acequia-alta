@@ -1,5 +1,9 @@
 # Metricas ligeras de flujo
 
+Fecha de escritura: 2026-03-24 23:01:17 UTC
+Changelog consultado: changelog/2026-03-24.md
+Vigencia de ejemplos: vigente
+
 ## Objetivo
 Medir si el proceso entre equipos mejora en velocidad, claridad y estabilidad sin crear una carga operativa innecesaria.
 
@@ -60,6 +64,10 @@ Medir si el proceso entre equipos mejora en velocidad, claridad y estabilidad si
 ## 13. Vigencia de referencias de proceso
 - Definicion: porcentaje de documentos de `agile-coach/` que incluyen hora de ultima revision y referencia a la entrada mas reciente de `changelog/` consultada antes de publicar un analisis, riesgo o mejora.
 - Senal que aporta: detecta cuando un documento usa ejemplos caducados como si fueran estado vigente y ayuda a vigilar la frescura de los artefactos de coordinacion.
+
+## 14. Coherencia del campo de estado en backlog
+- Definicion: porcentaje de items de `product-manager/product-backlog.md` que usan `Estado operativo:` cuando estan enlazados a issue y `Estado de backlog:` cuando siguen en refinamiento, sin mezclar ambas semanticas.
+- Senal que aporta: detecta si el backlog distingue claramente entre trabajo ejecutable y priorizacion interna.
 
 ## Regla de uso
 - Revisar estas metricas al cierre de cada iteracion relevante o cuando se acumulen varias issues cerradas.

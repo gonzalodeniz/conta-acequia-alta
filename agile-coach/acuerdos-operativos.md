@@ -18,6 +18,15 @@ Los ejemplos concretos de issues, backlog o entradas de `changelog/` incluidos e
 - Si el ejemplo ya no describe el estado actual, actualizar el documento o marcarlo como referencia historica para no mezclar evidencia antigua con estado operativo actual.
 - Cuando un documento cite un caso real, debe quedar claro si el caso se usa como alerta activa o como antecedente historico de proceso.
 
+## Formato minimo de los artefactos de proceso
+Los documentos de `agile-coach/` que contengan analisis, mejoras, metricas o riesgos deben abrir con una cabecera breve que deje trazabilidad de vigencia:
+
+- `Fecha de escritura: YYYY-MM-DD HH:MM:SS UTC`
+- `Changelog consultado: changelog/AAAA-MM-DD.md`
+- `Vigencia de ejemplos: vigente|historico`
+
+Si el documento reutiliza una fotografia historica, debe indicarlo explicitamente en esa cabecera o en la primera seccion del texto.
+
 ## Estados operativos comunes
 Todos los equipos deben reutilizar estos estados operativos en sus comentarios y transiciones de trabajo:
 
@@ -29,6 +38,13 @@ Todos los equipos deben reutilizar estos estados operativos en sus comentarios y
 - `cerrado`: `product-manager` cierra la issue tras validacion y promueve el siguiente paso de integracion.
 
 Ademas, el campo `Estado operativo:` del cuerpo de la issue debe reflejar siempre el ultimo estado real visible en el flujo. El rol que produzca la transicion debe actualizarlo en GitHub junto con su comentario estructurado.
+
+## Separacion entre estado operativo y estado de backlog
+El backlog persistente de `product-manager` puede contener items que todavia no tienen issue o que siguen en refinamiento. Para evitar mezclar esa madurez de producto con el ciclo de vida de ejecucion:
+
+- Los items enlazados a una issue de GitHub deben usar `Estado operativo:` y reflejar el ultimo estado real de esa issue.
+- Los items que aun no tienen issue o permanecen en refinamiento deben usar `Estado de backlog:` para indicar su situacion de priorizacion o refinamiento.
+- Cuando un item pase de backlog de refinamiento a issue operable, o la issue cambie de `nuevo` a `en desarrollo`, `listo para qa`, `validado` o `cerrado`, el campo correspondiente debe actualizarse en la misma iteracion.
 
 ## Paquete minimo para iniciar una issue
 Antes de que `developer-teams` abra una rama, la issue debe incluir como minimo y de forma literal:

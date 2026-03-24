@@ -1,5 +1,9 @@
 # Mejoras de proceso propuestas
 
+Fecha de escritura: 2026-03-24 23:01:17 UTC
+Changelog consultado: changelog/2026-03-24.md
+Vigencia de ejemplos: vigente
+
 ## Mejora 1: introducir estados operativos comunes en la issue
 ### Problema detectado
 No existe un lenguaje operativo unico para saber en que punto exacto del flujo esta cada issue.
@@ -424,3 +428,22 @@ Antes de publicar un analisis, riesgo o mejora, contrastar la referencia mas rec
 ### Riesgos y dependencias
 - Depende de que `changelog/` se mantenga al dia y de que los ejemplos se revaliden contra la fuente viva correcta.
 - Si el ejemplo no se puede revalidar, el documento debe detenerse o dejar explicito que usa solo evidencia historica.
+
+## Mejora 21: separar el estado del backlog del estado operativo de la issue
+### Problema detectado
+`product-manager/product-backlog.md` mezcla items enlazados a issue con items aun en refinamiento bajo un mismo campo de estado, lo que dificulta distinguir madurez de producto y ciclo de vida de ejecucion.
+
+### Propuesta
+Usar `Estado operativo:` para items enlazados a issue y `Estado de backlog:` para items que aun no tienen issue o siguen en refinamiento.
+
+### Impacto esperado
+- El backlog se lee mas rapido porque cada campo tiene una semantica unica.
+- `product-manager` puede priorizar sin confundir trabajo ejecutable con definicion pendiente.
+- `developer-teams` y `qa-teams` entienden de inmediato si un item ya entra en flujo de entrega o sigue en cola de definicion.
+
+### Tradeoffs
+- Requiere actualizar la estructura de `product-manager/product-backlog.md` y mantenerla coherente en cada iteracion.
+
+### Riesgos y dependencias
+- Si los dos campos vuelven a mezclarse, reaparece la ambiguedad y la mejora pierde valor.
+- Depende de que `product-manager/AGENTS.md` mantenga esta distincion como regla de mantenimiento del backlog.
