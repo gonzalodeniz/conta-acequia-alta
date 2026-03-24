@@ -9,6 +9,9 @@ Interfaz estandar de Python usada por la aplicacion minima del repositorio para 
 ## `app.py`
 Punto de entrada de la aplicacion minima. Arranca un servidor local en `127.0.0.1:8000`.
 
+## `PORT`
+Variable de entorno usada por `app.py` para cambiar el puerto de escucha. Tambien puede leerse desde `.env`.
+
 ## `data/movimientos.json`
 Fichero JSON donde la entrega actual persiste los movimientos contables registrados.
 

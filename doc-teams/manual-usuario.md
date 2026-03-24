@@ -9,8 +9,10 @@ Tambien deja explicitas las capacidades que siguen solo en vision o backlog para
 
 ## Estado de verificacion
 - Existe una aplicacion WSGI minima en Python en `app.py`.
+- La pantalla actual combina un formulario de alta y un listado de movimientos ya registrados.
 - La entrega actual permite registrar movimientos contables de gasto o ingreso.
 - Cada movimiento queda persistido en `data/movimientos.json`.
+- La lista se muestra en orden inverso de insercion, con los ultimos movimientos primero.
 - No hay autenticacion ni perfiles de acceso diferenciados en la entrega actual.
 - Las capacidades de presupuestos, importacion, cierre anual, vecinos en solo lectura y notificaciones no estan implementadas en esta base.
 
@@ -20,6 +22,13 @@ Tambien deja explicitas las capacidades que siguen solo en vision o backlog para
 - Ver una lista de los movimientos registrados hasta ese momento.
 - Recibir validaciones de formulario cuando un campo es obligatorio, la fecha no tiene formato `AAAA-MM-DD`, el tipo no es valido o el importe no es mayor que cero.
 - Ver el identificador unico generado para cada movimiento correcto.
+
+## Campos del formulario
+- `Fecha`: obligatoria y con formato `AAAA-MM-DD`.
+- `Tipo`: solo admite `gasto` o `ingreso`.
+- `Concepto`: texto libre obligatorio para describir el movimiento.
+- `Categoria`: texto libre obligatorio para clasificar el movimiento desde un punto de vista operativo.
+- `Importe`: valor numerico mayor que cero.
 
 ## Uso esperado por perfil
 ### Administrador de la comunidad
@@ -31,6 +40,7 @@ Tambien deja explicitas las capacidades que siguen solo en vision o backlog para
 ### Vecino
 1. En la vision de producto, el vecino deberia tener acceso de solo lectura.
 2. En la entrega actual no existe todavia un acceso de vecino separado, asi que ese comportamiento sigue pendiente de desarrollo.
+3. No debe asumirse que el vecino pueda filtrar, editar o consultar resumenes, porque esas capacidades no estan implementadas.
 
 ## Flujo de uso
 1. Inicia la aplicacion con `make run` o `python3 app.py`.
@@ -45,6 +55,13 @@ Tambien deja explicitas las capacidades que siguen solo en vision o backlog para
 - No se documenta busqueda, filtrado ni resumen financiero porque aun no estan disponibles en la base ejecutable.
 - No se documenta gestion de presupuestos como funcionalidad operativa porque sigue pendiente en el backlog.
 - No se debe asumir que la vista actual sustituye una aplicacion de produccion completa.
+- No existe, por ahora, una configuracion de usuarios, permisos o auditoria por perfil.
+
+## Errores habituales
+- Si falta un campo obligatorio, el formulario muestra el mensaje `Este campo es obligatorio.` debajo del campo afectado.
+- Si la fecha no sigue el formato esperado, la aplicacion informa que debe usar `AAAA-MM-DD`.
+- Si el tipo no es `gasto` o `ingreso`, la aplicacion rechaza el envio.
+- Si el importe no es valido o no es mayor que cero, la aplicacion no crea el movimiento.
 
 ## Dependencias abiertas
 - Falta cerrar la implementacion de PB-002 y PB-003 para ampliar el uso funcional de la consulta y el resumen.

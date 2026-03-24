@@ -10,11 +10,12 @@ No inventa arquitectura ni dependencias externas que no esten respaldadas por lo
 ## Estado tecnico verificado
 - Existe una aplicacion WSGI minima en Python en `app.py`.
 - El paquete `conta_acequia_alta/` contiene modelos, repositorio, servicio y capa web.
-- Los tests automaticos viven en `tests/test_service.py` y `tests/test_web.py`.
+- Los tests automaticos viven en `tests/test_app.py`, `tests/test_service.py` y `tests/test_web.py`.
 - La persistencia de datos usa `data/movimientos.json`.
 - `requirements.txt` existe, pero por ahora no declara dependencias externas.
 - La aplicacion valida campos obligatorios, formato de fecha, tipo de movimiento e importe positivo.
 - La vista web actual es unica y sirve tanto para alta como para consulta del ultimo estado persistido.
+- La configuracion del puerto se resuelve desde la variable de entorno `PORT` o desde `.env`, con valor por defecto `8000`.
 
 ## Estructura relevante
 - `app.py`: punto de entrada para levantar el servidor WSGI local.
@@ -22,7 +23,7 @@ No inventa arquitectura ni dependencias externas que no esten respaldadas por lo
 - `conta_acequia_alta/repository.py`: lectura y escritura JSON en `data/movimientos.json`.
 - `conta_acequia_alta/service.py`: validacion de negocio y creacion de movimientos.
 - `conta_acequia_alta/web.py`: render HTML y logica WSGI.
-- `tests/`: cobertura basica de servicio y vista web.
+- `tests/`: cobertura basica de configuracion, servicio y vista web.
 - `product-manager/`: fuente de verdad funcional y trazabilidad de producto.
 - `doc-teams/`: manuales y guias mantenidas por documentacion.
 
@@ -34,6 +35,18 @@ No inventa arquitectura ni dependencias externas que no esten respaldadas por lo
 5. El repositorio persiste el movimiento en `data/movimientos.json`.
 6. La vista renderiza la lista de movimientos en orden inverso de insercion.
 
+## Validaciones implementadas
+- `fecha` es obligatoria y debe usar formato `AAAA-MM-DD`.
+- `concepto` es obligatorio.
+- `categoria` es obligatoria.
+- `tipo` es obligatorio y solo acepta `gasto` o `ingreso`.
+- `importe` es obligatorio, debe ser numerico y mayor que cero.
+
+## Comportamiento de persistencia
+- Si `data/movimientos.json` no existe, el repositorio lo crea automaticamente con un array vacio.
+- Cada alta reescribe el fichero completo con la lista serializada.
+- Los datos se guardan en JSON legible para facilitar inspeccion manual y restauracion.
+
 ## Comandos utiles
 - `python3 -m venv .venv`: crea el entorno virtual de trabajo en la raiz del repositorio.
 - `source .venv/bin/activate`: activa el entorno virtual en Bash o Zsh antes de instalar o ejecutar comandos.
@@ -43,23 +56,19 @@ No inventa arquitectura ni dependencias externas que no esten respaldadas por lo
 - `python3 app.py`: alternativa directa para iniciar la aplicacion.
 - `python3 -m unittest discover -s tests -v`: ejecucion explicita de los tests.
 
-## Reglas de validacion actuales
-- `fecha` es obligatoria y debe usar formato `AAAA-MM-DD`.
-- `concepto` es obligatorio.
-- `categoria` es obligatoria.
-- `tipo` es obligatorio y solo acepta `gasto` o `ingreso`.
-- `importe` es obligatorio, debe ser numerico y mayor que cero.
-
-## Persistencia
-- El fichero de datos es `data/movimientos.json`.
-- Si el fichero no existe, el repositorio lo crea con un array vacio.
-- Cada alta vuelve a escribir el fichero completo con la lista serializada.
-- La informacion persiste en formato JSON legible.
+## Verificacion recomendada
+1. Ejecutar `make test`.
+2. Arrancar `make run`.
+3. Abrir `http://127.0.0.1:8000`.
+4. Registrar un movimiento valido.
+5. Comprobar que el identificador aparece en la confirmacion y en la lista inferior.
+6. Probar un envio invalido para verificar la respuesta de validacion.
 
 ## Dependencias tecnicas abiertas
 - Falta implementar busqueda, filtrado, resumen financiero, importacion, presupuestos y cierre anual.
 - Falta definir autenticacion y permisos si el producto va a distinguir administradores de vecinos.
 - Falta decidir una estrategia de despliegue distinta del servidor local de desarrollo.
+- No existe capa de API separada ni almacenamiento alternativo al fichero JSON local.
 
 ## Scripts de soporte
 ### `run-codex.sh`

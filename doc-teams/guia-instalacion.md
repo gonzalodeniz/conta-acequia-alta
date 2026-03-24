@@ -11,7 +11,7 @@ No describe instalacion de produccion porque todavia no hay una estrategia de de
 - Python 3 disponible como `python3`.
 - `git`.
 - Bash.
-- Un entorno virtual Python es obligatorio para aislar la ejecucion.
+- Un entorno virtual Python es obligatorio para aislar la ejecucion segun la politica del repositorio.
 
 ## Instalacion local
 1. Clonar el repositorio.
@@ -32,7 +32,13 @@ Ejecuta `make test` para comprobar que:
 
 Ejecuta `make run` para comprobar que:
 - La aplicacion levanta un servidor WSGI local.
-- El servicio responde en `http://127.0.0.1:8000`.
+- El servicio responde en `http://127.0.0.1:8000` salvo que `PORT` o `.env` definan otro valor.
+- La ruta raiz muestra el formulario y el listado de movimientos.
+
+## Configuracion de ejecucion
+- `PORT` define el puerto de escucha.
+- Si existe un fichero `.env` en la raiz, `app.py` tambien toma `PORT` desde ahi.
+- Si no se define un puerto, la aplicacion usa `8000`.
 
 ## Dependencias abiertas
 - No existe una infraestructura de produccion documentada para desplegar la aplicacion.
