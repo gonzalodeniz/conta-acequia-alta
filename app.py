@@ -7,21 +7,24 @@ from conta_acequia_alta.web import create_app
 
 DEFAULT_HOST = "127.0.0.1"
 DEFAULT_PORT = 8000
+DEFAULT_BASE_PATH = ""
 ENV_FILE = Path(__file__).resolve().parent / ".env"
 
 
 def main() -> None:
-    app = create_app()
-    host, port = _resolve_server_address(ENV_FILE, environ)
+    file_env = _load_env_file(ENV_FILE)
+    host, port = _resolve_server_address(file_env, environ)
+    base_path = _resolve_base_path(environ, file_env)
+    app = create_app(base_path=base_path)
     with make_server(host, port, app) as httpd:
-        print(f"Aplicacion disponible en http://{host}:{port}")
+        print(f"Aplicacion disponible en http://{host}:{port}{base_path or '/'}")
         httpd.serve_forever()
 
 
-def _resolve_server_address(env_file: Path, runtime_env: Mapping[str, str]) -> tuple[str, int]:
-    file_env = _load_env_file(env_file)
+def _resolve_server_address(file_env: Mapping[str, str], runtime_env: Mapping[str, str]) -> tuple[str, int]:
+    host = _resolve_host(runtime_env, file_env)
     port = _resolve_port(runtime_env, file_env)
-    return DEFAULT_HOST, port
+    return host, port
 
 
 def _load_env_file(env_file: Path) -> dict[str, str]:
@@ -53,6 +56,28 @@ def _resolve_port(runtime_env: Mapping[str, str], file_env: Mapping[str, str]) -
         raise ValueError("PORT debe estar entre 1 y 65535.")
 
     return port
+
+
+def _resolve_host(runtime_env: Mapping[str, str], file_env: Mapping[str, str]) -> str:
+    raw_host = runtime_env.get("HOST") or file_env.get("HOST") or DEFAULT_HOST
+    host = raw_host.strip()
+    if not host:
+        raise ValueError("HOST no puede estar vacio.")
+    return host
+
+
+def _resolve_base_path(runtime_env: Mapping[str, str], file_env: Mapping[str, str]) -> str:
+    raw_base_path = runtime_env.get("BASE_PATH") or file_env.get("BASE_PATH") or DEFAULT_BASE_PATH
+    return _normalize_base_path(raw_base_path)
+
+
+def _normalize_base_path(raw_base_path: str) -> str:
+    base_path = raw_base_path.strip()
+    if not base_path or base_path == "/":
+        return ""
+
+    normalized = "/" + base_path.strip("/")
+    return normalized.rstrip("/")
 
 
 if __name__ == "__main__":

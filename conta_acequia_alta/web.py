@@ -11,14 +11,22 @@ from conta_acequia_alta.service import MovimientoService, ValidationError
 DATA_FILE = Path(__file__).resolve().parent.parent / "data" / "movimientos.json"
 
 
-def create_app(data_file: Path | None = None) -> Callable:
+def create_app(data_file: Path | None = None, base_path: str = "") -> Callable:
     repository = MovimientoRepository(data_file or DATA_FILE)
     service = MovimientoService(repository)
+    normalized_base_path = _normalize_base_path(base_path)
 
     def app(environ: dict, start_response: Callable) -> list[bytes]:
         method = environ["REQUEST_METHOD"]
+        path = _normalize_request_path(environ.get("PATH_INFO", "/"))
+        public_base_path = _resolve_public_base_path(environ, normalized_base_path)
+
+        if not _matches_path(path, normalized_base_path):
+            start_response("404 Not Found", [("Content-Type", "text/plain; charset=utf-8")])
+            return [b"Ruta no encontrada"]
+
         if method == "GET":
-            return _render_page(start_response, service)
+            return _render_page(start_response, service, public_base_path=public_base_path)
 
         if method == "POST":
             size = int(environ.get("CONTENT_LENGTH") or "0")
@@ -30,6 +38,7 @@ def create_app(data_file: Path | None = None) -> Callable:
                 service,
                 form_data=form_data,
                 errors=errors,
+                public_base_path=public_base_path,
                 success_message=(
                     f"Movimiento registrado correctamente con identificador {movimiento.identificador}."
                     if movimiento
@@ -49,6 +58,7 @@ def _render_page(
     form_data: dict[str, str] | None = None,
     errors: list[ValidationError] | None = None,
     success_message: str | None = None,
+    public_base_path: str = "",
 ) -> list[bytes]:
     form_data = form_data or {}
     errors = errors or []
@@ -175,7 +185,7 @@ def _render_page(
           <h1>Registro de movimientos contables</h1>
           <p>Da de alta gastos e ingresos de la comunidad con la informacion minima obligatoria.</p>
           {_render_message(success_message, "success")}
-          <form method="post">
+          <form method="post" action="{public_base_path or '/'}">
             <div class="grid">
               {_render_input("fecha", "Fecha", "date", form_data, error_map)}
               {_render_select(form_data, error_map)}
@@ -255,3 +265,31 @@ def _render_movimientos(movimientos: list) -> str:
             f"</li>"
         )
     return f'<ul class="movimientos">{"".join(items)}</ul>'
+
+
+def _normalize_base_path(base_path: str) -> str:
+    cleaned = base_path.strip()
+    if not cleaned or cleaned == "/":
+        return ""
+    return "/" + cleaned.strip("/")
+
+
+def _normalize_request_path(path: str) -> str:
+    if not path:
+        return "/"
+    if path == "/":
+        return path
+    return "/" + path.strip("/")
+
+
+def _resolve_public_base_path(environ: dict, configured_base_path: str) -> str:
+    if configured_base_path:
+        return configured_base_path
+    script_name = _normalize_base_path(str(environ.get("SCRIPT_NAME", "")))
+    return script_name
+
+
+def _matches_path(path: str, base_path: str) -> bool:
+    if not base_path:
+        return path == "/"
+    return path in {base_path, f"{base_path}/"}

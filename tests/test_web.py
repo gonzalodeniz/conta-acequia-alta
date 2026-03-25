@@ -38,10 +38,41 @@ class WebAppTests(unittest.TestCase):
 
         self.assertIn("Este campo es obligatorio.", body)
 
-    def _call_app(self, method: str, body: str = "") -> tuple[str, str]:
+    def test_usa_base_path_configurado_en_la_accion_del_formulario(self) -> None:
+        app = create_app(self.data_file, base_path="/contabilidad")
+
+        status, body = self._call_app("GET", app=app, path="/contabilidad")
+
+        self.assertEqual(status, "200 OK")
+        self.assertIn('<form method="post" action="/contabilidad">', body)
+
+    def test_devuelve_404_si_la_ruta_no_coincide_con_el_base_path(self) -> None:
+        app = create_app(self.data_file, base_path="/contabilidad")
+
+        status, body = self._call_app("GET", app=app, path="/")
+
+        self.assertEqual(status, "404 Not Found")
+        self.assertIn("Ruta no encontrada", body)
+
+    def test_usa_script_name_como_ruta_publica_si_no_hay_base_path_configurado(self) -> None:
+        status, body = self._call_app("GET", script_name="/portal")
+
+        self.assertEqual(status, "200 OK")
+        self.assertIn('<form method="post" action="/portal">', body)
+
+    def _call_app(
+        self,
+        method: str,
+        body: str = "",
+        app=None,
+        path: str = "/",
+        script_name: str = "",
+    ) -> tuple[str, str]:
         environ: dict[str, object] = {}
         setup_testing_defaults(environ)
         environ["REQUEST_METHOD"] = method
+        environ["PATH_INFO"] = path
+        environ["SCRIPT_NAME"] = script_name
         encoded = body.encode("utf-8")
         environ["CONTENT_LENGTH"] = str(len(encoded))
         environ["wsgi.input"] = BytesIO(encoded)
@@ -50,7 +81,7 @@ class WebAppTests(unittest.TestCase):
         def start_response(status: str, _headers: list[tuple[str, str]]) -> None:
             response_status.append(status)
 
-        chunks = self.app(environ, start_response)
+        chunks = (app or self.app)(environ, start_response)
         rendered = b"".join(chunks).decode("utf-8")
         return response_status[0], rendered
 
