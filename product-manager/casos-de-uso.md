@@ -148,13 +148,15 @@
   - El sistema soporta recordatorios configurables.
   - El administrador dispone de acceso de gestion.
 - Flujo principal:
-  1. El administrador crea un recordatorio con fecha y mensaje.
+  1. El administrador crea un recordatorio con fecha, tipo de hito y mensaje.
   2. El sistema registra el recordatorio.
-  3. El administrador consulta el listado de recordatorios.
+  3. El sistema clasifica el recordatorio segun su estado temporal.
+  4. El administrador consulta el listado de recordatorios.
 - Flujos alternativos:
   - Si faltan datos obligatorios, el sistema rechaza el recordatorio.
+  - Si el recordatorio ya esta vencido segun la fecha configurada, el sistema lo muestra como vencido sin modificar informacion contable.
 - Postcondiciones:
-  - El recordatorio queda disponible para su seguimiento segun el alcance definido por negocio.
+  - El recordatorio queda disponible para su seguimiento por el administrador segun el alcance definido por negocio.
 
 ## CU-008 - Definir presupuesto anual
 - Backlog relacionado: PB-008
@@ -173,6 +175,7 @@
   5. El sistema guarda el presupuesto y lo deja disponible para consulta posterior.
 - Flujos alternativos:
   - Si falta el ejercicio o una partida obligatoria, el sistema rechaza el guardado e indica el dato pendiente.
+  - Si el ejercicio ya tiene presupuesto, el sistema permite revisar o actualizar la version vigente del mismo presupuesto dentro del alcance inicial.
   - Si el ejercicio consultado no tiene presupuesto registrado, el sistema lo informa claramente.
 - Postcondiciones:
   - El presupuesto anual queda identificado por ejercicio y preparado para su consulta.

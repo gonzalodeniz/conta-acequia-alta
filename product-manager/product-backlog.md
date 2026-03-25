@@ -1,7 +1,7 @@
 # Product Backlog
 
 ## Contexto
-La vision vigente define una aplicacion web para gestionar la contabilidad de una comunidad de vecinos con foco en transparencia, control economico, presupuestos y soporte al cierre anual. A fecha de 2026-03-24 la primera entrega del registro basico de movimientos (`PB-001`) ya fue validada por `qa-teams` e integrada en `main`, pero sigue existiendo un hueco funcional frente a la vision: la ayuda guiada de clasificacion contable basada en el Plan General de Contabilidad todavia no esta entregada y debe mantenerse visible en backlog con refinamiento suficiente para ejecucion.
+La vision vigente define una aplicacion web para gestionar la contabilidad de una comunidad de vecinos con foco en transparencia, control economico, presupuestos y soporte al cierre anual. A fecha de 2026-03-25 la primera entrega del registro basico de movimientos (`PB-001`) ya fue validada por `qa-teams` e integrada en `main`. Ademas, la consulta del libro de asientos (`PB-002`) ya fue validada por `qa-teams` en la issue `#2`, pero sigue pendiente de fusion en `main` y de cierre administrativo. Sigue existiendo un hueco funcional frente a la vision: la ayuda guiada de clasificacion contable basada en el Plan General de Contabilidad todavia no esta entregada y debe mantenerse visible en backlog con refinamiento suficiente para ejecucion.
 
 Los items enlazados a una issue usan `Estado operativo:` para reflejar el ultimo estado visible del flujo. Los items aun en refinamiento o sin issue usan `Estado de backlog:` para su situacion de priorizacion.
 
@@ -60,7 +60,8 @@ Los items enlazados a una issue usan `Estado operativo:` para reflejar el ultimo
   - El libro muestra como minimo fecha, concepto, categoria, tipo e importe de cada movimiento.
   - Si no existen movimientos en el periodo consultado, el sistema lo comunica sin ambiguedad.
 - Dependencias: PB-001
-- Estado operativo: nuevo
+- Estado operativo: validado
+- Observacion operativa: pendiente de fusion en `main` por `developer-teams` y de cierre administrativo posterior por `product-manager`.
 
 ### PB-003 - Visualizar resumen financiero del periodo
 - Descripcion: Ofrecer un resumen consolidado con total de ingresos, total de gastos y saldo para un periodo seleccionable.
@@ -107,6 +108,7 @@ Los items enlazados a una issue usan `Estado operativo:` para reflejar el ultimo
   - El presupuesto permite registrar partidas previstas diferenciando ingresos y gastos.
   - El sistema muestra para cada partida al menos concepto, tipo e importe previsto.
   - El administrador puede consultar el total presupuestado de ingresos, gastos y saldo previsto del ejercicio.
+  - El alcance inicial mantiene una unica version vigente del presupuesto por ejercicio, sin historico de revisiones.
   - El presupuesto queda identificado por ejercicio y disponible para consulta posterior.
   - El sistema comunica de forma clara cuando un ejercicio todavia no tiene presupuesto definido.
 - Dependencias: PB-001, PB-003
@@ -146,34 +148,36 @@ Los items enlazados a una issue usan `Estado operativo:` para reflejar el ultimo
 - Estado operativo: nuevo
 
 ### PB-007 - Enviar notificaciones y recordatorios operativos
-- Descripcion: Notificar hitos relevantes como fechas de pago, reuniones o revisiones de cierre para mejorar seguimiento y comunicacion.
+- Descripcion: Permitir que el administrador configure y consulte recordatorios operativos internos para hitos relevantes como fechas de pago, reuniones o revisiones de cierre, sin extender el alcance inicial a notificaciones para vecinos.
 - Prioridad: Media
 - Valor de negocio: Medio. Incrementa el uso recurrente, pero no desbloquea la base contable.
 - Historia de usuario: HU-007
 - Caso de uso: CU-007
-- Issue GitHub: no creada; falta refinamiento funcional
+- Issue GitHub: #10
 - Criterios de aceptacion:
-  - El administrador puede definir al menos un recordatorio asociado a una fecha relevante.
-  - El sistema muestra el mensaje y la fecha del recordatorio.
-  - El vecino solo visualiza notificaciones que le apliquen por negocio.
-  - El administrador puede consultar el estado de cada recordatorio configurado.
-  - Las notificaciones no alteran la informacion contable registrada.
-- Dependencias: PB-004
-- Estado de backlog: refinamiento pendiente
+  - El administrador puede definir al menos un recordatorio asociado a una fecha relevante indicando fecha, tipo de hito y mensaje.
+  - El administrador puede consultar los recordatorios configurados mostrando al menos fecha, tipo de hito, mensaje y estado.
+  - El alcance inicial limita la visualizacion de recordatorios al administrador y no expone notificaciones a vecinos.
+  - El sistema diferencia de forma clara los recordatorios pendientes de los ya vencidos o completados segun la fecha configurada.
+  - Los recordatorios no alteran la informacion contable registrada.
+- Dependencias: Ninguna funcional bloqueante
+- Estado operativo: nuevo
 
 ## Dependencias abiertas de producto
-- Falta decidir si el presupuesto anual necesitara versionado por revisiones o si el MVP aceptara un unico presupuesto vigente por ejercicio.
-- Falta definir si el acceso de vecinos debe incluir todos los movimientos visibles o solo los marcados como consolidados cuando el producto introduzca estados de revision.
+- Falta decidir si la importacion inicial debera admitir varias fuentes equivalentes ademas de la plantilla oficial.
+- Falta decidir si una fase posterior del cierre anual necesitara exportacion formal ademas de la consulta consolidada del MVP.
+- Falta decidir si la ayuda PGC de una fase posterior debera ampliarse a nuevas familias de cuentas habituales sin convertirse en navegacion completa por todo el plan contable.
 
 ## Riesgos de producto
 - Existe una brecha entre la vision y la entrega real de `PB-001`: el registro basico ya esta integrado, pero la clasificacion contable asistida sigue pendiente y puede inducir una falsa sensacion de cobertura funcional completa.
 - Si se intenta abordar importacion, vecinos y cierre anual sin entregar antes el registro de movimientos y la consulta del libro, aumentara la ambiguedad de validacion.
 - Si no se incorpora presupuestos al backlog ejecutable, la vision quedara parcialmente traducida y se perdera trazabilidad de una capacidad de negocio ya comprometida.
-- Si se deja sin cerrar la politica inicial de visibilidad para vecinos, `developer-teams` y `qa-teams` pueden interpretar alcances distintos sobre `PB-004`.
+- Si la issue `#2` permanece validada pero sin fusion a `main`, el flujo entre equipos quedara bloqueado y puede inducir a iniciar trabajo nuevo sin cerrar primero una entrega ya aceptada por `qa-teams`.
+- Si no se acota `PB-007` al alcance administrativo del MVP, `developer-teams` y `qa-teams` pueden invertir esfuerzo en una capacidad de notificaciones hacia vecinos que no forma parte de la vision actual.
 - Si `PB-009` se implementa sin respetar la lista canonica inicial y la separacion por tipo de movimiento, la ayuda PGC puede resultar incoherente entre altas similares y reducir su valor como guia funcional.
 
 ## Preguntas abiertas
 - Se considera obligatorio soportar presupuestos en el MVP o se posponen a una fase posterior del roadmap?
-- El acceso de vecinos debera evolucionar en el futuro hacia una publicacion selectiva de movimientos cuando existan estados de conciliacion o incidencias sensibles?
 - La importacion inicial debera admitir varias fuentes equivalentes ademas de la plantilla oficial?
-- El presupuesto anual necesita permitir ajustes posteriores sobre el mismo ejercicio o basta con una primera version editable sin historico en el alcance actual?
+- El acceso de vecinos debera evolucionar en el futuro hacia una publicacion selectiva de movimientos cuando existan estados de conciliacion o incidencias sensibles?
+- Los recordatorios del MVP deberan evolucionar despues hacia canales salientes o basta inicialmente con gestion y consulta interna en la aplicacion?

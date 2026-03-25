@@ -85,12 +85,12 @@
 ## HU-007 - Recordatorios de hitos relevantes
 - Backlog relacionado: PB-007
 - Caso de uso relacionado: CU-007
-- Historia: Como administrador de la comunidad quiero definir recordatorios de pagos o reuniones para mejorar el seguimiento operativo de la comunidad.
+- Historia: Como administrador de la comunidad quiero definir recordatorios internos de pagos, reuniones o revisiones para mejorar el seguimiento operativo de la comunidad sin depender de avisos externos.
 - Criterios de aceptacion:
-  - Puedo crear un recordatorio con fecha y mensaje.
-  - Puedo consultar los recordatorios configurados.
-  - Los recordatorios visibles para vecinos no permiten acciones de gestion.
-  - El estado de cada recordatorio es comprensible.
+  - Puedo crear un recordatorio con fecha, tipo de hito y mensaje.
+  - Puedo consultar los recordatorios configurados con su estado.
+  - En el alcance inicial, los recordatorios solo estan disponibles para el administrador.
+  - Distingo de forma clara si un recordatorio esta pendiente o vencido.
   - Los recordatorios no alteran los datos contables.
 
 ## HU-008 - Presupuesto anual de la comunidad
@@ -102,5 +102,6 @@
   - Puedo registrar partidas previstas de ingreso y de gasto.
   - En cada partida veo al menos concepto, tipo e importe previsto.
   - Puedo consultar total previsto de ingresos, total previsto de gastos y saldo presupuestado.
+  - En el alcance inicial solo existe una version vigente del presupuesto por ejercicio.
   - El presupuesto queda identificado por ejercicio y disponible para consulta posterior.
   - Si un ejercicio no tiene presupuesto, el sistema me lo comunica con claridad.
