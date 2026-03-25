@@ -21,6 +21,7 @@ class WebAppTests(unittest.TestCase):
 
         self.assertEqual(status, "200 OK")
         self.assertIn("Todavia no hay movimientos registrados.", body)
+        self.assertIn("Libro de asientos contables", body)
 
     def test_registra_un_ingreso_y_lo_hace_visible_en_la_respuesta(self) -> None:
         status, body = self._call_app(
@@ -59,11 +60,44 @@ class WebAppTests(unittest.TestCase):
 
         self.assertEqual(status, "200 OK")
         self.assertIn('<form method="post" action="/portal">', body)
+        self.assertIn('href="/portal"', body)
+
+    def test_filtra_el_libro_de_asientos_por_rango_de_fechas(self) -> None:
+        self._call_app(
+            "POST",
+            "fecha=2026-03-21&concepto=Cuota+mensual&categoria=Recibos&tipo=ingreso&importe=35.25",
+        )
+        self._call_app(
+            "POST",
+            "fecha=2026-03-25&concepto=Factura+agua&categoria=Suministros&tipo=gasto&importe=12.50",
+        )
+
+        status, body = self._call_app("GET", query_string="fecha_desde=2026-03-22&fecha_hasta=2026-03-26")
+
+        self.assertEqual(status, "200 OK")
+        self.assertNotIn("Cuota mensual", body)
+        self.assertIn("Factura agua", body)
+
+    def test_muestra_estado_vacio_claro_si_el_filtro_no_devuelve_resultados(self) -> None:
+        self._call_app(
+            "POST",
+            "fecha=2026-03-21&concepto=Cuota+mensual&categoria=Recibos&tipo=ingreso&importe=35.25",
+        )
+
+        _, body = self._call_app("GET", query_string="fecha_desde=2026-03-22&fecha_hasta=2026-03-26")
+
+        self.assertIn("No hay movimientos en el rango indicado.", body)
+
+    def test_muestra_error_si_el_rango_de_fechas_no_es_coherente(self) -> None:
+        _, body = self._call_app("GET", query_string="fecha_desde=2026-03-26&fecha_hasta=2026-03-22")
+
+        self.assertIn("La fecha final debe ser igual o posterior a la fecha inicial.", body)
 
     def _call_app(
         self,
         method: str,
         body: str = "",
+        query_string: str = "",
         app=None,
         path: str = "/",
         script_name: str = "",
@@ -73,6 +107,7 @@ class WebAppTests(unittest.TestCase):
         environ["REQUEST_METHOD"] = method
         environ["PATH_INFO"] = path
         environ["SCRIPT_NAME"] = script_name
+        environ["QUERY_STRING"] = query_string
         encoded = body.encode("utf-8")
         environ["CONTENT_LENGTH"] = str(len(encoded))
         environ["wsgi.input"] = BytesIO(encoded)
