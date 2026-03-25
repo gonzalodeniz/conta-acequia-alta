@@ -17,6 +17,8 @@ Los ejemplos concretos de issues, backlog o entradas de `changelog/` incluidos e
 - Antes de reutilizar un ejemplo como evidencia vigente, contrastar la ultima entrada de `changelog/` sobre `main` y el artefacto vivo correspondiente.
 - Si el ejemplo ya no describe el estado actual, actualizar el documento o marcarlo como referencia historica para no mezclar evidencia antigua con estado operativo actual.
 - Cuando un documento cite un caso real, debe quedar claro si el caso se usa como alerta activa o como antecedente historico de proceso.
+- Si aparece una entrada de `changelog/` mas reciente que cambie el estado real de una issue, rama o handoff citado como vigente, el documento de proceso debe refrescarse antes de volver a usarse como referencia actual.
+- Un documento de `agile-coach/` no debe seguir presentandose como `vigente` si su `Changelog consultado` ya no es el ultimo que afecta a los casos citados.
 
 ## Formato minimo de los artefactos de proceso
 Los documentos de `agile-coach/` que contengan analisis, mejoras, metricas o riesgos deben abrir con una cabecera breve que deje trazabilidad de vigencia:

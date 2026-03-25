@@ -1,7 +1,7 @@
 # Mejoras de proceso propuestas
 
-Fecha de escritura: 2026-03-24 23:01:17 UTC
-Changelog consultado: changelog/2026-03-24.md
+Fecha de escritura: 2026-03-25 23:01:12 UTC
+Changelog consultado: changelog/2026-03-25.md
 Vigencia de ejemplos: vigente
 
 ## Mejora 1: introducir estados operativos comunes en la issue
@@ -447,3 +447,22 @@ Usar `Estado operativo:` para items enlazados a issue y `Estado de backlog:` par
 ### Riesgos y dependencias
 - Si los dos campos vuelven a mezclarse, reaparece la ambiguedad y la mejora pierde valor.
 - Depende de que `product-manager/AGENTS.md` mantenga esta distincion como regla de mantenimiento del backlog.
+
+## Mejora 22: refrescar los artefactos de proceso cuando un changelog posterior los deje obsoletos
+### Problema detectado
+Los documentos de `agile-coach/` pueden quedarse anclados a una fotografia anterior del flujo si el ultimo `changelog/` ya contiene un cambio relevante sobre una issue, rama o handoff que esos documentos citan como vigente.
+
+### Propuesta
+Actualizar o marcar como historicos los artefactos de proceso siempre que aparezca una entrada mas reciente de `changelog/` sobre `main` que cambie el estado real de los casos citados. La cabecera del documento debe volver a indicar la fecha y hora de escritura y el ultimo `Changelog consultado`.
+
+### Impacto esperado
+- Evita que `agile-coach/` siga presentando como actual un contexto ya superado.
+- Reduce el riesgo de reutilizar ejemplos caducos en nuevas decisiones de coordinacion.
+- Mantiene la trazabilidad entre analisis, cambios de flujo y la ultima evidencia disponible.
+
+### Tradeoffs
+- Requiere revisar de nuevo los documentos de proceso cuando haya un cambio relevante en la operativa.
+
+### Riesgos y dependencias
+- Si el refresco documental se retrasa, el documento pierde valor como referencia vigente.
+- Depende de que el `changelog/` este al dia y de que los equipos no reutilicen artefactos antiguos por costumbre.

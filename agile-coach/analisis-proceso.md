@@ -1,21 +1,22 @@
 # Analisis de proceso
 
-Fecha de escritura: 2026-03-24 23:01:17 UTC
-Changelog consultado: changelog/2026-03-24.md
+Fecha de escritura: 2026-03-25 23:01:12 UTC
+Changelog consultado: changelog/2026-03-25.md
 Vigencia de ejemplos: vigente
 
 ## Contexto analizado
 - El repositorio ya dispone de backlog funcional y de issues operativas en curso, por lo que el problema principal ya no es la ausencia de cola sino su sincronizacion con el estado real de cada issue.
 - `product-manager/product-backlog.md` esta poblado, pero sigue siendo sensible a desalineaciones manuales cuando las issues avanzan a `en desarrollo`, `listo para qa`, `validado` o `cerrado`.
-- La iteracion de `PB-001` y la issue `#1` mostro que una referencia de proceso puede quedar obsoleta en pocas horas si no se revalida contra el ultimo `changelog/` antes de reutilizarla como ejemplo vigente.
-- El flujo entre `product-manager`, `developer-teams`, `qa-teams` y `doc-teams` ya esta bastante cerrado, pero varias reglas siguen repartidas entre `AGENTS.md` raiz, los `AGENTS.md` de rol y los artefactos de `agile-coach/`.
+- La secuencia de `PB-002` y la issue `#2` mostro que el checkpoint administrativo de `product-manager`, el merge de `developer-teams` y el borrado de la rama tecnica funcionan cuando se ejecutan en orden.
+- La revision de `PB-010` y la issue `#11` confirmo que `qa-teams` rechaza correctamente entregas sin paquete minimo de handoff ni implementacion verificable.
+- El flujo entre `product-manager`, `developer-teams`, `qa-teams` y `doc-teams` sigue bastante cerrado, pero varias reglas siguen repartidas entre `AGENTS.md` raiz, los `AGENTS.md` de rol y los artefactos de `agile-coach/`, lo que exige refresco documental cuando cambia el ultimo `changelog/`.
 
 ## Hallazgos principales
 
-### 1. Las referencias concretas envejecen demasiado rapido si no se anclan a una revision reciente
-- Evidencia observada: la secuencia de `PB-001` y la issue `#1` avanzo de trabajo operativo a validacion e integracion en el mismo ciclo, lo que dejo obsoletos algunos ejemplos de proceso que seguian citando la fotografia anterior.
-- Impacto: un documento de proceso puede inducir a error si presenta como vigente un caso que solo era cierto en el momento de la captura.
-- Lectura operativa: antes de reutilizar un ejemplo concreto, hay que revalidarlo contra el ultimo `changelog/` y dejar claro si es vigente o historico.
+### 1. Las referencias concretas envejecen rapido si no se revalidan tras cada cambio relevante
+- Evidencia observada: `PB-002` paso de `validado` a merge y borrado de rama en `main`, mientras `PB-010`/issue `#11` quedo en `no validado` por falta de handoff y sin implementacion verificable.
+- Impacto: un documento de proceso puede quedarse una iteracion atras si sigue citando la fotografia anterior sin revisar el ultimo `changelog/`.
+- Lectura operativa: antes de reutilizar un ejemplo concreto, hay que revalidarlo contra el `changelog/` mas reciente que afecte a la misma issue, rama o handoff.
 
 ### 2. El backlog persistente sigue necesitando sincronizacion manual con el estado real de las issues
 - Evidencia observada: el backlog ya existe, pero sus items enlazados a issues dependen de actualizacion manual y pueden quedarse atras respecto al ultimo estado operativo visible en GitHub.
@@ -43,8 +44,8 @@ Vigencia de ejemplos: vigente
 - Lectura operativa: conviene medir si los ejemplos citados siguen siendo vigentes y si el documento explicita la fecha de la ultima revision.
 
 ### 7. La validacion puede quedar abierta sin checkpoint administrativo visible
-- Evidencia observada: el flujo define que una issue validada puede seguir abierta mientras se documenta el motivo operativo, pero esa ventana sigue siendo facil de confundir con trabajo pendiente real.
-- Impacto: otros equipos leen una entrega aceptada pero no saben si el siguiente paso es integracion, espera documental o cierre administrativo.
+- Evidencia observada: la issue `#2` quedo validada y despues recibio el comentario administrativo que aclara la integracion pendiente antes del merge definitivo.
+- Impacto: si ese comentario no se emite a tiempo, otros equipos leen una entrega aceptada pero no saben si el siguiente paso es integracion, espera documental o cierre administrativo.
 - Lectura operativa: hace falta vigilar la latencia entre validacion y cierre visible para que la issue no quede en limbo.
 
 ### 8. El backlog mezcla estado operativo con estado de refinamiento
@@ -96,6 +97,12 @@ Vigencia de ejemplos: vigente
 - Beneficio: reduce ambiguedad entre trabajo ejecutable y priorizacion interna, y simplifica la lectura del backlog para `product-manager`, `developer-teams` y `qa-teams`.
 - Tradeoffs: exige actualizar la estructura de `product-manager/product-backlog.md` y mantenerla coherente en cada iteracion.
 - Riesgos y dependencias: si se vuelve a mezclar la semantica de ambos campos, reaparecera la ambiguedad y la mejora perdera valor operativo.
+
+### I. Refrescar artefactos de proceso cuando un changelog posterior invalide su fotografia
+- Exigir que los documentos de `agile-coach/` se actualicen o se marquen como historicos si aparece una entrada mas reciente de `changelog/` sobre `main` que cambie el estado de una issue, rama o handoff citado como vigente.
+- Beneficio: evita que analisis y riesgos sigan describiendo como actual un contexto ya superado por la operativa real.
+- Tradeoffs: obliga a revisar y reescribir una pequeña parte de la documentacion cada vez que haya un cambio relevante.
+- Riesgos y dependencias: depende de que `changelog/` se mantenga al dia y de que el refresco documental no se posponga hasta que el documento quede claramente desfasado.
 
 ## Tradeoffs
 - El control operativo gana disciplina, pero tambien exige que `product-manager` y los demas roles cuiden un poco mas el mantenimiento del backlog y de las firmas.

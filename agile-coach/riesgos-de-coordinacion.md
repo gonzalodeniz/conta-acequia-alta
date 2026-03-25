@@ -1,7 +1,7 @@
 # Riesgos actuales de coordinacion
 
-Fecha de escritura: 2026-03-24 23:01:17 UTC
-Changelog consultado: changelog/2026-03-24.md
+Fecha de escritura: 2026-03-25 23:01:12 UTC
+Changelog consultado: changelog/2026-03-25.md
 Vigencia de ejemplos: vigente
 
 ## Objetivo
@@ -88,3 +88,8 @@ Registrar los riesgos de coordinacion que siguen activos tras los ajustes de pro
 - Senal observable: el backlog usa el mismo campo o la misma etiqueta para items enlazados a issue y para items que solo estan en refinamiento.
 - Impacto: se pierde la distincion entre trabajo ejecutable y trabajo aun no operable, lo que complica la priorizacion y la lectura rapida del flujo.
 - Mitigacion acordada: usar `Estado operativo:` para items enlazados a issue y `Estado de backlog:` para iniciativas que siguen en definicion o no tienen issue.
+
+## Riesgo 17: artefactos de proceso que se quedan atras respecto al ultimo changelog relevante
+- Senal observable: un documento de `agile-coach/` sigue citando como vigente una fotografia anterior aunque la entrada mas reciente de `changelog/` ya cambio el estado de la misma issue, rama o handoff.
+- Impacto: el analisis puede describir un presente desfasado y empujar decisiones de coordinacion basadas en evidencia vieja.
+- Mitigacion acordada: refrescar o marcar como historicos los documentos de proceso cuando un `changelog/` posterior invalide la fotografia citada.
