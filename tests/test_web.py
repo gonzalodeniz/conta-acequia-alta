@@ -3,7 +3,9 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from wsgiref.util import setup_testing_defaults
 import unittest
+from unittest.mock import patch
 
+from conta_acequia_alta.repository import StorageError
 from conta_acequia_alta.web import create_app
 
 
@@ -92,6 +94,28 @@ class WebAppTests(unittest.TestCase):
         _, body = self._call_app("GET", query_string="fecha_desde=2026-03-26&fecha_hasta=2026-03-22")
 
         self.assertIn("La fecha final debe ser igual o posterior a la fecha inicial.", body)
+
+    def test_devuelve_503_y_mensaje_claro_si_el_json_esta_corrupto(self) -> None:
+        self.data_file.write_text("{", encoding="utf-8")
+
+        status, body = self._call_app("GET")
+
+        self.assertEqual(status, "503 Service Unavailable")
+        self.assertIn("El fichero de movimientos no tiene un formato JSON valido.", body)
+
+    def test_devuelve_503_si_falla_el_guardado_del_movimiento(self) -> None:
+        with patch(
+            "conta_acequia_alta.web.MovimientoService.crear_movimiento",
+            side_effect=StorageError("No se ha podido guardar el movimiento en el fichero de datos."),
+        ):
+            status, body = self._call_app(
+                "POST",
+                "fecha=2026-03-21&concepto=Cuota+mensual&categoria=Recibos&tipo=ingreso&importe=35.25",
+            )
+
+        self.assertEqual(status, "503 Service Unavailable")
+        self.assertIn("No se ha podido guardar el movimiento en el fichero de datos.", body)
+        self.assertIn('value="Cuota mensual"', body)
 
     def _call_app(
         self,

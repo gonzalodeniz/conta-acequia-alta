@@ -38,6 +38,19 @@
   - Si no hay resultados, el sistema me lo indica de forma clara.
   - La informacion consultada refleja los movimientos realmente registrados.
 
+## HU-010 - Gestion editable del libro de asientos
+- Backlog relacionado: PB-010
+- Caso de uso relacionado: CU-010
+- Historia: Como administrador de la comunidad quiero trabajar directamente sobre el libro de asientos en una vista tipo hoja de calculo para registrar y corregir movimientos con menos friccion operativa.
+- Criterios de aceptacion:
+  - Veo un menu lateral izquierdo con iconos que me permite navegar por las secciones principales de la interfaz.
+  - El libro de asientos se presenta como una tabla con estetica de hoja de calculo y columnas claramente identificadas.
+  - Puedo anadir un nuevo asiento directamente en la tabla sin depender de un formulario separado.
+  - Puedo modificar un asiento existente directamente en la tabla.
+  - Cada asiento muestra un numero de asiento visible y correlativo dentro de su ejercicio anual.
+  - La numeracion de asientos se reinicia en `1` al comenzar cada nuevo ano contable.
+  - El formulario independiente de registro de movimientos deja de ser necesario en la operativa principal del administrador.
+
 ## HU-003 - Resumen financiero por periodo
 - Backlog relacionado: PB-003
 - Caso de uso relacionado: CU-003

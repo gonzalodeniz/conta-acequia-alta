@@ -11,11 +11,16 @@ Reducir ambiguedad antes de crear o priorizar nuevas issues para `developer-team
   - Ya integrado en `main` y cerrado administrativamente.
 - PB-002 - Consultar el libro de asientos contables
   - Ya validado por `qa-teams` en la issue `#2`.
-  - Pendiente de fusion en `main` y cierre administrativo posterior.
+  - Ya integrado en `main`.
+  - Pendiente de cierre administrativo posterior.
+- PB-010 - Gestionar el libro de asientos como hoja de calculo editable
+  - Aporta una mejora de alto valor sobre el flujo contable principal ya integrado.
+  - Tiene validacion funcional clara y no requiere abrir una fase transversal de rediseno de todo el producto.
+  - Debe ejecutarse sin romper la futura incorporacion de `PB-009`.
 - PB-003 - Visualizar resumen financiero del periodo
   - Dependencia directa de PB-001.
   - Valor alto y validacion clara.
-  - Debe ser la siguiente issue funcional una vez integrada la issue `#2`.
+  - Sigue siendo una siguiente issue funcional valida una vez cerrado el frente administrativo pendiente de la issue `#2`.
 - PB-004 - Permitir acceso de solo lectura para vecinos
   - Se fija para el alcance inicial un modo solo lectura con resumen economico mensual y anual mas listado visible de movimientos para la comunidad.
   - No incluye acciones de gestion ni reglas avanzadas de publicacion selectiva en esta primera iteracion.
@@ -54,6 +59,18 @@ Reducir ambiguedad antes de crear o priorizar nuevas issues para `developer-team
 - Las cuentas de amortizacion quedan fuera del alcance funcional actual.
 - Los recordatorios de `PB-007` quedan limitados al administrador en el MVP y no se mostraran a vecinos en esta primera iteracion.
 - `PB-007` cubrira gestion y consulta de recordatorios dentro de la aplicacion, sin canales salientes en esta fase.
+- `PB-010` se acota a la experiencia del administrador en el flujo contable principal y no obliga a redisenar las vistas de vecinos ni el resto de modulos en la misma entrega.
+- `PB-010` sustituye el formulario independiente de registro de movimientos por alta y edicion directa sobre la tabla del libro.
+- `PB-010` introduce numeracion visible de asientos correlativa por ejercicio anual, reiniciada en `1` cada nuevo ano.
+
+## Tareas sugeridas para `developer-teams`
+
+### PB-010 - Gestionar el libro de asientos como hoja de calculo editable
+1. Reorganizar la navegacion principal del administrador para mostrar un menu vertical de iconos en el lateral izquierdo.
+2. Transformar el libro de asientos en una vista tabular tipo hoja de calculo con alta y edicion inline.
+3. Incorporar la regla funcional de numeracion de asientos correlativa por ano, visible en la tabla y reiniciada por ejercicio.
+4. Retirar el formulario independiente de registro de movimientos del flujo principal del administrador y ajustar la navegacion asociada.
+5. Mantener compatibilidad funcional con la futura ayuda de clasificacion contable de `PB-009` y cubrir el cambio con pruebas tecnicas y funcionales adecuadas.
 
 ## Dependencias abiertas
 - Importacion:
@@ -69,11 +86,13 @@ Reducir ambiguedad antes de crear o priorizar nuevas issues para `developer-team
 ## Riesgos
 - Si se interpreta `PB-001` como si ya incluyera ayuda PGC, se perdera trazabilidad sobre una parte de la vision que todavia no se ha entregado.
 - Si se intenta introducir presupuestos antes de cerrar el MVP contable, se fragmentara el foco del producto.
-- Si la issue `#2` sigue abierta tras su validacion, el equipo puede perder disciplina de cierre de flujo entre validacion, integracion y cierre administrativo.
+- Si la issue `#2` sigue abierta tras su integracion en `main`, el equipo puede perder disciplina de cierre de flujo entre validacion, integracion y cierre administrativo.
+- Si `PB-010` se implementa como una rejilla editable sin una regla clara de numeracion anual, se generara deuda funcional y ambiguedad contable.
 - La ausencia de `README.md` y `Makefile` con contexto de producto o ejecucion aumenta la dependencia documental en los artefactos de `product-manager`.
 
 ## Propuesta operativa inmediata
-1. Exigir la fusion en `main` y el cierre administrativo posterior de la issue `#2` antes de promover una nueva implementacion tecnica.
-2. Priorizar `#3` como siguiente tramo del flujo base del MVP.
-3. Mantener `#6` como siguiente capacidad de alto valor para cerrar la brecha de vision sobre clasificacion contable.
-4. Mantener `#4`, `#7`, `#8`, `#9` y `#10` como backlog ejecutable ya refinado para iteraciones posteriores.
+1. Cerrar administrativamente la issue `#2` para alinear GitHub con el estado ya integrado en `main`.
+2. Priorizar `#11` como mejora acotada del flujo contable principal si se busca reducir friccion operativa inmediata en la gestion diaria.
+3. Mantener `#3` como siguiente tramo estructural del flujo base del MVP si se prioriza primero lectura ejecutiva y consolidacion economica.
+4. Mantener `#6` como capacidad de alto valor para cerrar la brecha de vision sobre clasificacion contable.
+5. Mantener `#4`, `#7`, `#8`, `#9` y `#10` como backlog ejecutable ya refinado para iteraciones posteriores.

@@ -1,7 +1,7 @@
 # Product Backlog
 
 ## Contexto
-La vision vigente define una aplicacion web para gestionar la contabilidad de una comunidad de vecinos con foco en transparencia, control economico, presupuestos y soporte al cierre anual. A fecha de 2026-03-25 la primera entrega del registro basico de movimientos (`PB-001`) ya fue validada por `qa-teams` e integrada en `main`. Ademas, la consulta del libro de asientos (`PB-002`) ya fue validada por `qa-teams` en la issue `#2`, pero sigue pendiente de fusion en `main` y de cierre administrativo. Sigue existiendo un hueco funcional frente a la vision: la ayuda guiada de clasificacion contable basada en el Plan General de Contabilidad todavia no esta entregada y debe mantenerse visible en backlog con refinamiento suficiente para ejecucion.
+La vision vigente define una aplicacion web para gestionar la contabilidad de una comunidad de vecinos con foco en transparencia, control economico, presupuestos y soporte al cierre anual. A fecha de 2026-03-25 la primera entrega del registro basico de movimientos (`PB-001`) ya fue validada por `qa-teams` e integrada en `main`. Ademas, la consulta del libro de asientos (`PB-002`) ya fue validada por `qa-teams` en la issue `#2` e integrada en `main`, aunque la issue todavia sigue pendiente de cierre administrativo. Sigue existiendo un hueco funcional frente a la vision: la ayuda guiada de clasificacion contable basada en el Plan General de Contabilidad todavia no esta entregada y debe mantenerse visible en backlog con refinamiento suficiente para ejecucion. Como nueva necesidad de producto, el libro de asientos pasa a ser tambien el punto principal de operativa del administrador y necesita una evolucion de interfaz para soportar navegacion lateral, edicion inline y numeracion anual de asientos.
 
 Los items enlazados a una issue usan `Estado operativo:` para reflejar el ultimo estado visible del flujo. Los items aun en refinamiento o sin issue usan `Estado de backlog:` para su situacion de priorizacion.
 
@@ -12,6 +12,25 @@ Los items enlazados a una issue usan `Estado operativo:` para reflejar el ultimo
 - Capacidad de validacion clara por parte de `qa-teams`.
 
 ## Backlog priorizado
+
+### PB-010 - Gestionar el libro de asientos como hoja de calculo editable
+- Descripcion: Evolucionar la interfaz de gestion contable para que el administrador trabaje desde un menu lateral izquierdo por iconos y un libro de asientos editable con apariencia de hoja de calculo, sin depender de un formulario independiente de alta.
+- Prioridad: Alta
+- Valor de negocio: Alto. Reduce friccion operativa en el flujo contable principal y acerca la experiencia a una herramienta familiar para administradores acostumbrados a hojas de calculo.
+- Historia de usuario: HU-010
+- Caso de uso: CU-010
+- Issue GitHub: #11
+- Criterios de aceptacion:
+  - La interfaz del administrador muestra un menu lateral izquierdo con iconos para navegar entre secciones principales.
+  - El libro de asientos se presenta con una estetica tabular tipo hoja de calculo.
+  - El administrador puede crear un asiento directamente desde la tabla.
+  - El administrador puede editar un asiento existente directamente desde la tabla.
+  - Cada asiento muestra un numero de asiento visible y correlativo dentro de su ejercicio anual.
+  - La numeracion de asientos se reinicia en `1` cada nuevo ano.
+  - El flujo principal del administrador ya no depende de un formulario separado para registrar movimientos.
+- Dependencias: PB-002
+- Estado operativo: nuevo
+- Riesgo funcional controlado: la edicion inline debe dejar preparado el flujo para convivir con la clasificacion contable guiada de `PB-009` sin forzar una redefinicion futura del libro.
 
 ### PB-001 - Registrar gastos e ingresos de la comunidad
 - Descripcion: Permitir que el administrador registre movimientos economicos con fecha, concepto, importe, tipo de movimiento e identificacion minima para su seguimiento.
@@ -61,7 +80,7 @@ Los items enlazados a una issue usan `Estado operativo:` para reflejar el ultimo
   - Si no existen movimientos en el periodo consultado, el sistema lo comunica sin ambiguedad.
 - Dependencias: PB-001
 - Estado operativo: validado
-- Observacion operativa: pendiente de fusion en `main` por `developer-teams` y de cierre administrativo posterior por `product-manager`.
+- Observacion operativa: ya integrado en `main`; pendiente de cierre administrativo de la issue `#2` por `product-manager`.
 
 ### PB-003 - Visualizar resumen financiero del periodo
 - Descripcion: Ofrecer un resumen consolidado con total de ingresos, total de gastos y saldo para un periodo seleccionable.
@@ -172,9 +191,10 @@ Los items enlazados a una issue usan `Estado operativo:` para reflejar el ultimo
 - Existe una brecha entre la vision y la entrega real de `PB-001`: el registro basico ya esta integrado, pero la clasificacion contable asistida sigue pendiente y puede inducir una falsa sensacion de cobertura funcional completa.
 - Si se intenta abordar importacion, vecinos y cierre anual sin entregar antes el registro de movimientos y la consulta del libro, aumentara la ambiguedad de validacion.
 - Si no se incorpora presupuestos al backlog ejecutable, la vision quedara parcialmente traducida y se perdera trazabilidad de una capacidad de negocio ya comprometida.
-- Si la issue `#2` permanece validada pero sin fusion a `main`, el flujo entre equipos quedara bloqueado y puede inducir a iniciar trabajo nuevo sin cerrar primero una entrega ya aceptada por `qa-teams`.
+- Si la issue `#2` permanece abierta tras haberse integrado en `main`, el backlog y GitHub quedaran desalineados y se perdera trazabilidad administrativa del flujo.
 - Si no se acota `PB-007` al alcance administrativo del MVP, `developer-teams` y `qa-teams` pueden invertir esfuerzo en una capacidad de notificaciones hacia vecinos que no forma parte de la vision actual.
 - Si `PB-009` se implementa sin respetar la lista canonica inicial y la separacion por tipo de movimiento, la ayuda PGC puede resultar incoherente entre altas similares y reducir su valor como guia funcional.
+- Si `PB-010` se implementa solo como cambio visual sin resolver la alta y edicion inline ni la numeracion anual de asientos, el producto seguira arrastrando friccion operativa en el flujo principal del administrador.
 
 ## Preguntas abiertas
 - Se considera obligatorio soportar presupuestos en el MVP o se posponen a una fase posterior del roadmap?

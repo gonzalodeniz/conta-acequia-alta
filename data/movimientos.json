@@ -6,5 +6,37 @@
     "categoria": "agua",
     "tipo": "gasto",
     "importe": "10.00"
+  },
+  {
+    "identificador": "MOV-8A5F859C",
+    "fecha": "2026-03-05",
+    "concepto": "luz",
+    "categoria": "suministro",
+    "tipo": "gasto",
+    "importe": "20.00"
+  },
+  {
+    "identificador": "MOV-6F6C946F",
+    "fecha": "2026-04-02",
+    "concepto": "luz",
+    "categoria": "suministro",
+    "tipo": "gasto",
+    "importe": "20.00"
+  },
+  {
+    "identificador": "MOV-3D0625DB",
+    "fecha": "2026-04-02",
+    "concepto": "luz",
+    "categoria": "suministro",
+    "tipo": "gasto",
+    "importe": "20.00"
+  },
+  {
+    "identificador": "MOV-58925EF0",
+    "fecha": "2026-04-02",
+    "concepto": "luz",
+    "categoria": "suministro",
+    "tipo": "gasto",
+    "importe": "20.00"
   }
 ]

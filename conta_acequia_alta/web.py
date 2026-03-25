@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Callable
 from urllib.parse import parse_qs
 
-from conta_acequia_alta.repository import MovimientoRepository
+from conta_acequia_alta.repository import MovimientoRepository, StorageError
 from conta_acequia_alta.service import MovimientoService, ValidationError
 
 DATA_FILE = Path(__file__).resolve().parent.parent / "data" / "movimientos.json"
@@ -27,30 +27,36 @@ def create_app(data_file: Path | None = None, base_path: str = "") -> Callable:
 
         if method == "GET":
             filter_data = _parse_form_data(environ.get("QUERY_STRING", ""))
-            return _render_page(
-                start_response,
-                service,
-                filter_data=filter_data,
-                public_base_path=public_base_path,
-            )
+            try:
+                return _render_page(
+                    start_response,
+                    service,
+                    filter_data=filter_data,
+                    public_base_path=public_base_path,
+                )
+            except StorageError as error:
+                return _render_storage_error_page(start_response, public_base_path, str(error))
 
         if method == "POST":
             size = int(environ.get("CONTENT_LENGTH") or "0")
             raw_body = environ["wsgi.input"].read(size).decode("utf-8")
             form_data = _parse_form_data(raw_body)
-            movimiento, errors = service.crear_movimiento(form_data)
-            return _render_page(
-                start_response,
-                service,
-                form_data=form_data,
-                errors=errors,
-                public_base_path=public_base_path,
-                success_message=(
-                    f"Movimiento registrado correctamente con identificador {movimiento.identificador}."
-                    if movimiento
-                    else None
-                ),
-            )
+            try:
+                movimiento, errors = service.crear_movimiento(form_data)
+                return _render_page(
+                    start_response,
+                    service,
+                    form_data=form_data,
+                    errors=errors,
+                    public_base_path=public_base_path,
+                    success_message=(
+                        f"Movimiento registrado correctamente con identificador {movimiento.identificador}."
+                        if movimiento
+                        else None
+                    ),
+                )
+            except StorageError as error:
+                return _render_storage_error_page(start_response, public_base_path, str(error), form_data=form_data)
 
         start_response("405 Method Not Allowed", [("Content-Type", "text/plain; charset=utf-8")])
         return [b"Metodo no permitido"]
@@ -66,6 +72,8 @@ def _render_page(
     errors: list[ValidationError] | None = None,
     success_message: str | None = None,
     public_base_path: str = "",
+    status: str = "200 OK",
+    storage_error: str | None = None,
 ) -> list[bytes]:
     form_data = form_data or {}
     filter_data = filter_data or {}
@@ -75,7 +83,7 @@ def _render_page(
         filter_data.get("fecha_hasta", "").strip(),
     )
     error_map = {error.field: error.message for error in form_errors + filter_errors}
-    start_response("200 OK", [("Content-Type", "text/html; charset=utf-8")])
+    start_response(status, [("Content-Type", "text/html; charset=utf-8")])
     html = f"""<!DOCTYPE html>
 <html lang="es">
   <head>
@@ -211,6 +219,7 @@ def _render_page(
           <h1>Registro de movimientos contables</h1>
           <p>Da de alta gastos e ingresos de la comunidad con la informacion minima obligatoria.</p>
           {_render_message(success_message, "success")}
+          {_render_message(storage_error, "error")}
           <form method="post" action="{public_base_path or '/'}">
             <div class="grid">
               {_render_input("fecha", "Fecha", "date", form_data, error_map)}
@@ -225,6 +234,7 @@ def _render_page(
         <div class="panel">
           <h2>Libro de asientos contables</h2>
           <p>Consulta todos los movimientos registrados y filtra por rango de fechas cuando lo necesites.</p>
+          {_render_message(storage_error, "error")}
           <form method="get" class="filters">
             <div class="grid">
               {_render_input("fecha_desde", "Desde", "date", filter_data, error_map)}
@@ -248,6 +258,22 @@ def _render_message(message: str | None, css_class: str) -> str:
     if not message:
         return ""
     return f'<div class="message {css_class}">{escape(message)}</div>'
+
+
+def _render_storage_error_page(
+    start_response: Callable,
+    public_base_path: str,
+    storage_error: str,
+    form_data: dict[str, str] | None = None,
+) -> list[bytes]:
+    return _render_page(
+        start_response,
+        service=_UnavailableMovimientoService(storage_error),
+        form_data=form_data,
+        public_base_path=public_base_path,
+        status="503 Service Unavailable",
+        storage_error=storage_error,
+    )
 
 
 def _render_input(
@@ -339,3 +365,15 @@ def _matches_path(path: str, base_path: str) -> bool:
 
 def _parse_form_data(raw_data: str) -> dict[str, str]:
     return {key: values[0] for key, values in parse_qs(raw_data).items()}
+
+
+class _UnavailableMovimientoService:
+    def __init__(self, storage_error: str) -> None:
+        self._storage_error = storage_error
+
+    def listar_movimientos(
+        self,
+        fecha_desde: str = "",
+        fecha_hasta: str = "",
+    ) -> tuple[list, list[ValidationError]]:
+        return [], []

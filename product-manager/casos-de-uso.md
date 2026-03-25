@@ -61,6 +61,29 @@
 - Postcondiciones:
   - El administrador puede verificar la informacion de los asientos del periodo consultado.
 
+## CU-010 - Gestionar el libro de asientos como hoja de calculo
+- Backlog relacionado: PB-010
+- Historia relacionada: HU-010
+- Actor principal: Administrador de la comunidad
+- Objetivo: Registrar y corregir asientos contables directamente sobre el libro diario usando una interfaz tabular tipo hoja de calculo.
+- Disparador: El administrador necesita anadir o editar un asiento sin salir del libro contable.
+- Precondiciones:
+  - El administrador dispone de acceso de gestion.
+  - El sistema ya permite consultar el libro de asientos.
+- Flujo principal:
+  1. El administrador navega por la aplicacion usando el menu lateral izquierdo de iconos.
+  2. El administrador accede al libro de asientos.
+  3. El sistema muestra el libro como una tabla tipo hoja de calculo con las columnas contables relevantes.
+  4. El administrador anade un nuevo asiento o edita uno existente directamente en la tabla.
+  5. El sistema valida los datos obligatorios antes de confirmar el cambio.
+  6. El sistema asigna o conserva el numero de asiento correlativo del ejercicio anual correspondiente y actualiza la tabla.
+- Flujos alternativos:
+  - Si falta un dato obligatorio o existe un valor invalido, el sistema rechaza el cambio y lo indica sobre la propia tabla.
+  - Si el administrador cambia la fecha de un asiento a otro ejercicio anual, el sistema recalcula su numero de asiento para mantener la correlacion dentro del ejercicio destino.
+- Postcondiciones:
+  - El libro de asientos queda actualizado sin recurrir a un formulario independiente.
+  - Cada asiento conserva una identificacion visible y trazable dentro de su ejercicio.
+
 ## CU-003 - Consultar resumen financiero
 - Backlog relacionado: PB-003
 - Historia relacionada: HU-003
