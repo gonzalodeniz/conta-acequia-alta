@@ -12,8 +12,17 @@ Punto de entrada de la aplicacion minima. Arranca un servidor local en `127.0.0.
 ## `PORT`
 Variable de entorno usada por `app.py` para cambiar el puerto de escucha. Tambien puede leerse desde `.env`.
 
+## `HOST`
+Variable de entorno usada por `app.py` para definir la interfaz de escucha. Tambien puede leerse desde `.env`.
+
+## `BASE_PATH`
+Subruta publica opcional usada por `app.py` para desplegar la aplicacion bajo un prefijo concreto.
+
 ## `data/movimientos.json`
 Fichero JSON donde la entrega actual persiste los movimientos contables registrados.
+
+## `503 Service Unavailable`
+Respuesta HTTP que la aplicacion devuelve cuando no puede leer o guardar el fichero de datos de movimientos.
 
 ## `Movimiento`
 Entidad funcional que representa un gasto o ingreso con identificador, fecha, concepto, categoria, tipo e importe.

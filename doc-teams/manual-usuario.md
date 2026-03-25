@@ -12,7 +12,10 @@ Tambien deja explicitas las capacidades que siguen solo en vision o backlog para
 - La pantalla actual combina un formulario de alta y un listado de movimientos ya registrados.
 - La entrega actual permite registrar movimientos contables de gasto o ingreso.
 - Cada movimiento queda persistido en `data/movimientos.json`.
-- La lista se muestra en orden inverso de insercion, con los ultimos movimientos primero.
+- La lista se muestra ordenada cronologicamente por fecha y, si coincide la fecha, por identificador.
+- El libro de asientos puede filtrarse por rango de fechas desde la misma pantalla.
+- La aplicacion devuelve mensajes claros de validacion cuando falta un campo, la fecha no es valida, el tipo no es `gasto` o `ingreso`, o el importe no es mayor que cero.
+- Si el fichero de datos falta, esta corrupto o no puede guardarse, la aplicacion responde con un error de disponibilidad `503` y conserva el formulario visible para reintento.
 - No hay autenticacion ni perfiles de acceso diferenciados en la entrega actual.
 - Las capacidades de presupuestos, importacion, cierre anual, vecinos en solo lectura y notificaciones no estan implementadas en esta base.
 
@@ -20,6 +23,7 @@ Tambien deja explicitas las capacidades que siguen solo en vision o backlog para
 - Dar de alta un movimiento con fecha, concepto, categoria, tipo e importe.
 - Registrar un gasto o un ingreso.
 - Ver una lista de los movimientos registrados hasta ese momento.
+- Filtrar el libro por fecha inicial y fecha final.
 - Recibir validaciones de formulario cuando un campo es obligatorio, la fecha no tiene formato `AAAA-MM-DD`, el tipo no es valido o el importe no es mayor que cero.
 - Ver el identificador unico generado para cada movimiento correcto.
 
@@ -36,6 +40,7 @@ Tambien deja explicitas las capacidades que siguen solo en vision o backlog para
 2. Rellena el formulario con los datos del movimiento.
 3. Guarda un gasto o ingreso.
 4. Revisa la lista de ultimos movimientos para confirmar el alta.
+5. Si necesita acotar una revision, usa los filtros `Desde` y `Hasta` del libro de asientos.
 
 ### Vecino
 1. En la vision de producto, el vecino deberia tener acceso de solo lectura.
@@ -49,22 +54,25 @@ Tambien deja explicitas las capacidades que siguen solo en vision o backlog para
 4. Guarda el movimiento.
 5. Verifica que el mensaje de exito muestra el identificador generado.
 6. Revisa la lista inferior para confirmar que el movimiento quedo visible.
+7. Si el libro necesita una revision acotada, prueba el filtro por rango de fechas.
 
 ## Lo que no debe asumirse todavia
 - No se documentan pantallas adicionales porque la entrega actual solo expone una vista unica.
-- No se documenta busqueda, filtrado ni resumen financiero porque aun no estan disponibles en la base ejecutable.
+- No se documenta busqueda ni resumen financiero porque aun no estan disponibles en la base ejecutable.
 - No se documenta gestion de presupuestos como funcionalidad operativa porque sigue pendiente en el backlog.
 - No se debe asumir que la vista actual sustituye una aplicacion de produccion completa.
 - No existe, por ahora, una configuracion de usuarios, permisos o auditoria por perfil.
+- No existe garantia de disponibilidad si falla el fichero `data/movimientos.json`; en ese caso el usuario debe reintentar tras corregir el almacenamiento o restaurar una copia valida.
 
 ## Errores habituales
 - Si falta un campo obligatorio, el formulario muestra el mensaje `Este campo es obligatorio.` debajo del campo afectado.
 - Si la fecha no sigue el formato esperado, la aplicacion informa que debe usar `AAAA-MM-DD`.
 - Si el tipo no es `gasto` o `ingreso`, la aplicacion rechaza el envio.
 - Si el importe no es valido o no es mayor que cero, la aplicacion no crea el movimiento.
+- Si el libro no se puede leer o guardar, la aplicacion muestra un error de disponibilidad `503` y no confirma el alta.
 
 ## Dependencias abiertas
-- Falta cerrar la implementacion de PB-002 y PB-003 para ampliar el uso funcional de la consulta y el resumen.
+- Falta cerrar la implementacion de PB-003 para ampliar el uso funcional del resumen financiero.
 - Falta concretar la politica de visibilidad para vecinos antes de documentar el acceso de solo lectura como comportamiento real.
 - Falta definir el alcance tecnico de importacion, cierre anual y notificaciones antes de que este manual pueda ampliarse.
 

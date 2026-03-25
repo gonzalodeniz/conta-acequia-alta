@@ -15,6 +15,7 @@ Tambien resume las precauciones minimas para administrar una base de datos local
 - El backlog funcional ya esta poblado, por lo que la trazabilidad entre producto y documentacion puede seguirse sin partir de un vacio inicial.
 - La entrega actual no debe tratarse como un entorno de produccion.
 - Las capacidades de autenticacion, permisos, respaldo automatizado y despliegue formal siguen sin base tecnica documentada.
+- La aplicacion soporta ejecucion local en `HOST`, `PORT` y `BASE_PATH` configurables, pero no existe aun una estrategia de publicacion formal para produccion.
 
 ## Reglas operativas relevantes
 ### Rama y versionado
@@ -39,13 +40,23 @@ Tambien resume las precauciones minimas para administrar una base de datos local
 4. Mantener rastreadas las contradicciones entre el changelog y el arbol de trabajo cuando aparezcan.
 5. Hacer copia de seguridad de `data/movimientos.json` antes de borrar o reponer el entorno, porque ahi se guardan los movimientos.
 6. Restaurar `data/movimientos.json` desde respaldo si se necesita conservar datos historicos.
-7. Comprobar que el puerto de ejecucion no colisiona con otros servicios antes de arrancar la aplicacion local.
+7. Comprobar que el host, el puerto y la subruta no colisionan con otros servicios o rutas locales antes de arrancar la aplicacion.
+8. Si la aplicacion devuelve `503 Service Unavailable`, revisar primero el estado de `data/movimientos.json` y despues el almacenamiento del directorio `data/`.
+
+## Procedimiento operativo minimo
+1. Identificar si el trabajo afecta a documentacion, operacion o respaldo.
+2. Confirmar que el repositorio sigue en `main` antes de publicar cambios documentales.
+3. Revisar el fichero del dia en `changelog/` si se necesita trazabilidad operativa.
+4. Realizar copia de seguridad del fichero de datos antes de tareas destructivas o restauraciones.
+5. Si se cambia `HOST`, `PORT` o `BASE_PATH`, validar que el acceso local sigue respondiendo en la ruta esperada.
+6. Documentar cualquier dependencia abierta como tal, sin presentarla como hecho consolidado.
 
 ## Riesgos actuales
 - Existe una brecha entre la vision del producto, el backlog completo y la entrega minima actualmente implementada.
 - La persistencia local en un unico fichero hace que la perdida de `data/movimientos.json` implique perdida de datos si no hay copia previa.
 - Si no se resuelve la discrepancia documental, puede documentarse como vigente algo que todavia no esta comprobado en `main`.
 - Si la administracion asume que hay funciones de consulta, importacion o cierre no implementadas, puede inducir procedimientos operativos incorrectos.
+- Si se cambia la subruta publica sin revisar `BASE_PATH`, la aplicacion puede responder `404 Not Found` aunque el servicio este activo.
 
 ## Criterio administrativo
 Mientras no exista una entrega completa validada e integrada, la administracion debe tratar este repositorio como un espacio de coordinacion documental y operativa, no como una plataforma lista para explotacion completa de usuarios finales.

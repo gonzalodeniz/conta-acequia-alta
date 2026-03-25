@@ -13,10 +13,16 @@ En `product-manager/`, especialmente en `vision-product.md`, `product-backlog.md
 No. `product-manager/product-backlog.md` contiene PB-001, PB-002, PB-003, PB-004, PB-005, PB-006, PB-007 y PB-008.
 
 ## Que hace la aplicacion actual?
-Solo permite registrar movimientos de gasto o ingreso y listarlos en la misma pagina. No hay filtros, resumen, autenticacion ni perfiles de acceso separados.
+Solo permite registrar movimientos de gasto o ingreso y listarlos en la misma pagina. Hay filtro por rango de fechas, pero no hay resumen financiero, autenticacion ni perfiles de acceso separados.
 
 ## Como cambio el puerto de ejecucion?
-Define `PORT` en el entorno o en un fichero `.env` en la raiz. Si no lo haces, la aplicacion usa `8000`.
+Define `HOST`, `PORT` o `BASE_PATH` en el entorno o en un fichero `.env` en la raiz. Si no lo haces, la aplicacion usa `127.0.0.1`, `8000` y la raiz del sitio.
+
+## Como filtro el libro de asientos?
+Usa los campos `Desde` y `Hasta` del formulario de consulta. Ambos aceptan fechas en formato `AAAA-MM-DD`.
+
+## Que pasa si el fichero de datos falla?
+La aplicacion responde con `503 Service Unavailable` si `data/movimientos.json` esta corrupto o no puede escribirse. En ese caso conviene revisar el fichero o restaurar una copia valida.
 
 ## Que tipo de contenido mantiene `doc-teams`?
 Manual de usuario, manual tecnico, manual de administracion y guias operativas como instalacion o despliegue cuando existan bases verificables para hacerlo.
@@ -24,11 +30,14 @@ Manual de usuario, manual tecnico, manual de administracion y guias operativas c
 ## Puedo asumir que hay una app desplegable?
 Si hay una aplicacion WSGI minima para uso local con `python3 app.py` o `make run`, pero no un despliegue de produccion verificado.
 
+## Puedo servirla bajo una subruta?
+Si, la base actual interpreta `BASE_PATH` y tambien respeta `SCRIPT_NAME` cuando no se ha configurado una subruta fija. Sigue siendo una capacidad de ejecucion local, no una guia de produccion.
+
 ## Como se usan los scripts `*_rol-*.sh`?
 Cada script lanza el prompt del rol correspondiente mediante `run-codex.sh`. Son utilidades de coordinacion, no la aplicacion del dominio de negocio.
 
 ## Que falta para una documentacion funcional mas completa?
-- Cerrar o validar PB-002 y PB-003 para que la consulta y el resumen pasen de vision a funcionalidad documentada.
+- Validar PB-003 para que el resumen financiero pase de vision a funcionalidad documentada.
 - Definir el alcance real de vecinos en solo lectura.
 - Confirmar el formato de importacion, el cierre anual y las notificaciones antes de documentarlos como operativos.
 - Definir una guia de despliegue de produccion cuando exista una base tecnica para ello.

@@ -29,22 +29,30 @@ No describe instalacion de produccion porque todavia no hay una estrategia de de
 Ejecuta `make test` para comprobar que:
 - La logica de servicio valida correctamente movimientos validos e invalidos.
 - La vista web responde con estado vacio, alta correcta y errores de validacion.
+- La configuracion de `HOST`, `PORT` y `BASE_PATH` sigue siendo interpretable por la aplicacion.
 
 Ejecuta `make run` para comprobar que:
 - La aplicacion levanta un servidor WSGI local.
-- El servicio responde en `http://127.0.0.1:8000` salvo que `PORT` o `.env` definan otro valor.
-- La ruta raiz muestra el formulario y el listado de movimientos.
+- El servicio responde en `http://127.0.0.1:8000` salvo que `HOST`, `PORT` o `.env` definan otro valor.
+- Si se define `BASE_PATH`, la ruta publica debe incluir esa subruta.
+- La ruta raiz o la ruta publica configurada muestran el formulario y el listado de movimientos.
 
 ## Configuracion de ejecucion
+- `HOST` define la interfaz de escucha.
 - `PORT` define el puerto de escucha.
+- `BASE_PATH` define una subruta publica opcional para desplegar la aplicacion bajo prefijo.
 - Si existe un fichero `.env` en la raiz, `app.py` tambien toma `PORT` desde ahi.
+- Si existe un fichero `.env` en la raiz, `app.py` tambien toma `HOST` y `BASE_PATH` desde ahi.
 - Si no se define un puerto, la aplicacion usa `8000`.
+- Si no se define un host, la aplicacion usa `127.0.0.1`.
+- Si no se define una subruta, la aplicacion escucha en la raiz.
 
 ## Dependencias abiertas
 - No existe una infraestructura de produccion documentada para desplegar la aplicacion.
 - El fichero `requirements.txt` no contiene dependencias externas por ahora; si en el futuro se añaden, esta guia debera actualizarse.
 - El entorno virtual descrito aqui es obligatorio para trabajar con la entrega actual, aunque no haya dependencias externas declaradas.
 - La instalacion aqui descrita es la minima necesaria para trabajar con la entrega actual, no una guia de producto final.
+- Falta decidir si `BASE_PATH` se utilizara solo para pruebas locales o tambien para despliegues formales cuando existan.
 
 ## Nota operativa
 Mientras el repositorio siga evolucionando, esta guia debe mantenerse sincronizada con los comandos reales de arranque y pruebas.

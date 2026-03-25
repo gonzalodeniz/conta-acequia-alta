@@ -14,8 +14,11 @@ No inventa arquitectura ni dependencias externas que no esten respaldadas por lo
 - La persistencia de datos usa `data/movimientos.json`.
 - `requirements.txt` existe, pero por ahora no declara dependencias externas.
 - La aplicacion valida campos obligatorios, formato de fecha, tipo de movimiento e importe positivo.
-- La vista web actual es unica y sirve tanto para alta como para consulta del ultimo estado persistido.
-- La configuracion del puerto se resuelve desde la variable de entorno `PORT` o desde `.env`, con valor por defecto `8000`.
+- La vista web actual es unica y sirve tanto para alta como para consulta del libro persistido, con filtro opcional por rango de fechas.
+- La configuracion de ejecucion se resuelve desde `HOST`, `PORT` y `BASE_PATH` leidos primero del entorno y despues de `.env`, con valores por defecto `127.0.0.1`, `8000` y raiz sin subruta.
+- Si la ruta solicitada no coincide con el `BASE_PATH` configurado, la aplicacion responde `404 Not Found`.
+- Si el fichero de datos no existe, se crea automaticamente como un array JSON vacio.
+- Si el fichero de datos esta corrupto o no puede escribirse, la aplicacion responde con `503 Service Unavailable` y devuelve un mensaje explicito.
 
 ## Estructura relevante
 - `app.py`: punto de entrada para levantar el servidor WSGI local.
@@ -30,10 +33,11 @@ No inventa arquitectura ni dependencias externas que no esten respaldadas por lo
 ## Flujo tecnico
 1. La peticion entra por `create_app()` en `conta_acequia_alta/web.py`.
 2. La capa web instancia `MovimientoRepository` y `MovimientoService`.
-3. El servicio valida el payload.
-4. Si la validacion pasa, se genera un identificador `MOV-XXXXXXXX`.
-5. El repositorio persiste el movimiento en `data/movimientos.json`.
-6. La vista renderiza la lista de movimientos en orden inverso de insercion.
+3. La capa web resuelve la ruta publica usando `SCRIPT_NAME` y el `BASE_PATH` configurado.
+4. El servicio valida el payload.
+5. Si la validacion pasa, se genera un identificador `MOV-XXXXXXXX`.
+6. El repositorio persiste el movimiento en `data/movimientos.json`.
+7. La vista renderiza la lista de movimientos en orden cronologico ascendente, con el filtrado aplicado si existe rango de fechas.
 
 ## Validaciones implementadas
 - `fecha` es obligatoria y debe usar formato `AAAA-MM-DD`.
@@ -46,6 +50,7 @@ No inventa arquitectura ni dependencias externas que no esten respaldadas por lo
 - Si `data/movimientos.json` no existe, el repositorio lo crea automaticamente con un array vacio.
 - Cada alta reescribe el fichero completo con la lista serializada.
 - Los datos se guardan en JSON legible para facilitar inspeccion manual y restauracion.
+- Una lectura o escritura fallida se convierte en `StorageError` para que la capa web pueda devolver un `503` controlado.
 
 ## Comandos utiles
 - `python3 -m venv .venv`: crea el entorno virtual de trabajo en la raiz del repositorio.
@@ -65,10 +70,11 @@ No inventa arquitectura ni dependencias externas que no esten respaldadas por lo
 6. Probar un envio invalido para verificar la respuesta de validacion.
 
 ## Dependencias tecnicas abiertas
-- Falta implementar busqueda, filtrado, resumen financiero, importacion, presupuestos y cierre anual.
+- Falta implementar busqueda, resumen financiero, importacion, presupuestos y cierre anual.
 - Falta definir autenticacion y permisos si el producto va a distinguir administradores de vecinos.
 - Falta decidir una estrategia de despliegue distinta del servidor local de desarrollo.
 - No existe capa de API separada ni almacenamiento alternativo al fichero JSON local.
+- Falta completar la ayuda de clasificacion contable descrita en `product-manager/requisitos-funcionales.md`.
 
 ## Scripts de soporte
 ### `run-codex.sh`
