@@ -43,5 +43,8 @@ Cada script lanza el prompt del rol correspondiente mediante `run-codex.sh`. Son
 - Definir una guia de despliegue de produccion cuando exista una base tecnica para ello.
 - Alinear cualquier futura guia de administracion con el alcance real integrado en `main` antes de describirlo como vigente.
 
+## Si una issue esta validada, por que el manual sigue sin describirla como vigente?
+Porque `doc-teams` documenta el comportamiento integrado en `main`. Si la validacion existe pero la rama tecnica todavia no se ha fusionado, la documentacion debe seguir describiendo el estado vigente y dejar esa entrega como dependencia abierta.
+
 ## Hay contradicciones en la documentacion?
 Si. La principal contradiccion que se ha corregido aqui era entre una lectura antigua del repositorio como solo documental y la presencia real de una aplicacion minima en Python junto con su suite de tests.

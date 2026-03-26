@@ -15,6 +15,7 @@ No inventa arquitectura ni dependencias externas que no esten respaldadas por lo
 - `requirements.txt` existe, pero por ahora no declara dependencias externas.
 - La aplicacion valida campos obligatorios, formato de fecha, tipo de movimiento e importe positivo.
 - La vista web actual es unica y sirve tanto para alta como para consulta del libro persistido, con filtro opcional por rango de fechas.
+- La entrega validada de `PB-010` sigue en una rama tecnica y todavia no esta fusionada en `main`; por eso este manual sigue describiendo la interfaz vigente con formulario de alta y listado en una sola vista.
 - La configuracion de ejecucion se resuelve desde `HOST`, `PORT` y `BASE_PATH` leidos primero del entorno y despues de `.env`, con valores por defecto `127.0.0.1`, `8000` y raiz sin subruta.
 - Si la ruta solicitada no coincide con el `BASE_PATH` configurado, la aplicacion responde `404 Not Found`.
 - Si el fichero de datos no existe, se crea automaticamente como un array JSON vacio.
@@ -75,6 +76,7 @@ No inventa arquitectura ni dependencias externas que no esten respaldadas por lo
 - Falta decidir una estrategia de despliegue distinta del servidor local de desarrollo.
 - No existe capa de API separada ni almacenamiento alternativo al fichero JSON local.
 - Falta completar la ayuda de clasificacion contable descrita en `product-manager/requisitos-funcionales.md`.
+- La documentacion del flujo editable de libro de asientos seguira pendiente hasta que la rama de `PB-010` se integre en `main`.
 
 ## Scripts de soporte
 ### `run-codex.sh`

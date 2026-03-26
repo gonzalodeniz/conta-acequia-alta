@@ -16,6 +16,7 @@ Tambien resume las precauciones minimas para administrar una base de datos local
 - La entrega actual no debe tratarse como un entorno de produccion.
 - Las capacidades de autenticacion, permisos, respaldo automatizado y despliegue formal siguen sin base tecnica documentada.
 - La aplicacion soporta ejecucion local en `HOST`, `PORT` y `BASE_PATH` configurables, pero no existe aun una estrategia de publicacion formal para produccion.
+- La issue `#11` de `PB-010` fue validada por `qa-teams`, pero mientras su rama tecnica no se fusione en `main` no debe presentarse como comportamiento vigente en manuales ni en procedimientos operativos.
 
 ## Reglas operativas relevantes
 ### Rama y versionado
@@ -42,6 +43,7 @@ Tambien resume las precauciones minimas para administrar una base de datos local
 6. Restaurar `data/movimientos.json` desde respaldo si se necesita conservar datos historicos.
 7. Comprobar que el host, el puerto y la subruta no colisionan con otros servicios o rutas locales antes de arrancar la aplicacion.
 8. Si la aplicacion devuelve `503 Service Unavailable`, revisar primero el estado de `data/movimientos.json` y despues el almacenamiento del directorio `data/`.
+9. Si una issue validada sigue sin estar fusionada, mantener su estado como dependencia abierta y no convertirla en referencia operativa consolidada.
 
 ## Procedimiento operativo minimo
 1. Identificar si el trabajo afecta a documentacion, operacion o respaldo.
