@@ -1,14 +1,14 @@
 # Analisis de proceso
 
-Fecha de escritura: 2026-03-25 23:01:12 UTC
-Changelog consultado: changelog/2026-03-25.md
+Fecha de escritura: 2026-03-26 23:00:44 UTC
+Changelog consultado: changelog/2026-03-26.md
 Vigencia de ejemplos: vigente
 
 ## Contexto analizado
 - El repositorio ya dispone de backlog funcional y de issues operativas en curso, por lo que el problema principal ya no es la ausencia de cola sino su sincronizacion con el estado real de cada issue.
 - `product-manager/product-backlog.md` esta poblado, pero sigue siendo sensible a desalineaciones manuales cuando las issues avanzan a `en desarrollo`, `listo para qa`, `validado` o `cerrado`.
 - La secuencia de `PB-002` y la issue `#2` mostro que el checkpoint administrativo de `product-manager`, el merge de `developer-teams` y el borrado de la rama tecnica funcionan cuando se ejecutan en orden.
-- La revision de `PB-010` y la issue `#11` confirmo que `qa-teams` rechaza correctamente entregas sin paquete minimo de handoff ni implementacion verificable.
+- La primera vuelta de `PB-010` y la issue `#11` del 25 de marzo fue rechazada por `qa-teams` por falta de handoff e implementacion verificable; la reactivacion del 26 de marzo ya paso por desarrollo y validacion, asi que aquel ejemplo quedo como antecedente historico y no como fotografia vigente.
 - El flujo entre `product-manager`, `developer-teams`, `qa-teams` y `doc-teams` sigue bastante cerrado, pero varias reglas siguen repartidas entre `AGENTS.md` raiz, los `AGENTS.md` de rol y los artefactos de `agile-coach/`, lo que exige refresco documental cuando cambia el ultimo `changelog/`.
 
 ## Hallazgos principales
@@ -19,9 +19,9 @@ Vigencia de ejemplos: vigente
 - Lectura operativa: antes de reutilizar un ejemplo concreto, hay que revalidarlo contra el `changelog/` mas reciente que afecte a la misma issue, rama o handoff.
 
 ### 2. El backlog persistente sigue necesitando sincronizacion manual con el estado real de las issues
-- Evidencia observada: el backlog ya existe, pero sus items enlazados a issues dependen de actualizacion manual y pueden quedarse atras respecto al ultimo estado operativo visible en GitHub.
-- Impacto: la priorizacion real puede apoyarse en una fotografia desfasada del trabajo, especialmente tras validacion o cierre administrativo.
-- Lectura operativa: el flujo tiene reglas de backlog, pero necesita una sincronizacion explicita con el ciclo de vida de la issue para seguir siendo una referencia cotidiana fiable.
+- Evidencia observada: `PB-010` seguia mostrando `Estado operativo: no validado` en el backlog local mientras la entrada de `changelog/2026-03-26.md` ya registraba que la issue `#11` habia vuelto a `en desarrollo` y despues a `validado` el mismo dia.
+- Impacto: la priorizacion real puede apoyarse en una fotografia desfasada del trabajo, especialmente cuando una issue avanza rapido entre `no validado`, `en desarrollo` y `validado`.
+- Lectura operativa: el flujo tiene reglas de backlog, pero necesita un checkpoint de frescura ligado a cada transicion para seguir siendo una referencia cotidiana fiable.
 
 ### 3. La firma del `changelog` debe asociarse siempre a un rol activado
 - Evidencia observada: en `changelog/2026-03-21.md` aparecio una entrada firmada como `codex`.
@@ -44,11 +44,16 @@ Vigencia de ejemplos: vigente
 - Lectura operativa: conviene medir si los ejemplos citados siguen siendo vigentes y si el documento explicita la fecha de la ultima revision.
 
 ### 7. La validacion puede quedar abierta sin checkpoint administrativo visible
-- Evidencia observada: la issue `#2` quedo validada y despues recibio el comentario administrativo que aclara la integracion pendiente antes del merge definitivo.
+- Evidencia observada: la issue `#11` quedo validada el 26 de marzo de 2026, pero la propia secuencia de trabajo aun depende del merge y del cierre administrativo posteriores.
 - Impacto: si ese comentario no se emite a tiempo, otros equipos leen una entrega aceptada pero no saben si el siguiente paso es integracion, espera documental o cierre administrativo.
 - Lectura operativa: hace falta vigilar la latencia entre validacion y cierre visible para que la issue no quede en limbo.
 
-### 8. El backlog mezcla estado operativo con estado de refinamiento
+### 8. El backlog puede quedarse atras incluso cuando la validacion ya ocurrio
+- Evidencia observada: la issue `#11` ya habia sido validada en GitHub, pero el item `PB-010` seguia marcado como `no validado` en el backlog local al revisar la fotografia de trabajo.
+- Impacto: `product-manager` y `developer-teams` pueden trabajar con estados distintos si consultan el backlog antes de que se refresque tras la transicion real.
+- Lectura operativa: la actualizacion del backlog necesita un control de frescura asociado a cada cambio de estado, no solo una regla declarativa.
+
+### 9. El backlog mezcla estado operativo con estado de refinamiento
 - Evidencia observada: en `product-manager/product-backlog.md` los items enlazados a issue usan `Estado operativo:`, mientras que el item pendiente de refinamiento `PB-007` usa `Estado de backlog: refinamiento pendiente`.
 - Impacto: un lector del backlog puede interpretar que todos los estados tienen la misma semantica, cuando en realidad unos describen el ciclo de vida de una issue y otros solo la madurez de una iniciativa aun no operable.
 - Lectura operativa: conviene separar el campo que refleja ejecucion real del campo que refleja priorizacion o refinamiento para no mezclar cola de trabajo con cola de definicion.
@@ -103,6 +108,12 @@ Vigencia de ejemplos: vigente
 - Beneficio: evita que analisis y riesgos sigan describiendo como actual un contexto ya superado por la operativa real.
 - Tradeoffs: obliga a revisar y reescribir una pequeña parte de la documentacion cada vez que haya un cambio relevante.
 - Riesgos y dependencias: depende de que `changelog/` se mantenga al dia y de que el refresco documental no se posponga hasta que el documento quede claramente desfasado.
+
+### J. Introducir un control de frescura del backlog tras cada cambio de estado
+- Exigir que el item del backlog enlazado a una issue se refresque en la misma iteracion en que GitHub registre una transicion de estado, y no en una revision posterior.
+- Beneficio: reduce la ventana en la que `product-manager` consulta un backlog ya superado por la realidad de la issue.
+- Tradeoffs: obliga a una disciplina adicional de mantenimiento del backlog en los momentos de mayor actividad.
+- Riesgos y dependencias: si la actualizacion se difiere hasta el cierre del dia, el backlog vuelve a quedar desalineado y pierde valor como fuente de triaje.
 
 ## Tradeoffs
 - El control operativo gana disciplina, pero tambien exige que `product-manager` y los demas roles cuiden un poco mas el mantenimiento del backlog y de las firmas.

@@ -1,7 +1,7 @@
 # Metricas ligeras de flujo
 
-Fecha de escritura: 2026-03-25 23:01:12 UTC
-Changelog consultado: changelog/2026-03-25.md
+Fecha de escritura: 2026-03-26 23:00:44 UTC
+Changelog consultado: changelog/2026-03-26.md
 Vigencia de ejemplos: vigente
 
 ## Objetivo
@@ -72,6 +72,10 @@ Medir si el proceso entre equipos mejora en velocidad, claridad y estabilidad si
 ## 15. Tiempo de refresco de artefactos de proceso
 - Definicion: tiempo transcurrido entre una entrada de `changelog/` sobre `main` que cambia el estado de una issue, rama o handoff citado en un documento de `agile-coach/` y la actualizacion de ese documento o su marcado como historico.
 - Senal que aporta: detecta si la documentacion de proceso se mantiene al ritmo de la operativa real o si empieza a describir un pasado ya superado.
+
+## 16. Latencia de refresco del backlog
+- Definicion: tiempo transcurrido entre una transicion de estado de una issue en GitHub y la actualizacion del item enlazado en `product-manager/product-backlog.md`.
+- Senal que aporta: detecta si el backlog sigue la realidad del flujo o si queda atras frente a la issue que describe.
 
 ## Regla de uso
 - Revisar estas metricas al cierre de cada iteracion relevante o cuando se acumulen varias issues cerradas.

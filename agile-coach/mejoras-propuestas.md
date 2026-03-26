@@ -1,7 +1,7 @@
 # Mejoras de proceso propuestas
 
-Fecha de escritura: 2026-03-25 23:01:12 UTC
-Changelog consultado: changelog/2026-03-25.md
+Fecha de escritura: 2026-03-26 23:00:44 UTC
+Changelog consultado: changelog/2026-03-26.md
 Vigencia de ejemplos: vigente
 
 ## Mejora 1: introducir estados operativos comunes en la issue
@@ -466,3 +466,22 @@ Actualizar o marcar como historicos los artefactos de proceso siempre que aparez
 ### Riesgos y dependencias
 - Si el refresco documental se retrasa, el documento pierde valor como referencia vigente.
 - Depende de que el `changelog/` este al dia y de que los equipos no reutilicen artefactos antiguos por costumbre.
+
+## Mejora 23: sincronizar el backlog cuando una issue cambia de estado en GitHub
+### Problema detectado
+Una issue puede pasar a `en desarrollo`, `listo para qa`, `validado` o `cerrado` en GitHub mientras el item enlazado en `product-manager/product-backlog.md` sigue mostrando un estado anterior.
+
+### Propuesta
+Exigir que `product-manager` actualice en la misma iteracion el item del backlog enlazado a cada issue en cuanto cambie su estado operativo visible. Si la issue permanece abierta tras `validado`, el backlog debe reflejar ya ese estado antes de que se publique cualquier comentario administrativo posterior.
+
+### Impacto esperado
+- Evita que el backlog se convierta en una fotografia atrasada de la ejecucion real.
+- Mejora la priorizacion de nuevas tareas y el seguimiento de trabajo ya empezado.
+- Reduce el tiempo en que `product-manager`, `developer-teams` y `qa-teams` leen estados distintos segun el artefacto consultado.
+
+### Tradeoffs
+- `product-manager` debe mantener una disciplina de refresco muy cercana a cada transicion para no acumular deuda documental.
+
+### Riesgos y dependencias
+- Si la actualizacion se aplaza hasta una revision posterior, reaparece la ventana de desalineacion entre backlog y issue.
+- Requiere que el equipo trate el backlog como una fuente viva y no como un resumen que puede corregirse al final del dia.

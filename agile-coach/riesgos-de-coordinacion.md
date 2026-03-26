@@ -1,7 +1,7 @@
 # Riesgos actuales de coordinacion
 
-Fecha de escritura: 2026-03-25 23:01:12 UTC
-Changelog consultado: changelog/2026-03-25.md
+Fecha de escritura: 2026-03-26 23:00:44 UTC
+Changelog consultado: changelog/2026-03-26.md
 Vigencia de ejemplos: vigente
 
 ## Objetivo
@@ -93,3 +93,8 @@ Registrar los riesgos de coordinacion que siguen activos tras los ajustes de pro
 - Senal observable: un documento de `agile-coach/` sigue citando como vigente una fotografia anterior aunque la entrada mas reciente de `changelog/` ya cambio el estado de la misma issue, rama o handoff.
 - Impacto: el analisis puede describir un presente desfasado y empujar decisiones de coordinacion basadas en evidencia vieja.
 - Mitigacion acordada: refrescar o marcar como historicos los documentos de proceso cuando un `changelog/` posterior invalide la fotografia citada.
+
+## Riesgo 18: backlog visible desalineado el mismo dia de una validacion
+- Senal observable: `qa-teams` valida una issue en GitHub pero el item enlazado en `product-manager/product-backlog.md` sigue mostrando el estado anterior en la fotografia local.
+- Impacto: `product-manager` puede priorizar, cerrar o dejar abierta la issue con una vista desfasada del flujo real.
+- Mitigacion acordada: refrescar el item del backlog en la misma iteracion que la transicion real y tratar la desalineacion como una alerta operativa, no como un detalle menor.
