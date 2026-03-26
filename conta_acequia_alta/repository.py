@@ -33,6 +33,25 @@ class MovimientoRepository:
     def add(self, movimiento: Movimiento) -> None:
         movimientos = self.list_all()
         movimientos.append(movimiento)
+        self._save(movimientos)
+
+    def update(self, movimiento_actualizado: Movimiento) -> None:
+        movimientos = self.list_all()
+        updated = False
+        serialized: list[Movimiento] = []
+        for movimiento in movimientos:
+            if movimiento.identificador == movimiento_actualizado.identificador:
+                serialized.append(movimiento_actualizado)
+                updated = True
+            else:
+                serialized.append(movimiento)
+
+        if not updated:
+            raise StorageError("No existe el movimiento indicado para actualizar.")
+
+        self._save(serialized)
+
+    def _save(self, movimientos: list[Movimiento]) -> None:
         serialized = [item.to_dict() for item in movimientos]
         payload = json.dumps(serialized, ensure_ascii=True, indent=2) + "\n"
         try:

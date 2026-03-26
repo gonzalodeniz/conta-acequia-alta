@@ -23,21 +23,23 @@ class WebAppTests(unittest.TestCase):
 
         self.assertEqual(status, "200 OK")
         self.assertIn("Todavia no hay movimientos registrados.", body)
-        self.assertIn("Libro de asientos contables", body)
+        self.assertIn("Libro de asientos editable", body)
+        self.assertIn("Navegacion principal del administrador", body)
+        self.assertIn("Anadir asiento", body)
 
-    def test_registra_un_ingreso_y_lo_hace_visible_en_la_respuesta(self) -> None:
+    def test_registra_un_ingreso_desde_la_tabla_y_lo_hace_visible_en_la_respuesta(self) -> None:
         status, body = self._call_app(
             "POST",
-            "fecha=2026-03-21&concepto=Cuota+mensual&categoria=Recibos&tipo=ingreso&importe=35.25",
+            "action=create&fecha=2026-03-21&concepto=Cuota+mensual&categoria=Recibos&tipo=ingreso&importe=35.25",
         )
 
         self.assertEqual(status, "200 OK")
-        self.assertIn("Movimiento registrado correctamente con identificador MOV-", body)
+        self.assertIn("Asiento registrado correctamente para el movimiento MOV-", body)
         self.assertIn("Cuota mensual", body)
-        self.assertIn("Tipo: Ingreso", body)
+        self.assertIn(">1</span>", body)
 
     def test_muestra_errores_de_validacion_en_el_formulario(self) -> None:
-        _, body = self._call_app("POST", "fecha=&concepto=&categoria=&tipo=&importe=")
+        _, body = self._call_app("POST", "action=create&fecha=&concepto=&categoria=&tipo=&importe=")
 
         self.assertIn("Este campo es obligatorio.", body)
 
@@ -47,7 +49,7 @@ class WebAppTests(unittest.TestCase):
         status, body = self._call_app("GET", app=app, path="/contabilidad")
 
         self.assertEqual(status, "200 OK")
-        self.assertIn('<form method="post" action="/contabilidad">', body)
+        self.assertIn('<form id="create-form" method="post" action="/contabilidad">', body)
 
     def test_devuelve_404_si_la_ruta_no_coincide_con_el_base_path(self) -> None:
         app = create_app(self.data_file, base_path="/contabilidad")
@@ -61,17 +63,17 @@ class WebAppTests(unittest.TestCase):
         status, body = self._call_app("GET", script_name="/portal")
 
         self.assertEqual(status, "200 OK")
-        self.assertIn('<form method="post" action="/portal">', body)
+        self.assertIn('<form id="create-form" method="post" action="/portal">', body)
         self.assertIn('href="/portal"', body)
 
     def test_filtra_el_libro_de_asientos_por_rango_de_fechas(self) -> None:
         self._call_app(
             "POST",
-            "fecha=2026-03-21&concepto=Cuota+mensual&categoria=Recibos&tipo=ingreso&importe=35.25",
+            "action=create&fecha=2026-03-21&concepto=Cuota+mensual&categoria=Recibos&tipo=ingreso&importe=35.25",
         )
         self._call_app(
             "POST",
-            "fecha=2026-03-25&concepto=Factura+agua&categoria=Suministros&tipo=gasto&importe=12.50",
+            "action=create&fecha=2026-03-25&concepto=Factura+agua&categoria=Suministros&tipo=gasto&importe=12.50",
         )
 
         status, body = self._call_app("GET", query_string="fecha_desde=2026-03-22&fecha_hasta=2026-03-26")
@@ -83,12 +85,57 @@ class WebAppTests(unittest.TestCase):
     def test_muestra_estado_vacio_claro_si_el_filtro_no_devuelve_resultados(self) -> None:
         self._call_app(
             "POST",
-            "fecha=2026-03-21&concepto=Cuota+mensual&categoria=Recibos&tipo=ingreso&importe=35.25",
+            "action=create&fecha=2026-03-21&concepto=Cuota+mensual&categoria=Recibos&tipo=ingreso&importe=35.25",
         )
 
         _, body = self._call_app("GET", query_string="fecha_desde=2026-03-22&fecha_hasta=2026-03-26")
 
         self.assertIn("No hay movimientos en el rango indicado.", body)
+
+    def test_permite_editar_un_asiento_directamente_desde_la_tabla(self) -> None:
+        _, body = self._call_app(
+            "POST",
+            "action=create&fecha=2026-03-21&concepto=Cuota+mensual&categoria=Recibos&tipo=ingreso&importe=35.25",
+        )
+        identificador = self._extract_identificador(body)
+
+        status, updated_body = self._call_app(
+            "POST",
+            (
+                f"action=update&identificador={identificador}"
+                "&fecha=2027-01-10&concepto=Cuota+anual&categoria=Recibos&tipo=ingreso&importe=45.00"
+            ),
+        )
+
+        self.assertEqual(status, "200 OK")
+        self.assertIn("Asiento actualizado correctamente", updated_body)
+        self.assertIn("Cuota anual", updated_body)
+        self.assertIn('value="2027-01-10"', updated_body)
+
+    def test_muestra_numeracion_visible_y_reiniciada_por_ejercicio(self) -> None:
+        self._call_app(
+            "POST",
+            "action=create&fecha=2026-03-21&concepto=Cuota+mensual&categoria=Recibos&tipo=ingreso&importe=35.25",
+        )
+        self._call_app(
+            "POST",
+            "action=create&fecha=2026-03-25&concepto=Factura+agua&categoria=Suministros&tipo=gasto&importe=12.50",
+        )
+        _, body = self._call_app(
+            "POST",
+            "action=create&fecha=2027-01-02&concepto=Cuota+enero&categoria=Recibos&tipo=ingreso&importe=35.25",
+        )
+
+        self.assertIn('<span class="entry-number">1</span>', body)
+        self.assertIn('<span class="entry-number">2</span>', body)
+        self.assertGreaterEqual(body.count('<span class="entry-number">1</span>'), 2)
+
+    def test_reemplaza_el_formulario_principal_por_una_tabla_editable(self) -> None:
+        _, body = self._call_app("GET")
+
+        self.assertNotIn("Registro de movimientos contables", body)
+        self.assertIn('<table aria-label="Libro de asientos editable">', body)
+        self.assertNotIn("Guardar movimiento", body)
 
     def test_muestra_error_si_el_rango_de_fechas_no_es_coherente(self) -> None:
         _, body = self._call_app("GET", query_string="fecha_desde=2026-03-26&fecha_hasta=2026-03-22")
@@ -110,7 +157,7 @@ class WebAppTests(unittest.TestCase):
         ):
             status, body = self._call_app(
                 "POST",
-                "fecha=2026-03-21&concepto=Cuota+mensual&categoria=Recibos&tipo=ingreso&importe=35.25",
+                "action=create&fecha=2026-03-21&concepto=Cuota+mensual&categoria=Recibos&tipo=ingreso&importe=35.25",
             )
 
         self.assertEqual(status, "503 Service Unavailable")
@@ -143,6 +190,11 @@ class WebAppTests(unittest.TestCase):
         chunks = (app or self.app)(environ, start_response)
         rendered = b"".join(chunks).decode("utf-8")
         return response_status[0], rendered
+
+    def _extract_identificador(self, body: str) -> str:
+        marker = "movimiento MOV-"
+        start = body.index(marker) + len(marker)
+        return f"MOV-{body[start:start + 8]}"
 
 
 if __name__ == "__main__":
