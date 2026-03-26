@@ -21,6 +21,12 @@ Establecer el minimo funcional y operativo que una issue debe cumplir para consi
 - Los criterios de aceptacion quedan cubiertos o cualquier excepcion esta expresamente aceptada y trazada.
 - No quedan defectos bloqueantes abiertos sobre el alcance comprometido.
 
+## Para reactivar una issue tras `no validado`
+- La issue original se mantiene abierta mientras el alcance siga siendo el mismo.
+- `developer-teams` publica arranque y handoff completos en la misma issue antes de una nueva revision de `qa-teams`.
+- `product-manager` no promociona una issue funcional nueva equivalente mientras el frente `no validado` siga sin reencauzarse.
+- El backlog persistente refleja el `Estado operativo: no validado` hasta que exista una nueva transicion real.
+
 ## Para cierre administrativo por `product-manager`
 - Existe validacion explicita de `qa-teams`.
 - La issue mantiene trazabilidad con backlog, historia y caso de uso.
