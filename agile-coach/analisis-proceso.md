@@ -1,8 +1,8 @@
 # Analisis de proceso
 
-Fecha de escritura: 2026-03-26 23:00:44 UTC
-Changelog consultado: changelog/2026-03-26.md
-Vigencia de ejemplos: vigente
+Fecha de escritura: 2026-03-27 23:01:14 UTC
+Changelog consultado: changelog/2026-03-27.md
+Vigencia de ejemplos: historico
 
 ## Contexto analizado
 - El repositorio ya dispone de backlog funcional y de issues operativas en curso, por lo que el problema principal ya no es la ausencia de cola sino su sincronizacion con el estado real de cada issue.
@@ -10,6 +10,7 @@ Vigencia de ejemplos: vigente
 - La secuencia de `PB-002` y la issue `#2` mostro que el checkpoint administrativo de `product-manager`, el merge de `developer-teams` y el borrado de la rama tecnica funcionan cuando se ejecutan en orden.
 - La primera vuelta de `PB-010` y la issue `#11` del 25 de marzo fue rechazada por `qa-teams` por falta de handoff e implementacion verificable; la reactivacion del 26 de marzo ya paso por desarrollo y validacion, asi que aquel ejemplo quedo como antecedente historico y no como fotografia vigente.
 - El flujo entre `product-manager`, `developer-teams`, `qa-teams` y `doc-teams` sigue bastante cerrado, pero varias reglas siguen repartidas entre `AGENTS.md` raiz, los `AGENTS.md` de rol y los artefactos de `agile-coach/`, lo que exige refresco documental cuando cambia el ultimo `changelog/`.
+- La entrada del 27 de marzo confirma que `PB-010` ya paso por desarrollo, validacion, integracion en `main` y actualizacion documental; por tanto, la fotografia del 26 de marzo queda como antecedente historico y no como estado vigente.
 
 ## Hallazgos principales
 
@@ -57,6 +58,11 @@ Vigencia de ejemplos: vigente
 - Evidencia observada: en `product-manager/product-backlog.md` los items enlazados a issue usan `Estado operativo:`, mientras que el item pendiente de refinamiento `PB-007` usa `Estado de backlog: refinamiento pendiente`.
 - Impacto: un lector del backlog puede interpretar que todos los estados tienen la misma semantica, cuando en realidad unos describen el ciclo de vida de una issue y otros solo la madurez de una iniciativa aun no operable.
 - Lectura operativa: conviene separar el campo que refleja ejecucion real del campo que refleja priorizacion o refinamiento para no mezclar cola de trabajo con cola de definicion.
+
+### 10. La fotografia de proceso debe avanzar al mismo ritmo que la integracion real
+- Evidencia observada: `changelog/2026-03-27.md` ya registra la fusion, la validacion funcional y la actualizacion documental de `PB-010`, mientras que los artefactos de proceso consultados seguian anclados a la fotografia previa de la iteracion.
+- Impacto: un lector puede interpretar como vigente un bloqueo que ya se resolvio y tomar decisiones con una vista desfasada del flujo.
+- Lectura operativa: cuando `main` y `changelog/` superan una fotografia de proceso, esa fotografia debe pasar a historica o refrescarse antes de volver a usarse como referencia actual.
 
 ## Propuestas de mejora
 
@@ -114,6 +120,12 @@ Vigencia de ejemplos: vigente
 - Beneficio: reduce la ventana en la que `product-manager` consulta un backlog ya superado por la realidad de la issue.
 - Tradeoffs: obliga a una disciplina adicional de mantenimiento del backlog en los momentos de mayor actividad.
 - Riesgos y dependencias: si la actualizacion se difiere hasta el cierre del dia, el backlog vuelve a quedar desalineado y pierde valor como fuente de triaje.
+
+### K. Refrescar la fotografia de proceso cuando una issue se integre en `main`
+- Exigir que, cuando `changelog/` registre la fusion en `main` de una issue validada, los artefactos de `agile-coach/` que citaron esa fotografia se refresquen en la misma iteracion o pasen a historicos antes de reutilizarse.
+- Beneficio: reduce la probabilidad de que el analisis de proceso siga describiendo como vigente un bloqueo ya cerrado.
+- Tradeoffs: obliga a una pequena actualizacion documental adicional justo despues de la integracion.
+- Riesgos y dependencias: depende de que el registro de fusion en `changelog/` sea claro y de que no se reutilicen ejemplos antiguos como evidencia actual.
 
 ## Tradeoffs
 - El control operativo gana disciplina, pero tambien exige que `product-manager` y los demas roles cuiden un poco mas el mantenimiento del backlog y de las firmas.

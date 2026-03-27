@@ -1,8 +1,8 @@
 # Mejoras de proceso propuestas
 
-Fecha de escritura: 2026-03-26 23:00:44 UTC
-Changelog consultado: changelog/2026-03-26.md
-Vigencia de ejemplos: vigente
+Fecha de escritura: 2026-03-27 23:01:14 UTC
+Changelog consultado: changelog/2026-03-27.md
+Vigencia de ejemplos: historico
 
 ## Mejora 1: introducir estados operativos comunes en la issue
 ### Problema detectado
@@ -485,3 +485,20 @@ Exigir que `product-manager` actualice en la misma iteracion el item del backlog
 ### Riesgos y dependencias
 - Si la actualizacion se aplaza hasta una revision posterior, reaparece la ventana de desalineacion entre backlog y issue.
 - Requiere que el equipo trate el backlog como una fuente viva y no como un resumen que puede corregirse al final del dia.
+
+## Mejora 24: refrescar la fotografia de proceso cuando una issue ya se integre en `main`
+### Problema detectado
+Una issue puede quedar validada e integrada en `main`, pero los artefactos de proceso que la citaban pueden seguir mostrando la fotografia anterior durante horas o dias.
+
+### Propuesta
+Cuando `changelog/` registre la fusion de una issue validada en `main`, `agile-coach/` y el backlog enlazado deben revisarse en la misma iteracion. Si el documento no puede actualizarse aun, los ejemplos concretos deben pasar a `historico` antes de volver a usarse como evidencia vigente.
+
+### Impacto esperado
+- Reduce la posibilidad de que producto, desarrollo y QA lean estados distintos de la misma issue.
+- Da un cierre mas limpio al ciclo `validado -> merge -> documentacion -> cierre`.
+
+### Tradeoffs
+- Exige una actualizacion documental adicional justo despues de la integracion.
+
+### Riesgos y dependencias
+- Depende de que el equipo que realiza el merge deje evidencia clara en `changelog/` y de que `agile-coach` no reutilice fotos antiguas como si siguieran siendo actuales.
