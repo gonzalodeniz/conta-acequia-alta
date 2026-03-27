@@ -12,6 +12,7 @@ class Movimiento:
     categoria: str
     tipo: str
     importe: Decimal
+    numero_asiento: int | None = None
 
     def to_dict(self) -> dict[str, str]:
         return {

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dataclasses import replace
 from dataclasses import dataclass
 from datetime import date
 from decimal import Decimal, InvalidOperation
@@ -22,7 +23,7 @@ class MovimientoService:
         self._repository = repository
 
     def crear_movimiento(self, payload: dict[str, str]) -> tuple[Movimiento | None, list[ValidationError]]:
-        errors = self._validate(payload)
+        errors = self._validate_payload(payload)
         if errors:
             return None, errors
 
@@ -35,7 +36,27 @@ class MovimientoService:
             importe=Decimal(payload["importe"].strip()).quantize(Decimal("0.01")),
         )
         self._repository.add(movimiento)
-        return movimiento, []
+        return self._assign_entry_numbers([movimiento])[0], []
+
+    def actualizar_movimiento(self, payload: dict[str, str]) -> tuple[Movimiento | None, list[ValidationError]]:
+        identificador = payload.get("identificador", "").strip()
+        if not identificador:
+            return None, [ValidationError("identificador", "No se ha indicado el movimiento a actualizar.")]
+
+        errors = self._validate_payload(payload)
+        if errors:
+            return None, errors
+
+        movimiento = Movimiento(
+            identificador=identificador,
+            fecha=payload["fecha"].strip(),
+            concepto=payload["concepto"].strip(),
+            categoria=payload["categoria"].strip(),
+            tipo=payload["tipo"].strip(),
+            importe=Decimal(payload["importe"].strip()).quantize(Decimal("0.01")),
+        )
+        self._repository.update(movimiento)
+        return self._assign_entry_numbers([movimiento])[0], []
 
     def listar_movimientos(
         self,
@@ -51,9 +72,9 @@ class MovimientoService:
             movimientos = [movimiento for movimiento in movimientos if movimiento.fecha >= fecha_desde]
         if fecha_hasta:
             movimientos = [movimiento for movimiento in movimientos if movimiento.fecha <= fecha_hasta]
-        return movimientos, []
+        return self._assign_entry_numbers(movimientos), []
 
-    def _validate(self, payload: dict[str, str]) -> list[ValidationError]:
+    def _validate_payload(self, payload: dict[str, str]) -> list[ValidationError]:
         errors: list[ValidationError] = []
 
         for field in ("fecha", "concepto", "categoria", "tipo", "importe"):
@@ -100,3 +121,12 @@ class MovimientoService:
 
     def _sort_movimientos(self, movimientos: list[Movimiento]) -> list[Movimiento]:
         return sorted(movimientos, key=lambda movimiento: (movimiento.fecha, movimiento.identificador))
+
+    def _assign_entry_numbers(self, movimientos: list[Movimiento]) -> list[Movimiento]:
+        counters_by_year: dict[str, int] = {}
+        numbered_movimientos: list[Movimiento] = []
+        for movimiento in self._sort_movimientos(movimientos):
+            year = movimiento.fecha[:4]
+            counters_by_year[year] = counters_by_year.get(year, 0) + 1
+            numbered_movimientos.append(replace(movimiento, numero_asiento=counters_by_year[year]))
+        return numbered_movimientos
