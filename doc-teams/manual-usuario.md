@@ -9,11 +9,12 @@ Tambien deja explicitas las capacidades que siguen solo en vision o backlog para
 
 ## Estado de verificacion
 - Existe una aplicacion WSGI minima en Python en `app.py`.
-- La pantalla actual combina un formulario de alta y un listado de movimientos ya registrados.
-- La entrega actual permite registrar movimientos contables de gasto o ingreso.
+- La pantalla actual combina un libro de asientos editable y un listado de movimientos ya registrados.
+- La entrega actual permite registrar y actualizar movimientos contables de gasto o ingreso directamente en la tabla.
 - Cada movimiento queda persistido en `data/movimientos.json`.
 - La lista se muestra ordenada cronologicamente por fecha y, si coincide la fecha, por identificador.
 - El libro de asientos puede filtrarse por rango de fechas desde la misma pantalla.
+- Cada fila visible incluye un numero de asiento correlativo dentro de su ejercicio anual.
 - La aplicacion devuelve mensajes claros de validacion cuando falta un campo, la fecha no es valida, el tipo no es `gasto` o `ingreso`, o el importe no es mayor que cero.
 - Si el fichero de datos falta, esta corrupto o no puede guardarse, la aplicacion responde con un error de disponibilidad `503` y conserva el formulario visible para reintento.
 - No hay autenticacion ni perfiles de acceso diferenciados en la entrega actual.
@@ -21,11 +22,13 @@ Tambien deja explicitas las capacidades que siguen solo en vision o backlog para
 
 ## Que puede hacer el usuario hoy
 - Dar de alta un movimiento con fecha, concepto, categoria, tipo e importe.
+- Actualizar un movimiento existente directamente desde la tabla.
 - Registrar un gasto o un ingreso.
 - Ver una lista de los movimientos registrados hasta ese momento.
 - Filtrar el libro por fecha inicial y fecha final.
 - Recibir validaciones de formulario cuando un campo es obligatorio, la fecha no tiene formato `AAAA-MM-DD`, el tipo no es valido o el importe no es mayor que cero.
 - Ver el identificador unico generado para cada movimiento correcto.
+- Ver el numero de asiento anual asociado a cada movimiento mostrado en pantalla.
 
 ## Campos del formulario
 - `Fecha`: obligatoria y con formato `AAAA-MM-DD`.
@@ -37,10 +40,11 @@ Tambien deja explicitas las capacidades que siguen solo en vision o backlog para
 ## Uso esperado por perfil
 ### Administrador de la comunidad
 1. Abre la aplicacion local.
-2. Rellena el formulario con los datos del movimiento.
-3. Guarda un gasto o ingreso.
-4. Revisa la lista de ultimos movimientos para confirmar el alta.
-5. Si necesita acotar una revision, usa los filtros `Desde` y `Hasta` del libro de asientos.
+2. Rellena una fila nueva de la tabla con los datos del movimiento.
+3. Guarda un gasto o ingreso desde la accion de alta de la propia tabla.
+4. Si necesita corregir un apunte, edita la fila existente y confirma la actualizacion.
+5. Revisa la lista de ultimos movimientos para confirmar la operacion.
+6. Si necesita acotar una revision, usa los filtros `Desde` y `Hasta` del libro de asientos.
 
 ### Vecino
 1. En la vision de producto, el vecino deberia tener acceso de solo lectura.
@@ -50,10 +54,10 @@ Tambien deja explicitas las capacidades que siguen solo en vision o backlog para
 ## Flujo de uso
 1. Inicia la aplicacion con `make run` o `python3 app.py`.
 2. Abre `http://127.0.0.1:8000`.
-3. Completa el formulario de registro.
-4. Guarda el movimiento.
+3. Completa una fila nueva de la tabla o edita una existente.
+4. Guarda el movimiento o la actualizacion.
 5. Verifica que el mensaje de exito muestra el identificador generado.
-6. Revisa la lista inferior para confirmar que el movimiento quedo visible.
+6. Revisa la lista inferior para confirmar que el movimiento quedo visible con su numero de asiento.
 7. Si el libro necesita una revision acotada, prueba el filtro por rango de fechas.
 
 ## Lo que no debe asumirse todavia
@@ -75,6 +79,7 @@ Tambien deja explicitas las capacidades que siguen solo en vision o backlog para
 - Falta cerrar la implementacion de PB-003 para ampliar el uso funcional del resumen financiero.
 - Falta concretar la politica de visibilidad para vecinos antes de documentar el acceso de solo lectura como comportamiento real.
 - Falta definir el alcance tecnico de importacion, cierre anual y notificaciones antes de que este manual pueda ampliarse.
+- La clasificacion contable asistida de `PB-009` sigue siendo una dependencia funcional abierta y no debe asumirse como disponible en esta interfaz.
 
 ## Limitaciones
 - Esta guia describe una entrega minima local, no un producto completo listo para usuarios finales.

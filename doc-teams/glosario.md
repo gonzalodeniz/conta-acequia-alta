@@ -27,6 +27,12 @@ Respuesta HTTP que la aplicacion devuelve cuando no puede leer o guardar el fich
 ## `Movimiento`
 Entidad funcional que representa un gasto o ingreso con identificador, fecha, concepto, categoria, tipo e importe.
 
+## `Libro de asientos editable`
+Vista unica de la aplicacion donde el administrador puede crear o actualizar movimientos directamente en una tabla, sin formulario independiente de alta.
+
+## `numero_asiento`
+Numero correlativo mostrado en la tabla para cada movimiento dentro de su ejercicio anual. Se reinicia al comenzar un nuevo ano contable.
+
 ## `product-manager`
 Rol responsable de la vision funcional, el backlog y la definicion de producto.
 

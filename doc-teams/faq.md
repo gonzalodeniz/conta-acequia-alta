@@ -13,7 +13,7 @@ En `product-manager/`, especialmente en `vision-product.md`, `product-backlog.md
 No. `product-manager/product-backlog.md` contiene PB-001, PB-002, PB-003, PB-004, PB-005, PB-006, PB-007 y PB-008.
 
 ## Que hace la aplicacion actual?
-Solo permite registrar movimientos de gasto o ingreso y listarlos en la misma pagina. Hay filtro por rango de fechas, pero no hay resumen financiero, autenticacion ni perfiles de acceso separados.
+Permite registrar y actualizar movimientos de gasto o ingreso directamente en el libro de asientos de una unica pagina. Hay filtro por rango de fechas, numeracion anual visible y persistencia local, pero no hay resumen financiero, autenticacion ni perfiles de acceso separados.
 
 ## Como cambio el puerto de ejecucion?
 Define `HOST`, `PORT` o `BASE_PATH` en el entorno o en un fichero `.env` en la raiz. Si no lo haces, la aplicacion usa `127.0.0.1`, `8000` y la raiz del sitio.

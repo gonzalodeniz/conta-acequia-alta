@@ -16,7 +16,8 @@ Tambien resume las precauciones minimas para administrar una base de datos local
 - La entrega actual no debe tratarse como un entorno de produccion.
 - Las capacidades de autenticacion, permisos, respaldo automatizado y despliegue formal siguen sin base tecnica documentada.
 - La aplicacion soporta ejecucion local en `HOST`, `PORT` y `BASE_PATH` configurables, pero no existe aun una estrategia de publicacion formal para produccion.
-- La issue `#11` de `PB-010` fue validada por `qa-teams`, pero mientras su rama tecnica no se fusione en `main` no debe presentarse como comportamiento vigente en manuales ni en procedimientos operativos.
+- La entrega de `PB-010` ya esta fusionada en `main`, por lo que el libro de asientos editable, la edicion inline y la numeracion anual visible forman parte del comportamiento vigente.
+- La clasificacion contable asistida de `PB-009` sigue pendiente y no debe presentarse como disponible en procedimientos operativos.
 
 ## Reglas operativas relevantes
 ### Rama y versionado
@@ -36,7 +37,7 @@ Tambien resume las precauciones minimas para administrar una base de datos local
 
 ## Tareas de administracion recomendadas
 1. Revisar si la documentacion existente sigue alineada con la vision del producto y con el backlog vigente.
-2. Confirmar si la entrega tecnica revisada ya esta fusionada en `main` antes de documentarla como vigente.
+2. Confirmar que la entrega tecnica revisada ya esta fusionada en `main` antes de documentarla como vigente.
 3. Verificar que cualquier dependencia abierta quede visible para evitar manuales ambiguos.
 4. Mantener rastreadas las contradicciones entre el changelog y el arbol de trabajo cuando aparezcan.
 5. Hacer copia de seguridad de `data/movimientos.json` antes de borrar o reponer el entorno, porque ahi se guardan los movimientos.
@@ -57,7 +58,7 @@ Tambien resume las precauciones minimas para administrar una base de datos local
 - Existe una brecha entre la vision del producto, el backlog completo y la entrega minima actualmente implementada.
 - La persistencia local en un unico fichero hace que la perdida de `data/movimientos.json` implique perdida de datos si no hay copia previa.
 - Si no se resuelve la discrepancia documental, puede documentarse como vigente algo que todavia no esta comprobado en `main`.
-- Si la administracion asume que hay funciones de consulta, importacion o cierre no implementadas, puede inducir procedimientos operativos incorrectos.
+- Si la administracion asume que hay funciones de importacion, cierre, presupuestos o acceso de vecinos no implementadas, puede inducir procedimientos operativos incorrectos.
 - Si se cambia la subruta publica sin revisar `BASE_PATH`, la aplicacion puede responder `404 Not Found` aunque el servicio este activo.
 
 ## Criterio administrativo
