@@ -16,7 +16,7 @@ Reducir ambiguedad antes de crear o priorizar nuevas issues para `developer-team
 - PB-003 - Visualizar resumen financiero del periodo
   - Dependencia directa de PB-001.
   - Valor alto y validacion clara.
-  - Sigue siendo una siguiente issue funcional valida una vez resuelto el seguimiento operativo abierto de `PB-010`.
+  - Sigue siendo una siguiente issue funcional valida una vez completada la integracion en `main` de `PB-010`.
 - PB-004 - Permitir acceso de solo lectura para vecinos
   - Se fija para el alcance inicial un modo solo lectura con resumen economico mensual y anual mas listado visible de movimientos para la comunidad.
   - No incluye acciones de gestion ni reglas avanzadas de publicacion selectiva en esta primera iteracion.
@@ -37,11 +37,11 @@ Reducir ambiguedad antes de crear o priorizar nuevas issues para `developer-team
   - Se acota al administrador como unico destinatario en el MVP.
   - La primera iteracion cubre gestion y consulta interna de recordatorios, sin canales salientes.
 
-### Requiere refinamiento adicional
+### Seguimiento operativo pendiente
 - PB-010 - Gestionar el libro de asientos como hoja de calculo editable
-  - El alcance funcional sigue siendo valido, pero la issue `#11` no esta lista para nueva promocion: `qa-teams` la marco `no validado` el 25 de marzo de 2026 por ausencia de entrega verificable.
-  - No requiere redefinir criterios de aceptacion, pero si reencauzar operativamente la misma issue para que `developer-teams` publique rama, arranque y handoff completos antes de una nueva revision.
-  - Mientras el alcance no cambie, debe mantenerse la misma issue en seguimiento y no abrirse una issue alternativa para el mismo objetivo.
+  - El alcance funcional ya esta validado por `qa-teams` en la issue `#11`, por lo que no requiere redefinir criterios de aceptacion.
+  - El hueco actual ya no es de definicion funcional sino de flujo operativo: falta fusionar en `main` la rama `issue-11-pb-010-libro-asientos-editable`, borrar la rama tecnica y cerrar administrativamente la issue cuando corresponda.
+  - Mientras esa integracion no ocurra, no debe promoverse otra implementacion tecnica por delante de este frente validado.
 
 ## Decisiones funcionales tomadas
 - El MVP inicial se centra en base contable, consulta del libro y resumen financiero.
@@ -86,12 +86,12 @@ Reducir ambiguedad antes de crear o priorizar nuevas issues para `developer-team
 - Si se interpreta `PB-001` como si ya incluyera ayuda PGC, se perdera trazabilidad sobre una parte de la vision que todavia no se ha entregado.
 - Si se intenta introducir presupuestos antes de cerrar el MVP contable, se fragmentara el foco del producto.
 - Si la issue `#2` sigue abierta tras su integracion en `main`, el equipo puede perder disciplina de cierre de flujo entre validacion, integracion y cierre administrativo.
-- Si la issue `#11` permanece en `no validado` sin seguimiento operativo inmediato, `developer-teams` puede saltar a trabajo nuevo y dejar un frente prioritario sin resolver.
+- Si la issue `#11` permanece validada pero sin fusion en `main`, `developer-teams` puede saltar a trabajo nuevo y dejar un frente prioritario administrativamente incompleto.
 - Si `PB-010` se implementa como una rejilla editable sin una regla clara de numeracion anual, se generara deuda funcional y ambiguedad contable.
 - La ausencia de `README.md` y `Makefile` con contexto de producto o ejecucion aumenta la dependencia documental en los artefactos de `product-manager`.
 
 ## Propuesta operativa inmediata
-1. Reencauzar `#11` en la misma issue, exigiendo arranque y entrega reales de `developer-teams` antes de devolverla a QA.
-2. Mantener `#3` como siguiente tramo estructural del flujo base del MVP cuando `#11` deje de ser el frente activo no validado.
+1. Priorizar la fusion en `main` de la entrega validada en `#11` y completar despues su cierre administrativo.
+2. Mantener `#3` como siguiente tramo estructural del flujo base del MVP cuando `#11` deje de ser el frente activo pendiente de integracion.
 3. Mantener `#6` como capacidad de alto valor para cerrar la brecha de vision sobre clasificacion contable.
 4. Mantener `#4`, `#7`, `#8`, `#9` y `#10` como backlog ejecutable ya refinado para iteraciones posteriores.

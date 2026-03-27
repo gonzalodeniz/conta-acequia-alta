@@ -1,7 +1,7 @@
 # Product Backlog
 
 ## Contexto
-La vision vigente define una aplicacion web para gestionar la contabilidad de una comunidad de vecinos con foco en transparencia, control economico, presupuestos y soporte al cierre anual. A fecha de 2026-03-26 la primera entrega del registro basico de movimientos (`PB-001`) ya fue validada por `qa-teams` e integrada en `main`. Ademas, la consulta del libro de asientos (`PB-002`) ya fue validada por `qa-teams` en la issue `#2`, integrada en `main` y cerrada administrativamente por `product-manager`. Sigue existiendo un hueco funcional frente a la vision: la ayuda guiada de clasificacion contable basada en el Plan General de Contabilidad todavia no esta entregada y debe mantenerse visible en backlog con refinamiento suficiente para ejecucion. Como nueva necesidad de producto, el libro de asientos pasa a ser tambien el punto principal de operativa del administrador y necesita una evolucion de interfaz para soportar navegacion lateral, edicion inline y numeracion anual de asientos. Sin embargo, la issue `#11` asociada a `PB-010` no puede tratarse como lista para nueva implementacion: `qa-teams` la marco `no validado` el 25 de marzo de 2026 porque no existe entrega tecnica verificable y el seguimiento debe continuar sobre esa misma issue antes de promover trabajo funcional nuevo.
+La vision vigente define una aplicacion web para gestionar la contabilidad de una comunidad de vecinos con foco en transparencia, control economico, presupuestos y soporte al cierre anual. A fecha de 2026-03-26 la primera entrega del registro basico de movimientos (`PB-001`) ya fue validada por `qa-teams` e integrada en `main`. Ademas, la consulta del libro de asientos (`PB-002`) ya fue validada por `qa-teams` en la issue `#2`, integrada en `main` y cerrada administrativamente por `product-manager`. Sigue existiendo un hueco funcional frente a la vision: la ayuda guiada de clasificacion contable basada en el Plan General de Contabilidad todavia no esta entregada y debe mantenerse visible en backlog con refinamiento suficiente para ejecucion. Como nueva necesidad de producto, el libro de asientos pasa a ser tambien el punto principal de operativa del administrador y necesita una evolucion de interfaz para soportar navegacion lateral, edicion inline y numeracion anual de asientos. La issue `#11` asociada a `PB-010` ya fue retomada por `developer-teams` y validada explicitamente por `qa-teams` el 26 de marzo de 2026, pero sigue abierta y con rama tecnica remota todavia sin fusion en `main`; por tanto, el seguimiento inmediato debe centrarse en completar la integracion y el cierre administrativo antes de promover una nueva implementacion funcional.
 
 Los items enlazados a una issue usan `Estado operativo:` para reflejar el ultimo estado visible del flujo. Los items aun en refinamiento o sin issue usan `Estado de backlog:` para su situacion de priorizacion.
 
@@ -29,9 +29,9 @@ Los items enlazados a una issue usan `Estado operativo:` para reflejar el ultimo
   - La numeracion de asientos se reinicia en `1` cada nuevo ano.
   - El flujo principal del administrador ya no depende de un formulario separado para registrar movimientos.
 - Dependencias: PB-002
-- Estado operativo: no validado
+- Estado operativo: validado
 - Riesgo funcional controlado: la edicion inline debe dejar preparado el flujo para convivir con la clasificacion contable guiada de `PB-009` sin forzar una redefinicion futura del libro.
-- Observacion operativa: `qa-teams` marco la issue `#11` como `no validado` el 25 de marzo de 2026 por ausencia de rama, handoff e implementacion verificable. Mientras el alcance siga siendo el mismo, `developer-teams` debe retomarla en la misma issue antes de abrir una nueva implementacion funcional.
+- Observacion operativa: `qa-teams` valido la issue `#11` el 26 de marzo de 2026 sobre la rama `issue-11-pb-010-libro-asientos-editable`, pero la rama remota sigue abierta y la implementacion aun no esta integrada en `main`. Mientras no se complete esa fusion, no procede cerrar administrativamente la issue ni promover una nueva prioridad tecnica por delante de esta integracion.
 
 ### PB-001 - Registrar gastos e ingresos de la comunidad
 - Descripcion: Permitir que el administrador registre movimientos economicos con fecha, concepto, importe, tipo de movimiento e identificacion minima para su seguimiento.
@@ -196,7 +196,7 @@ Los items enlazados a una issue usan `Estado operativo:` para reflejar el ultimo
 - Si no se acota `PB-007` al alcance administrativo del MVP, `developer-teams` y `qa-teams` pueden invertir esfuerzo en una capacidad de notificaciones hacia vecinos que no forma parte de la vision actual.
 - Si `PB-009` se implementa sin respetar la lista canonica inicial y la separacion por tipo de movimiento, la ayuda PGC puede resultar incoherente entre altas similares y reducir su valor como guia funcional.
 - Si `PB-010` se implementa solo como cambio visual sin resolver la alta y edicion inline ni la numeracion anual de asientos, el producto seguira arrastrando friccion operativa en el flujo principal del administrador.
-- Si tras el `no validado` de la issue `#11` se promueve una issue funcional nueva antes de retomar la misma entrega, el flujo entre producto, desarrollo y QA quedara desordenado y se perdera trazabilidad sobre una prioridad ya iniciada.
+- Si tras la validacion de la issue `#11` no se prioriza su fusion en `main` y el borrado posterior de la rama tecnica, el flujo entre producto, desarrollo y QA quedara administrativamente incompleto y se retrasara de forma artificial la siguiente prioridad funcional.
 
 ## Preguntas abiertas
 - Se considera obligatorio soportar presupuestos en el MVP o se posponen a una fase posterior del roadmap?
