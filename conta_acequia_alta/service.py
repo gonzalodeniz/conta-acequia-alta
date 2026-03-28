@@ -10,12 +10,38 @@ from conta_acequia_alta.models import Movimiento
 from conta_acequia_alta.repository import MovimientoRepository
 
 TIPOS_MOVIMIENTO = {"gasto", "ingreso"}
+TIPOS_RESUMEN = {"mensual", "anual"}
+MESES_ES = {
+    1: "enero",
+    2: "febrero",
+    3: "marzo",
+    4: "abril",
+    5: "mayo",
+    6: "junio",
+    7: "julio",
+    8: "agosto",
+    9: "septiembre",
+    10: "octubre",
+    11: "noviembre",
+    12: "diciembre",
+}
 
 
 @dataclass(frozen=True)
 class ValidationError:
     field: str
     message: str
+
+
+@dataclass(frozen=True)
+class ResumenPeriodo:
+    periodo_tipo: str
+    periodo_referencia: str
+    etiqueta: str
+    total_ingresos: Decimal
+    total_gastos: Decimal
+    saldo: Decimal
+    total_movimientos: int
 
 
 class MovimientoService:
@@ -74,6 +100,46 @@ class MovimientoService:
             movimientos = [movimiento for movimiento in movimientos if movimiento.fecha <= fecha_hasta]
         return self._assign_entry_numbers(movimientos), []
 
+    def resumir_movimientos(
+        self,
+        periodo_tipo: str = "",
+        periodo_mes: str = "",
+        periodo_ejercicio: str = "",
+    ) -> tuple[ResumenPeriodo | None, list[ValidationError]]:
+        normalized_tipo, normalized_mes, normalized_ejercicio = self._normalize_summary_input(
+            periodo_tipo,
+            periodo_mes,
+            periodo_ejercicio,
+        )
+        errors = self._validate_summary_input(normalized_tipo, normalized_mes, normalized_ejercicio)
+        if errors:
+            return None, errors
+
+        prefix = normalized_mes if normalized_tipo == "mensual" else normalized_ejercicio
+        movimientos = [
+            movimiento for movimiento in self._repository.list_all() if movimiento.fecha.startswith(prefix)
+        ]
+        total_ingresos = sum(
+            (movimiento.importe for movimiento in movimientos if movimiento.tipo == "ingreso"),
+            Decimal("0.00"),
+        )
+        total_gastos = sum(
+            (movimiento.importe for movimiento in movimientos if movimiento.tipo == "gasto"),
+            Decimal("0.00"),
+        )
+        return (
+            ResumenPeriodo(
+                periodo_tipo=normalized_tipo,
+                periodo_referencia=prefix,
+                etiqueta=self._build_summary_label(normalized_tipo, normalized_mes, normalized_ejercicio),
+                total_ingresos=total_ingresos.quantize(Decimal("0.01")),
+                total_gastos=total_gastos.quantize(Decimal("0.01")),
+                saldo=(total_ingresos - total_gastos).quantize(Decimal("0.01")),
+                total_movimientos=len(movimientos),
+            ),
+            [],
+        )
+
     def _validate_payload(self, payload: dict[str, str]) -> list[ValidationError]:
         errors: list[ValidationError] = []
 
@@ -118,6 +184,53 @@ class MovimientoService:
                 ValidationError("fecha_hasta", "La fecha final debe ser igual o posterior a la fecha inicial.")
             )
         return errors
+
+    def _validate_summary_input(
+        self,
+        periodo_tipo: str,
+        periodo_mes: str,
+        periodo_ejercicio: str,
+    ) -> list[ValidationError]:
+        errors: list[ValidationError] = []
+        if periodo_tipo not in TIPOS_RESUMEN:
+            errors.append(ValidationError("periodo_tipo", "El periodo debe ser mensual o anual."))
+            return errors
+
+        if periodo_tipo == "mensual":
+            if not periodo_mes:
+                errors.append(ValidationError("periodo_mes", "Debes indicar un mes para consultar el resumen."))
+                return errors
+            try:
+                date.fromisoformat(f"{periodo_mes}-01")
+            except ValueError:
+                errors.append(ValidationError("periodo_mes", "El mes debe usar el formato AAAA-MM."))
+            return errors
+
+        if not periodo_ejercicio:
+            errors.append(ValidationError("periodo_ejercicio", "Debes indicar un ejercicio para el resumen anual."))
+            return errors
+
+        if not periodo_ejercicio.isdigit() or len(periodo_ejercicio) != 4:
+            errors.append(ValidationError("periodo_ejercicio", "El ejercicio debe usar el formato AAAA."))
+        return errors
+
+    def _normalize_summary_input(
+        self,
+        periodo_tipo: str,
+        periodo_mes: str,
+        periodo_ejercicio: str,
+    ) -> tuple[str, str, str]:
+        today = date.today()
+        normalized_tipo = periodo_tipo.strip() or "mensual"
+        normalized_mes = periodo_mes.strip() or today.strftime("%Y-%m")
+        normalized_ejercicio = periodo_ejercicio.strip() or str(today.year)
+        return normalized_tipo, normalized_mes, normalized_ejercicio
+
+    def _build_summary_label(self, periodo_tipo: str, periodo_mes: str, periodo_ejercicio: str) -> str:
+        if periodo_tipo == "mensual":
+            year, month = periodo_mes.split("-")
+            return f"{MESES_ES[int(month)].capitalize()} {year}"
+        return f"Ejercicio {periodo_ejercicio}"
 
     def _sort_movimientos(self, movimientos: list[Movimiento]) -> list[Movimiento]:
         return sorted(movimientos, key=lambda movimiento: (movimiento.fecha, movimiento.identificador))

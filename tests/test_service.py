@@ -188,6 +188,57 @@ class MovimientoServiceTests(unittest.TestCase):
         self.assertEqual(len(errors), 1)
         self.assertEqual(errors[0].field, "fecha_hasta")
 
+    def test_resume_movimientos_mensuales_y_anuales_con_totales_coherentes(self) -> None:
+        for payload in (
+            {
+                "fecha": "2026-03-01",
+                "concepto": "Cuota marzo",
+                "categoria": "Recibos",
+                "tipo": "ingreso",
+                "importe": "40.00",
+            },
+            {
+                "fecha": "2026-03-18",
+                "concepto": "Limpieza",
+                "categoria": "Mantenimiento",
+                "tipo": "gasto",
+                "importe": "12.50",
+            },
+            {
+                "fecha": "2026-04-02",
+                "concepto": "Cuota abril",
+                "categoria": "Recibos",
+                "tipo": "ingreso",
+                "importe": "40.00",
+            },
+        ):
+            _, errors = self.service.crear_movimiento(payload)
+            self.assertEqual(errors, [])
+
+        resumen_mensual, errors_mensuales = self.service.resumir_movimientos("mensual", "2026-03", "")
+        resumen_anual, errors_anuales = self.service.resumir_movimientos("anual", "", "2026")
+
+        self.assertEqual(errors_mensuales, [])
+        self.assertEqual(errors_anuales, [])
+        assert resumen_mensual is not None
+        assert resumen_anual is not None
+        self.assertEqual(resumen_mensual.etiqueta, "Marzo 2026")
+        self.assertEqual(resumen_mensual.total_ingresos, Decimal("40.00"))
+        self.assertEqual(resumen_mensual.total_gastos, Decimal("12.50"))
+        self.assertEqual(resumen_mensual.saldo, Decimal("27.50"))
+        self.assertEqual(resumen_mensual.total_movimientos, 2)
+        self.assertEqual(resumen_anual.total_ingresos, Decimal("80.00"))
+        self.assertEqual(resumen_anual.total_gastos, Decimal("12.50"))
+        self.assertEqual(resumen_anual.saldo, Decimal("67.50"))
+        self.assertEqual(resumen_anual.total_movimientos, 3)
+
+    def test_informa_error_si_el_periodo_del_resumen_no_es_valido(self) -> None:
+        resumen, errors = self.service.resumir_movimientos("mensual", "2026-13", "")
+
+        self.assertIsNone(resumen)
+        self.assertEqual(len(errors), 1)
+        self.assertEqual(errors[0].field, "periodo_mes")
+
 
 if __name__ == "__main__":
     unittest.main()

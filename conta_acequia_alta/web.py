@@ -1,12 +1,14 @@
 from __future__ import annotations
 
+from datetime import date
+from decimal import Decimal
 from html import escape
 from pathlib import Path
 from typing import Callable
 from urllib.parse import parse_qs
 
 from conta_acequia_alta.repository import MovimientoRepository, StorageError
-from conta_acequia_alta.service import MovimientoService, ValidationError
+from conta_acequia_alta.service import MovimientoService, ResumenPeriodo, ValidationError
 
 DATA_FILE = Path(__file__).resolve().parent.parent / "data" / "movimientos.json"
 
@@ -26,22 +28,32 @@ def create_app(data_file: Path | None = None, base_path: str = "") -> Callable:
             return [b"Ruta no encontrada"]
 
         if method == "GET":
-            filter_data = _parse_filter_data(_parse_form_data(environ.get("QUERY_STRING", "")))
+            query_data = _parse_form_data(environ.get("QUERY_STRING", ""))
+            filter_data = _parse_filter_data(query_data)
+            summary_data = _parse_summary_data(query_data)
             try:
                 return _render_page(
                     start_response,
                     service,
                     filter_data=filter_data,
+                    summary_data=summary_data,
                     public_base_path=public_base_path,
                 )
             except StorageError as error:
-                return _render_storage_error_page(start_response, public_base_path, str(error))
+                return _render_storage_error_page(
+                    start_response,
+                    public_base_path,
+                    str(error),
+                    filter_data=filter_data,
+                    summary_data=summary_data,
+                )
 
         if method == "POST":
             size = int(environ.get("CONTENT_LENGTH") or "0")
             raw_body = environ["wsgi.input"].read(size).decode("utf-8")
             form_data = _parse_form_data(raw_body)
             filter_data = _parse_filter_data(form_data)
+            summary_data = _parse_summary_data(form_data)
             action = form_data.get("action", "create").strip()
             try:
                 if action == "update":
@@ -66,6 +78,7 @@ def create_app(data_file: Path | None = None, base_path: str = "") -> Callable:
                     service,
                     form_data=form_data,
                     filter_data=filter_data,
+                    summary_data=summary_data,
                     errors=errors,
                     active_form=active_form,
                     public_base_path=public_base_path,
@@ -78,6 +91,7 @@ def create_app(data_file: Path | None = None, base_path: str = "") -> Callable:
                     str(error),
                     form_data=form_data,
                     filter_data=filter_data,
+                    summary_data=summary_data,
                     active_form=f"edit:{form_data.get('identificador', '').strip()}" if action == "update" else "create",
                 )
 
@@ -92,6 +106,7 @@ def _render_page(
     service: MovimientoService,
     form_data: dict[str, str] | None = None,
     filter_data: dict[str, str] | None = None,
+    summary_data: dict[str, str] | None = None,
     errors: list[ValidationError] | None = None,
     success_message: str | None = None,
     public_base_path: str = "",
@@ -101,12 +116,18 @@ def _render_page(
 ) -> list[bytes]:
     form_data = form_data or {}
     filter_data = filter_data or {}
+    summary_data = summary_data or {}
     page_errors = errors or []
     movimientos, filter_errors = service.listar_movimientos(
         filter_data.get("fecha_desde", "").strip(),
         filter_data.get("fecha_hasta", "").strip(),
     )
-    error_map = {error.field: error.message for error in page_errors + filter_errors}
+    resumen, summary_errors = service.resumir_movimientos(
+        summary_data.get("periodo_tipo", "").strip(),
+        summary_data.get("periodo_mes", "").strip(),
+        summary_data.get("periodo_ejercicio", "").strip(),
+    )
+    error_map = {error.field: error.message for error in page_errors + filter_errors + summary_errors}
     start_response(status, [("Content-Type", "text/html; charset=utf-8")])
     html = f"""<!DOCTYPE html>
 <html lang="es">
@@ -236,10 +257,56 @@ def _render_page(
         gap: 16px;
         margin-bottom: 24px;
       }}
+      form.summary-filters {{
+        display: grid;
+        gap: 16px;
+        margin-bottom: 24px;
+      }}
       .grid {{
         display: grid;
         gap: 16px;
         grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      }}
+      .summary-grid {{
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        margin-bottom: 18px;
+      }}
+      .summary-card {{
+        padding: 18px;
+        border-radius: 18px;
+        border: 1px solid var(--line);
+        background: linear-gradient(180deg, #fffdf9 0%, #f6efe5 100%);
+      }}
+      .summary-card strong {{
+        display: block;
+        font-size: 1.75rem;
+        margin-top: 8px;
+      }}
+      .summary-card p {{
+        margin: 0;
+        color: var(--muted);
+      }}
+      .summary-note {{
+        padding: 14px 16px;
+        border-radius: 16px;
+        background: var(--panel-alt);
+        color: var(--muted);
+      }}
+      .summary-note strong {{
+        color: var(--ink);
+      }}
+      .visually-hidden {{
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
       }}
       label {{
         display: grid;
@@ -410,6 +477,15 @@ def _render_page(
         <section class="panel" id="resumen">
           <div class="section-head">
             <div>
+              <h2>Resumen financiero</h2>
+              <p>Consulta la foto economica mensual o anual sin revisar asiento por asiento.</p>
+            </div>
+          </div>
+          {_render_summary_panel(summary_data, filter_data, resumen, error_map, public_base_path)}
+        </section>
+        <section class="panel" id="libro">
+          <div class="section-head">
+            <div>
               <h2>Consulta del libro</h2>
               <p>Filtra por rango de fechas cuando necesites acotar la revision del ejercicio.</p>
             </div>
@@ -421,6 +497,7 @@ def _render_page(
               {_render_input("fecha_desde", "Desde", "date", filter_data, error_map)}
               {_render_input("fecha_hasta", "Hasta", "date", filter_data, error_map)}
             </div>
+            {_render_summary_hidden_inputs(summary_data)}
             <div class="table-actions">
               <button type="submit">Filtrar libro</button>
               <a class="link" href="{public_base_path or '/'}">Limpiar filtros</a>
@@ -430,6 +507,7 @@ def _render_page(
               movimientos,
               form_data,
               filter_data,
+              summary_data,
               error_map,
               active_form,
               public_base_path,
@@ -454,6 +532,7 @@ def _render_storage_error_page(
     storage_error: str,
     form_data: dict[str, str] | None = None,
     filter_data: dict[str, str] | None = None,
+    summary_data: dict[str, str] | None = None,
     active_form: str = "create",
 ) -> list[bytes]:
     return _render_page(
@@ -461,6 +540,7 @@ def _render_storage_error_page(
         service=_UnavailableMovimientoService(storage_error),
         form_data=form_data,
         filter_data=filter_data,
+        summary_data=summary_data,
         active_form=active_form,
         public_base_path=public_base_path,
         status="503 Service Unavailable",
@@ -486,17 +566,84 @@ def _render_input(
     )
 
 
+def _render_summary_panel(
+    summary_data: dict[str, str],
+    filter_data: dict[str, str],
+    resumen: ResumenPeriodo | None,
+    error_map: dict[str, str],
+    public_base_path: str,
+) -> str:
+    resolved_summary_data = _resolve_summary_form_data(summary_data)
+    resumen = resumen or ResumenPeriodo(
+        periodo_tipo=resolved_summary_data["periodo_tipo"],
+        periodo_referencia=(
+            resolved_summary_data["periodo_mes"]
+            if resolved_summary_data["periodo_tipo"] == "mensual"
+            else resolved_summary_data["periodo_ejercicio"]
+        ),
+        etiqueta=_build_summary_fallback_label(resolved_summary_data),
+        total_ingresos=Decimal("0.00"),
+        total_gastos=Decimal("0.00"),
+        saldo=Decimal("0.00"),
+        total_movimientos=0,
+    )
+    empty_message = (
+        "No hay movimientos registrados en el periodo seleccionado."
+        if resumen.total_movimientos == 0
+        else f"Se han consolidado {resumen.total_movimientos} movimientos del periodo."
+    )
+    return f"""
+          <form method="get" action="{public_base_path or '/'}" class="summary-filters">
+            <div class="grid">
+              <label>Periodo
+                <select name="periodo_tipo">
+                  <option value="mensual"{' selected="selected"' if resolved_summary_data["periodo_tipo"] == "mensual" else ""}>Mensual</option>
+                  <option value="anual"{' selected="selected"' if resolved_summary_data["periodo_tipo"] == "anual" else ""}>Anual</option>
+                </select>
+                <span class="error">{escape(error_map.get("periodo_tipo", ""))}</span>
+              </label>
+              {_render_input("periodo_mes", "Mes", "month", resolved_summary_data, error_map)}
+              {_render_input("periodo_ejercicio", "Ejercicio", "number", resolved_summary_data, error_map, min="1900", step="1")}
+            </div>
+            {_render_filter_hidden_inputs(filter_data)}
+            <div class="table-actions">
+              <button type="submit">Actualizar resumen</button>
+            </div>
+          </form>
+          <div class="summary-grid" aria-label="Totales del periodo seleccionado">
+            <article class="summary-card">
+              <p>Periodo consultado</p>
+              <strong>{escape(resumen.etiqueta)}</strong>
+            </article>
+            <article class="summary-card">
+              <p>Total ingresos</p>
+              <strong>{escape(_format_amount(resumen.total_ingresos))}</strong>
+            </article>
+            <article class="summary-card">
+              <p>Total gastos</p>
+              <strong>{escape(_format_amount(resumen.total_gastos))}</strong>
+            </article>
+            <article class="summary-card">
+              <p>Saldo</p>
+              <strong>{escape(_format_amount(resumen.saldo))}</strong>
+            </article>
+          </div>
+          <div class="summary-note"><strong>Estado del periodo:</strong> {escape(empty_message)}</div>
+"""
+
+
 def _render_movimientos_sheet(
     movimientos: list,
     form_data: dict[str, str],
     filter_data: dict[str, str],
+    summary_data: dict[str, str],
     error_map: dict[str, str],
     active_form: str,
     public_base_path: str,
 ) -> str:
     create_form = _resolve_create_form_data(form_data, active_form)
     forms = [
-        _render_table_form("create-form", public_base_path, "create", "", filter_data),
+        _render_table_form("create-form", public_base_path, "create", "", filter_data, summary_data),
         '<div class="sheet"><table aria-label="Libro de asientos editable">',
         (
             "<thead><tr>"
@@ -530,7 +677,16 @@ def _render_movimientos_sheet(
                 else {}
             )
             row_data = _resolve_row_form_data(movimiento, form_data, active_form)
-            forms.append(_render_table_form(row_form_id, public_base_path, "update", movimiento.identificador, filter_data))
+            forms.append(
+                _render_table_form(
+                    row_form_id,
+                    public_base_path,
+                    "update",
+                    movimiento.identificador,
+                    filter_data,
+                    summary_data,
+                )
+            )
             forms.append(
                 _render_movimiento_row(
                     movimiento,
@@ -551,13 +707,14 @@ def _render_table_form(
     action: str,
     identificador: str,
     filter_data: dict[str, str],
+    summary_data: dict[str, str],
 ) -> str:
     return (
         f'<form id="{escape(form_id)}" method="post" action="{public_base_path or "/"}">'
         f'<input type="hidden" name="action" value="{escape(action)}">'
         f'<input type="hidden" name="identificador" value="{escape(identificador)}">'
-        f'<input type="hidden" name="fecha_desde" value="{escape(filter_data.get("fecha_desde", ""))}">'
-        f'<input type="hidden" name="fecha_hasta" value="{escape(filter_data.get("fecha_hasta", ""))}">'
+        f'{_render_filter_hidden_inputs(filter_data)}'
+        f'{_render_summary_hidden_inputs(summary_data)}'
         "</form>"
     )
 
@@ -642,6 +799,22 @@ def _render_hidden_filter_hint(filter_data: dict[str, str]) -> str:
     return '<span class="error">La alta mantiene el filtro actual tras guardar.</span>'
 
 
+def _render_filter_hidden_inputs(filter_data: dict[str, str]) -> str:
+    return (
+        f'<input type="hidden" name="fecha_desde" value="{escape(filter_data.get("fecha_desde", ""))}">'
+        f'<input type="hidden" name="fecha_hasta" value="{escape(filter_data.get("fecha_hasta", ""))}">'
+    )
+
+
+def _render_summary_hidden_inputs(summary_data: dict[str, str]) -> str:
+    resolved_summary_data = _resolve_summary_form_data(summary_data)
+    return (
+        f'<input type="hidden" name="periodo_tipo" value="{escape(resolved_summary_data["periodo_tipo"])}">'
+        f'<input type="hidden" name="periodo_mes" value="{escape(resolved_summary_data["periodo_mes"])}">'
+        f'<input type="hidden" name="periodo_ejercicio" value="{escape(resolved_summary_data["periodo_ejercicio"])}">'
+    )
+
+
 def _resolve_create_form_data(form_data: dict[str, str], active_form: str) -> dict[str, str]:
     if active_form == "create":
         return {
@@ -677,6 +850,39 @@ def _parse_filter_data(raw_data: dict[str, str]) -> dict[str, str]:
         "fecha_desde": raw_data.get("fecha_desde", "").strip(),
         "fecha_hasta": raw_data.get("fecha_hasta", "").strip(),
     }
+
+
+def _parse_summary_data(raw_data: dict[str, str]) -> dict[str, str]:
+    return {
+        "periodo_tipo": raw_data.get("periodo_tipo", "").strip(),
+        "periodo_mes": raw_data.get("periodo_mes", "").strip(),
+        "periodo_ejercicio": raw_data.get("periodo_ejercicio", "").strip(),
+    }
+
+
+def _resolve_summary_form_data(summary_data: dict[str, str]) -> dict[str, str]:
+    today = date.today()
+    periodo_tipo = summary_data.get("periodo_tipo", "").strip() or "mensual"
+    periodo_mes = summary_data.get("periodo_mes", "").strip() or today.strftime("%Y-%m")
+    periodo_ejercicio = summary_data.get("periodo_ejercicio", "").strip() or str(today.year)
+    return {
+        "periodo_tipo": periodo_tipo,
+        "periodo_mes": periodo_mes,
+        "periodo_ejercicio": periodo_ejercicio,
+    }
+
+
+def _build_summary_fallback_label(summary_data: dict[str, str]) -> str:
+    if summary_data["periodo_tipo"] == "anual":
+        return f"Ejercicio {summary_data['periodo_ejercicio']}"
+    if len(summary_data["periodo_mes"]) == 7:
+        year, month = summary_data["periodo_mes"].split("-")
+        return f"{month}/{year}"
+    return "Periodo seleccionado"
+
+
+def _format_amount(amount: Decimal) -> str:
+    return f"{amount.quantize(Decimal('0.01'))} EUR"
 
 
 def _normalize_base_path(base_path: str) -> str:
@@ -721,3 +927,30 @@ class _UnavailableMovimientoService:
         fecha_hasta: str = "",
     ) -> tuple[list, list[ValidationError]]:
         return [], []
+
+    def resumir_movimientos(
+        self,
+        periodo_tipo: str = "",
+        periodo_mes: str = "",
+        periodo_ejercicio: str = "",
+    ) -> tuple[ResumenPeriodo | None, list[ValidationError]]:
+        return (
+            ResumenPeriodo(
+                periodo_tipo=periodo_tipo or "mensual",
+                periodo_referencia=periodo_mes or periodo_ejercicio,
+                etiqueta=_build_summary_fallback_label(
+                    _resolve_summary_form_data(
+                        {
+                            "periodo_tipo": periodo_tipo,
+                            "periodo_mes": periodo_mes,
+                            "periodo_ejercicio": periodo_ejercicio,
+                        }
+                    )
+                ),
+                total_ingresos=Decimal("0.00"),
+                total_gastos=Decimal("0.00"),
+                saldo=Decimal("0.00"),
+                total_movimientos=0,
+            ),
+            [],
+        )

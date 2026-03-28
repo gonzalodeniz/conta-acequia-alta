@@ -26,6 +26,8 @@ class WebAppTests(unittest.TestCase):
         self.assertIn("Libro de asientos editable", body)
         self.assertIn("Navegacion principal del administrador", body)
         self.assertIn("Anadir asiento", body)
+        self.assertIn("Resumen financiero", body)
+        self.assertIn("No hay movimientos registrados en el periodo seleccionado.", body)
 
     def test_registra_un_ingreso_desde_la_tabla_y_lo_hace_visible_en_la_respuesta(self) -> None:
         status, body = self._call_app(
@@ -141,6 +143,62 @@ class WebAppTests(unittest.TestCase):
         _, body = self._call_app("GET", query_string="fecha_desde=2026-03-26&fecha_hasta=2026-03-22")
 
         self.assertIn("La fecha final debe ser igual o posterior a la fecha inicial.", body)
+
+    def test_muestra_resumen_financiero_mensual_con_totales_del_periodo(self) -> None:
+        self._call_app(
+            "POST",
+            "action=create&fecha=2026-03-21&concepto=Cuota+mensual&categoria=Recibos&tipo=ingreso&importe=35.25",
+        )
+        self._call_app(
+            "POST",
+            "action=create&fecha=2026-03-25&concepto=Factura+agua&categoria=Suministros&tipo=gasto&importe=12.50",
+        )
+        self._call_app(
+            "POST",
+            "action=create&fecha=2026-04-01&concepto=Cuota+abril&categoria=Recibos&tipo=ingreso&importe=40.00",
+        )
+
+        status, body = self._call_app(
+            "GET",
+            query_string="periodo_tipo=mensual&periodo_mes=2026-03&periodo_ejercicio=2026",
+        )
+
+        self.assertEqual(status, "200 OK")
+        self.assertIn("Marzo 2026", body)
+        self.assertIn("35.25 EUR", body)
+        self.assertIn("12.50 EUR", body)
+        self.assertIn("22.75 EUR", body)
+        self.assertIn("Se han consolidado 2 movimientos del periodo.", body)
+
+    def test_muestra_resumen_financiero_anual_y_conserva_contexto_en_formularios(self) -> None:
+        self._call_app(
+            "POST",
+            "action=create&fecha=2026-03-21&concepto=Cuota+mensual&categoria=Recibos&tipo=ingreso&importe=35.25",
+        )
+        self._call_app(
+            "POST",
+            "action=create&fecha=2026-04-01&concepto=Cuota+abril&categoria=Recibos&tipo=ingreso&importe=40.00",
+        )
+
+        status, body = self._call_app(
+            "GET",
+            query_string="periodo_tipo=anual&periodo_mes=2026-03&periodo_ejercicio=2026&fecha_desde=2026-03-01",
+        )
+
+        self.assertEqual(status, "200 OK")
+        self.assertIn("Ejercicio 2026", body)
+        self.assertIn("75.25 EUR", body)
+        self.assertIn('name="periodo_tipo" value="anual"', body)
+        self.assertIn('name="periodo_ejercicio" value="2026"', body)
+        self.assertIn('name="fecha_desde" value="2026-03-01"', body)
+
+    def test_muestra_error_si_el_mes_del_resumen_es_invalido(self) -> None:
+        _, body = self._call_app(
+            "GET",
+            query_string="periodo_tipo=mensual&periodo_mes=2026-13&periodo_ejercicio=2026",
+        )
+
+        self.assertIn("El mes debe usar el formato AAAA-MM.", body)
 
     def test_devuelve_503_y_mensaje_claro_si_el_json_esta_corrupto(self) -> None:
         self.data_file.write_text("{", encoding="utf-8")
