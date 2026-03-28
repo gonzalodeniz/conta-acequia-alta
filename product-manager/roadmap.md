@@ -6,7 +6,7 @@ Traducir la vision del producto a una secuencia de entregas manejable para `deve
 ## Supuestos
 - `PB-001` ya esta validado e integrado en `main`, por lo que el roadmap debe construirse sobre una base contable minima ya disponible.
 - `PB-002` ya fue validado por `qa-teams` el 24 de marzo de 2026, ya esta integrado en `main` y su issue `#2` fue cerrada administrativamente el 26 de marzo de 2026.
-- La issue `#11` asociada a `PB-010` ya fue validada por `qa-teams` el 26 de marzo de 2026 sobre la rama `issue-11-pb-010-libro-asientos-editable`, pero la implementacion todavia no esta fusionada en `main` ni cerrada administrativamente.
+- `PB-010` ya fue validado por `qa-teams`, integrado en `main` el 27 de marzo de 2026 y cerrado administrativamente en la issue `#11` el 28 de marzo de 2026.
 - `developer-teams` trabajara una issue cada vez.
 - El roadmap expresa prioridad funcional, no compromiso tecnico de fechas cerradas.
 
@@ -72,8 +72,9 @@ Traducir la vision del producto a una secuencia de entregas manejable para `deve
 ## Dependencias abiertas
 - Confirmar si el cierre anual requerira en una fase posterior una salida formal exportable ademas de la consulta consolidada del MVP.
 - Confirmar si en una fase posterior los recordatorios necesitaran canales salientes o destinatarios adicionales.
+- Mantener visible la deuda tecnica `TECH-002` para fijar una regla explicita de ordenacion de asientos del mismo dia sin interferir con la siguiente prioridad funcional del MVP.
 
 ## Siguiente prioridad operativa
-1. Priorizar la fusion en `main` de la rama `issue-11-pb-010-libro-asientos-editable` y el cierre operativo posterior de la issue `#11`, porque ya existe validacion de `qa-teams` y no conviene dejar una entrega validada fuera de la rama principal.
-2. Priorizar `PB-003` una vez completada la integracion de `PB-010`, si el objetivo inmediato es consolidar la lectura financiera del MVP.
-3. Mantener `PB-009` como capacidad de alto valor para cerrar la brecha de vision sobre clasificacion contable.
+1. Priorizar `PB-003` como siguiente entrega funcional para consolidar la lectura financiera del MVP y desbloquear mejor `PB-004` y `PB-006`.
+2. Mantener `PB-009` como capacidad de alto valor para cerrar la brecha de vision sobre clasificacion contable.
+3. Mantener `TECH-002` visible como deuda tecnica priorizada, sin adelantarla por delante del siguiente bloque funcional salvo que la ordenacion del mismo dia se convierta en defecto operativo.

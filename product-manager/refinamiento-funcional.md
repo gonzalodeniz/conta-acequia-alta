@@ -16,7 +16,7 @@ Reducir ambiguedad antes de crear o priorizar nuevas issues para `developer-team
 - PB-003 - Visualizar resumen financiero del periodo
   - Dependencia directa de PB-001.
   - Valor alto y validacion clara.
-  - Sigue siendo una siguiente issue funcional valida una vez completada la integracion en `main` de `PB-010`.
+  - Pasa a ser la siguiente issue funcional sugerida tras el cierre administrativo ya completado de `PB-010`.
 - PB-004 - Permitir acceso de solo lectura para vecinos
   - Se fija para el alcance inicial un modo solo lectura con resumen economico mensual y anual mas listado visible de movimientos para la comunidad.
   - No incluye acciones de gestion ni reglas avanzadas de publicacion selectiva en esta primera iteracion.
@@ -37,11 +37,15 @@ Reducir ambiguedad antes de crear o priorizar nuevas issues para `developer-team
   - Se acota al administrador como unico destinatario en el MVP.
   - La primera iteracion cubre gestion y consulta interna de recordatorios, sin canales salientes.
 
-### Seguimiento operativo pendiente
+### Seguimiento operativo y deuda priorizada
 - PB-010 - Gestionar el libro de asientos como hoja de calculo editable
-  - El alcance funcional ya esta validado por `qa-teams` en la issue `#11`, por lo que no requiere redefinir criterios de aceptacion.
-  - El hueco actual ya no es de definicion funcional sino de flujo operativo: falta fusionar en `main` la rama `issue-11-pb-010-libro-asientos-editable`, borrar la rama tecnica y cerrar administrativamente la issue cuando corresponda.
-  - Mientras esa integracion no ocurra, no debe promoverse otra implementacion tecnica por delante de este frente validado.
+  - El alcance funcional ya fue validado por `qa-teams` en la issue `#11`.
+  - `developer-teams` fusiono la entrega en `main` y elimino la rama tecnica el 27 de marzo de 2026.
+  - `product-manager` cerro administrativamente la issue el 28 de marzo de 2026, sin necesidad de redefinir alcance ni criterios de aceptacion.
+- TECH-002 - Hacer determinista la ordenacion de asientos del mismo dia
+  - Se registra como deuda tecnica visible derivada de `PB-010`.
+  - No bloquea la siguiente entrega funcional, pero debe mantenerse trazada para evitar que el libro editable consolide una regla de orden basada solo en identificadores internos.
+  - Queda trazada en la issue `#12` para su futura priorizacion.
 
 ## Decisiones funcionales tomadas
 - El MVP inicial se centra en base contable, consulta del libro y resumen financiero.
@@ -85,13 +89,12 @@ Reducir ambiguedad antes de crear o priorizar nuevas issues para `developer-team
 ## Riesgos
 - Si se interpreta `PB-001` como si ya incluyera ayuda PGC, se perdera trazabilidad sobre una parte de la vision que todavia no se ha entregado.
 - Si se intenta introducir presupuestos antes de cerrar el MVP contable, se fragmentara el foco del producto.
-- Si la issue `#2` sigue abierta tras su integracion en `main`, el equipo puede perder disciplina de cierre de flujo entre validacion, integracion y cierre administrativo.
-- Si la issue `#11` permanece validada pero sin fusion en `main`, `developer-teams` puede saltar a trabajo nuevo y dejar un frente prioritario administrativamente incompleto.
 - Si `PB-010` se implementa como una rejilla editable sin una regla clara de numeracion anual, se generara deuda funcional y ambiguedad contable.
+- Si `TECH-002` no se convierte en seguimiento trazable, la ordenacion dentro del mismo dia seguira apoyandose en una regla tecnica implicita dificil de explicar desde negocio.
 - La ausencia de `README.md` y `Makefile` con contexto de producto o ejecucion aumenta la dependencia documental en los artefactos de `product-manager`.
 
 ## Propuesta operativa inmediata
-1. Priorizar la fusion en `main` de la entrega validada en `#11` y completar despues su cierre administrativo.
-2. Mantener `#3` como siguiente tramo estructural del flujo base del MVP cuando `#11` deje de ser el frente activo pendiente de integracion.
-3. Mantener `#6` como capacidad de alto valor para cerrar la brecha de vision sobre clasificacion contable.
+1. Mantener `#3` como siguiente tramo estructural del flujo base del MVP.
+2. Mantener `#6` como capacidad de alto valor para cerrar la brecha de vision sobre clasificacion contable.
+3. Registrar y priorizar `TECH-002` como deuda tecnica visible derivada de `PB-010`.
 4. Mantener `#4`, `#7`, `#8`, `#9` y `#10` como backlog ejecutable ya refinado para iteraciones posteriores.

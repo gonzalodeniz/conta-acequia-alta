@@ -1,7 +1,7 @@
 # Product Backlog
 
 ## Contexto
-La vision vigente define una aplicacion web para gestionar la contabilidad de una comunidad de vecinos con foco en transparencia, control economico, presupuestos y soporte al cierre anual. A fecha de 2026-03-26 la primera entrega del registro basico de movimientos (`PB-001`) ya fue validada por `qa-teams` e integrada en `main`. Ademas, la consulta del libro de asientos (`PB-002`) ya fue validada por `qa-teams` en la issue `#2`, integrada en `main` y cerrada administrativamente por `product-manager`. Sigue existiendo un hueco funcional frente a la vision: la ayuda guiada de clasificacion contable basada en el Plan General de Contabilidad todavia no esta entregada y debe mantenerse visible en backlog con refinamiento suficiente para ejecucion. Como nueva necesidad de producto, el libro de asientos pasa a ser tambien el punto principal de operativa del administrador y necesita una evolucion de interfaz para soportar navegacion lateral, edicion inline y numeracion anual de asientos. La issue `#11` asociada a `PB-010` ya fue retomada por `developer-teams` y validada explicitamente por `qa-teams` el 26 de marzo de 2026, pero sigue abierta y con rama tecnica remota todavia sin fusion en `main`; por tanto, el seguimiento inmediato debe centrarse en completar la integracion y el cierre administrativo antes de promover una nueva implementacion funcional.
+La vision vigente define una aplicacion web para gestionar la contabilidad de una comunidad de vecinos con foco en transparencia, control economico, presupuestos y soporte al cierre anual. A fecha de 2026-03-28 la primera entrega del registro basico de movimientos (`PB-001`) ya fue validada por `qa-teams` e integrada en `main`. Ademas, la consulta del libro de asientos (`PB-002`) ya fue validada por `qa-teams` en la issue `#2`, integrada en `main` y cerrada administrativamente por `product-manager`. La evolucion del libro de asientos como hoja de calculo editable (`PB-010`) ya fue validada por `qa-teams`, integrada en `main` y cerrada administrativamente en la issue `#11`. Sigue existiendo un hueco funcional frente a la vision: la ayuda guiada de clasificacion contable basada en el Plan General de Contabilidad todavia no esta entregada y debe mantenerse visible en backlog con refinamiento suficiente para ejecucion. Tras completar `PB-010`, la siguiente prioridad funcional estructural vuelve a ser el resumen financiero por periodo (`PB-003`), mientras la deuda tecnica no bloqueante detectada durante la validacion del libro editable debe permanecer visible y trazable.
 
 Los items enlazados a una issue usan `Estado operativo:` para reflejar el ultimo estado visible del flujo. Los items aun en refinamiento o sin issue usan `Estado de backlog:` para su situacion de priorizacion.
 
@@ -29,9 +29,9 @@ Los items enlazados a una issue usan `Estado operativo:` para reflejar el ultimo
   - La numeracion de asientos se reinicia en `1` cada nuevo ano.
   - El flujo principal del administrador ya no depende de un formulario separado para registrar movimientos.
 - Dependencias: PB-002
-- Estado operativo: validado
+- Estado operativo: cerrado
 - Riesgo funcional controlado: la edicion inline debe dejar preparado el flujo para convivir con la clasificacion contable guiada de `PB-009` sin forzar una redefinicion futura del libro.
-- Observacion operativa: `qa-teams` valido la issue `#11` el 26 de marzo de 2026 sobre la rama `issue-11-pb-010-libro-asientos-editable`, pero la rama remota sigue abierta y la implementacion aun no esta integrada en `main`. Mientras no se complete esa fusion, no procede cerrar administrativamente la issue ni promover una nueva prioridad tecnica por delante de esta integracion.
+- Observacion operativa: `qa-teams` valido la issue `#11` el 26 de marzo de 2026. `developer-teams` fusiono despues la rama `issue-11-pb-010-libro-asientos-editable` en `main` y elimino la rama tecnica el 27 de marzo de 2026. `product-manager` cerro administrativamente la issue el 28 de marzo de 2026.
 
 ### PB-001 - Registrar gastos e ingresos de la comunidad
 - Descripcion: Permitir que el administrador registre movimientos economicos con fecha, concepto, importe, tipo de movimiento e identificacion minima para su seguimiento.
@@ -66,6 +66,20 @@ Los items enlazados a una issue usan `Estado operativo:` para reflejar el ultimo
 - Dependencias: PB-001
 - Estado operativo: nuevo
 
+### TECH-002 - Hacer determinista la ordenacion de asientos del mismo dia
+- Descripcion: Registrar como deuda tecnica priorizada la necesidad de introducir una secuencia explicita para ordenar asientos que comparten fecha dentro del mismo ejercicio, evitando depender del identificador interno como criterio implicito de ordenacion.
+- Prioridad: Media
+- Valor de negocio: Medio. No bloquea el uso actual del producto, pero reduce ambiguedad contable, mejora trazabilidad del libro y evita que futuras evoluciones del flujo editable arrastren una regla de orden no explicita para negocio.
+- Origen: Deuda tecnica identificada por `developer-teams` y `qa-teams` durante la entrega y validacion de `PB-010`.
+- Issue GitHub: #12
+- Criterios de aceptacion:
+  - La aplicacion mantiene una regla explicita y estable para ordenar asientos que comparten la misma fecha dentro de un ejercicio.
+  - La regla deja de depender de forma implicita del identificador interno del registro.
+  - La nueva regla no rompe la numeracion anual visible ni la trazabilidad ya validada del libro de asientos.
+  - La deuda tecnica queda cubierta con validacion tecnica suficiente y sin regresiones en alta, edicion y consulta del libro.
+- Dependencias: PB-010
+- Estado operativo: nuevo
+
 ### PB-002 - Consultar el libro de asientos contables
 - Descripcion: Permitir revisar el historial de movimientos registrados en un libro ordenado y filtrable por periodo y tipo de movimiento.
 - Prioridad: Alta
@@ -98,6 +112,7 @@ Los items enlazados a una issue usan `Estado operativo:` para reflejar el ultimo
   - Si no hay movimientos en el periodo, el resumen devuelve importes a cero y un mensaje claro.
 - Dependencias: PB-001
 - Estado operativo: nuevo
+- Observacion operativa: pasa a ser la siguiente prioridad funcional sugerida tras el cierre administrativo de `PB-010`, porque completa la lectura ejecutiva minima del MVP y desbloquea mejor `PB-004` y `PB-006`.
 
 ### PB-004 - Permitir acceso de solo lectura para vecinos
 - Descripcion: Habilitar que un vecino consulte informacion economica de la comunidad en modo solo lectura, con un alcance visible y verificable por negocio.
@@ -192,11 +207,10 @@ Los items enlazados a una issue usan `Estado operativo:` para reflejar el ultimo
 - Existe una brecha entre la vision y la entrega real de `PB-001`: el registro basico ya esta integrado, pero la clasificacion contable asistida sigue pendiente y puede inducir una falsa sensacion de cobertura funcional completa.
 - Si se intenta abordar importacion, vecinos y cierre anual sin entregar antes el registro de movimientos y la consulta del libro, aumentara la ambiguedad de validacion.
 - Si no se incorpora presupuestos al backlog ejecutable, la vision quedara parcialmente traducida y se perdera trazabilidad de una capacidad de negocio ya comprometida.
-- Si la issue `#2` permanece abierta tras haberse integrado en `main`, el backlog y GitHub quedaran desalineados y se perdera trazabilidad administrativa del flujo.
 - Si no se acota `PB-007` al alcance administrativo del MVP, `developer-teams` y `qa-teams` pueden invertir esfuerzo en una capacidad de notificaciones hacia vecinos que no forma parte de la vision actual.
 - Si `PB-009` se implementa sin respetar la lista canonica inicial y la separacion por tipo de movimiento, la ayuda PGC puede resultar incoherente entre altas similares y reducir su valor como guia funcional.
-- Si `PB-010` se implementa solo como cambio visual sin resolver la alta y edicion inline ni la numeracion anual de asientos, el producto seguira arrastrando friccion operativa en el flujo principal del administrador.
-- Si tras la validacion de la issue `#11` no se prioriza su fusion en `main` y el borrado posterior de la rama tecnica, el flujo entre producto, desarrollo y QA quedara administrativamente incompleto y se retrasara de forma artificial la siguiente prioridad funcional.
+- Si `PB-009` no se prioriza pronto despues del bloque base del MVP, seguira abierta una brecha relevante entre la vision contable declarada y la ayuda real disponible para clasificar movimientos.
+- Si `TECH-002` no se mantiene visible tras el cierre de `PB-010`, la ordenacion de asientos del mismo dia seguira dependiendo de una regla tecnica implicita y sera mas costoso corregirla cuando existan mas datos o mas automatismos contables.
 
 ## Preguntas abiertas
 - Se considera obligatorio soportar presupuestos en el MVP o se posponen a una fase posterior del roadmap?
