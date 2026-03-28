@@ -135,6 +135,8 @@ La contabilidad de la comunidad se gestiona actualmente de forma manual, mediant
 - Si una issue no incluye el paquete minimo de contexto operativo, `developer-teams` no debe iniciar implementacion sobre ella hasta que `product-manager` la aclare.
 - `developer-teams` debe trabajar solo en una tarea cada vez para facilitar la revision de `qa-teams`.
 - Si existen issues ya empezados y todavia no validados por `qa-teams`, `developer-teams` debe priorizarlos frente a issues completamente nuevos.
+- Si existe alguna issue en `no validado`, `developer-teams` debe corregir esa misma issue antes de tomar trabajo nuevo.
+- Si no existe ninguna issue en `no validado`, `developer-teams` no debe quedarse sin desarrollo activo por tener pendiente solo la gestion de ramas de una issue ya `validado`; en ese caso debe comenzar otra issue operable.
 - Si todos los issues abiertos son nuevos, `developer-teams` puede decidir el orden de implementacion segun su propio criterio tecnico y de desbloqueo.
 - Solo `developer-teams` debe crear ramas tecnicas para implementar issues.
 - Antes de comenzar cualquier issue tecnico, `developer-teams` debe comprobar cuantas ramas tecnicas activas existen y no debe abrir una nueva si ya hay dos ramas tecnicas abiertas en el proyecto.
@@ -160,7 +162,7 @@ La contabilidad de la comunidad se gestiona actualmente de forma manual, mediant
 - Si el resultado es `no validado`, `qa-teams` debe explicar la razon para que `developer-teams` pueda resolverla en la misma issue y, mientras el alcance sea el mismo, en la misma rama.
 - Tras un `Estado operativo: no validado`, `developer-teams` debe priorizar esa misma issue frente a nuevas issues, corregir en la misma rama mientras el alcance no cambie y publicar un nuevo handoff completo antes de volver a QA.
 - Solo tras la validacion de `qa-teams`, `developer-teams` debe decidir y ejecutar la fusion en `main` de la rama tecnica correspondiente.
-- Tras la validacion de `qa-teams`, `developer-teams` debe priorizar la fusion en `main` y el borrado de la rama tecnica antes de iniciar una nueva issue, salvo que exista un bloqueo explicito documentado en la propia issue.
+- Tras la validacion de `qa-teams`, `developer-teams` debe seguir promoviendo la fusion en `main` y el borrado de la rama tecnica, pero si en esa issue ya solo quedan tareas de gestion de ramas o integracion administrativa debe comenzar ademas otra issue operable.
 - El borrado de la rama tecnica debe realizarlo `developer-teams` inmediatamente despues de completar el merge con `main`.
 - Tras la fusion a `main` realizada por `developer-teams`, `product-manager` debe cerrar el issue o dejar constancia explicita del motivo por el que sigue abierta.
 - Si una issue permanece abierta tras `estado operativo: validado`, `product-manager` debe dejar un comentario administrativo con los campos literales `Bloqueo actual:`, `Siguiente responsable:`, `Siguiente paso operativo:` y `Estado de integracion: pendiente|hecho|no aplica` para evitar que siga abierta sin contexto.

@@ -1,5 +1,9 @@
 # Acuerdos operativos entre equipos
 
+- `Fecha de escritura: 2026-03-28 11:26:42 UTC`
+- `Changelog consultado: changelog/2026-03-28.md`
+- `Vigencia de ejemplos: vigente`
+
 ## Objetivo
 Reducir ambiguedades en los handoffs entre `product-manager`, `developer-teams`, `qa-teams` y `doc-teams` sin alterar la separacion de responsabilidades ya definida en el repositorio.
 
@@ -74,6 +78,14 @@ Estado operativo: en desarrollo
 
 Este comentario fija que rama esta activa, permite auditar el limite de ramas abiertas y evita que el estado `en desarrollo` quede escondido en texto libre.
 Al publicar este arranque, `developer-teams` debe actualizar tambien el `Estado operativo:` del cuerpo de la issue a `en desarrollo`.
+
+## Regla de prioridad efectiva de `developer-teams`
+`developer-teams` debe mantener siempre una unica tarea activa de desarrollo o correccion funcional. Para evitar tiempos muertos:
+
+- Si existe una issue en `no validado`, esa misma issue tiene prioridad absoluta y debe corregirse antes de tomar trabajo nuevo.
+- Si no existe ninguna issue en `no validado`, `developer-teams` debe tomar una nueva issue operable aunque todavia quede pendiente la gestion de ramas de una issue ya `validado`, siempre que en esa issue validada no queden cambios funcionales por hacer.
+- La fusion en `main`, el borrado de la rama tecnica y otras acciones puramente administrativas o de integracion posteriores a `validado` no cuentan como una segunda tarea de desarrollo abierta a efectos de esta prioridad.
+- Esta flexibilidad no permite superar el limite de dos ramas tecnicas activas ni mezclar cambios de dos issues en una misma rama.
 
 ## Handoff minimo de `developer-teams` a `qa-teams`
 El comentario final de entrega de `developer-teams` debe incluir como minimo:
@@ -164,7 +176,7 @@ Si QA deja `Estado operativo: no validado`:
 Si el alcance cambia de forma material, `product-manager` debe decidir si corresponde una nueva issue.
 
 ## Regla de integracion tras `validado`
-- Tras `Estado operativo: validado`, `developer-teams` debe priorizar la fusion de la rama tecnica en `main` y su borrado antes de iniciar una nueva issue, salvo bloqueo operativo documentado en la propia issue.
+- Tras `Estado operativo: validado`, `developer-teams` debe seguir priorizando la fusion de la rama tecnica en `main` y su borrado, pero si el trabajo pendiente en esa issue es solo de gestion de ramas o integracion administrativa debe tomar ademas una nueva issue operable para no quedarse sin desarrollo activo.
 - Si la integracion no puede hacerse de inmediato, `product-manager` debe dejar visible el motivo en su comentario administrativo usando `Bloqueo actual:` y `Estado de integracion: pendiente`.
 - Hasta que la fusion no exista, la funcionalidad aceptada por QA no debe tratarse como comportamiento vigente en la documentacion oficial mantenida sobre `main`.
 
